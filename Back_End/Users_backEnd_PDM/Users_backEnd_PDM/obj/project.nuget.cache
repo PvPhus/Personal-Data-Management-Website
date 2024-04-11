@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "Dj+OxA0O5smGkssRGKIU1sYod9ipdABdXSEl71DZIpkOaax0yoWYiNUjCW+owHWyTLrXkYhlaJ5J+yOXeiQX6g==",
+  "success": true,
+  "projectFilePath": "D:\\Personal Data Management Website\\Back_End\\Users_backEnd_PDM\\Users_backEnd_PDM\\Users_backEnd_PDM.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Vu Phong Phu\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\Vu Phong Phu\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Vu Phong Phu\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "C:\\Users\\Vu Phong Phu\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "C:\\Users\\Vu Phong Phu\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "C:\\Users\\Vu Phong Phu\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
