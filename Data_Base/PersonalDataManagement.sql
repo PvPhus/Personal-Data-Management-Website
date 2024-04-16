@@ -308,3 +308,75 @@ select * from users;
 select * from permissions;
 
 --==========================================PROCEDURE===================================--
+--GET ALL TABLES--
+CREATE PROCEDURE [dbo].[sp_get_all_activitylog]
+AS
+BEGIN
+    SELECT * FROM ActivityLog;
+END;
+
+CREATE PROCEDURE [dbo].[sp_get_all_files]
+AS
+BEGIN
+    SELECT * FROM Files;
+END;
+
+CREATE PROCEDURE [dbo].[sp_get_all_filetags]
+AS
+BEGIN
+    SELECT * FROM FileTags;
+END;
+
+CREATE PROCEDURE [dbo].[sp_get_all_fileversions]
+AS
+BEGIN
+    SELECT * FROM FileVersions;
+END;
+
+CREATE PROCEDURE [dbo].[sp_get_all_folders]
+AS
+BEGIN
+    SELECT * FROM Folders;
+END;
+
+CREATE PROCEDURE [dbo].[sp_get_all_folderfiles]
+AS
+BEGIN
+    SELECT * FROM FolderFiles;
+END;
+
+CREATE PROCEDURE [dbo].[sp_get_all_groupdata]
+AS
+BEGIN
+    SELECT * FROM GroupData;
+END;
+
+CREATE PROCEDURE [dbo].[sp_get_all_groupmembers]
+AS
+BEGIN
+    SELECT * FROM GroupMembers;
+END;
+
+CREATE PROCEDURE [dbo].[sp_get_all_groups]
+AS
+BEGIN
+    SELECT * FROM Groups;
+END;
+
+CREATE PROCEDURE [dbo].[sp_get_all_permissions]
+AS
+BEGIN
+    SELECT * FROM Permissions;
+END;
+
+CREATE PROCEDURE [dbo].[sp_get_all_tags]
+AS
+BEGIN
+    SELECT * FROM Tags;
+END;
+
+CREATE PROCEDURE [dbo].[sp_get_all_users]
+AS
+BEGIN
+    SELECT * FROM Users;
+END;

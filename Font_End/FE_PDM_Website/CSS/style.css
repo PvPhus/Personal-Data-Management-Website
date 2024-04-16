@@ -291,6 +291,7 @@ li {
 }
 
 .functiondrop {
+	padding: 3px 0 2px 0;
 	position: fixed;
 	background-color: var(--light-blue);
 	border-radius: 3px;
@@ -303,7 +304,7 @@ li {
 	color: var(--dark-blue);
 	border-radius: 4px;
 	width: 95%;
-	margin-left: 5px;
+	margin-left: 3px;
 }
 
 .content {
@@ -335,8 +336,10 @@ li {
 }
 
 .content .data .name-data {
-	height: 14%;
+	height: 10%;
 	text-align: center;
+	margin-bottom: 2px;
+	text-decoration: underline;
 }
 
 .content .data .face-data {
@@ -359,7 +362,8 @@ li {
 }
 
 .face-data .media-container img,
-.face-data .media-container video {
+.face-data .media-container video,
+.face-data .media-container file {
 	max-width: 100%;
 	max-height: 100%;
 	object-fit: cover;

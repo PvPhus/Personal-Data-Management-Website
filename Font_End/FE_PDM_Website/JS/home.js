@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
 //Hiển thị loại dữ liệu lên màn hình
 document.addEventListener('DOMContentLoaded', function() {
     // Lấy div chứa media
-    var mediaContainer = document.getElementById('mediaContainer');
+    var mediaContainer = document.getElementById('face-data');
 
     // Hàm hiển thị hình ảnh
     function showImage(imageUrl) {
@@ -58,23 +58,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Hàm hiển thị tệp
-    function showFile(file) {
+    function showFile(fileUrl) {
         mediaContainer.innerHTML = ''; // Xóa nội dung trước đó (nếu có)
-        var fileName = document.createElement('p');
-        fileName.textContent = file.name;
+        var fileName = document.createElement('file');
+        file.src = fileUrl;
+        file.controls = true;
         mediaContainer.appendChild(fileName);
     }
 
     // Sử dụng các hàm để hiển thị dữ liệu khi được cung cấp
     // Ví dụ: 
     var imageUrl = '../images/background.jpg';
-	var imageUrl = '../images/thungdunglego.webp';
-    var videoUrl = 'path/to/video.mp4';
-    var file = { name: 'example.txt' };
+	
+    var videoUrl = '../images/Đề 10_Vũ Phong Phú.mp4';
+    var fileUrl ='../images/BaoCaoUML.doc';
 
-    showImage(imageUrl); // Hiển thị hình ảnh
-    // showVideo(videoUrl); // Hiển thị video
-    // showFile(file); // Hiển thị tệp
+     //showImage(imageUrl); // Hiển thị hình ảnh
+    //showVideo(videoUrl); // Hiển thị video
+     showFile(fileUrl); // Hiển thị tệp
 });
 
 
