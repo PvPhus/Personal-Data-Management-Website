@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Admin_BackEnd_PDM.props" />
+</Project>

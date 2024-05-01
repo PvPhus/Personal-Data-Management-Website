@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin_BackEnd_PDM", "Admin_BackEnd_PDM\Admin_BackEnd_PDM.csproj", "{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API_PersonalDataManagement", "Admin_BackEnd_PDM\API_PersonalDataManagement.csproj", "{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataModel", "DataModel\DataModel.csproj", "{7FB6F6B2-5BD7-4EB7-A7BE-6F2F734F5B59}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{5EA05C23-16FE-482E-808C-71DB1C07DD25}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogicLayer", "BusinessLogicLayer\BusinessLogicLayer.csproj", "{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FB6F6B2-5BD7-4EB7-A7BE-6F2F734F5B59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FB6F6B2-5BD7-4EB7-A7BE-6F2F734F5B59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FB6F6B2-5BD7-4EB7-A7BE-6F2F734F5B59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FB6F6B2-5BD7-4EB7-A7BE-6F2F734F5B59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EA05C23-16FE-482E-808C-71DB1C07DD25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EA05C23-16FE-482E-808C-71DB1C07DD25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EA05C23-16FE-482E-808C-71DB1C07DD25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EA05C23-16FE-482E-808C-71DB1C07DD25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
