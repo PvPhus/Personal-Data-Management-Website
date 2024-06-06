@@ -8,69 +8,85 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure CORS policies
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+    // Define a CORS policy named "AllowAll"
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+
+    // Define a CORS policy named "AllowFrontend" specifically for http://127.0.0.1:8000 and http://localhost:3000
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://127.0.0.1:8000", "http://localhost:3000")
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
 });
-// Thêm d?ch v? vào vùng ch?a.
+
+// Add services to the DI container
 builder.Services.AddTransient<IDatabaseHelper, DatabaseHelper>();
-//builder.Services.AddTransient<IKhachHangRepository, KhachHangRepository>();
-//builder.Services.AddTransient<IKhachHangBusiness, KhachHangBusiness>();
-//builder.Services.AddTransient<INhaCungCapRepository, NhaCungCapRepository>();
-//builder.Services.AddTransient<INhaCungCapBusiness, NhaCungCapBusiness>();
-//builder.Services.AddTransient<IHoaDonRepository, HoaDonRepository>();
-//builder.Services.AddTransient<IHoaDonBusiness, HoaDonBusiness>();
-//builder.Services.AddTransient<IDoGiaDungRepository, DoGiaDungRepository>();
-//builder.Services.AddTransient<IDoGiaDungBusiness, DoGiaDungBusiness>();
-//builder.Services.AddTransient<INhanVienRepository, NhanVienRepository>();
-//builder.Services.AddTransient<INhanVienBusiness, NhanVienBusiness>();
+
+builder.Services.AddTransient<IFileRepository, FileRepository>();
+builder.Services.AddTransient<IFileBusiness, FileBusiness>();
+builder.Services.AddTransient<IGroupRepository, GroupRepository>();
+builder.Services.AddTransient<IGroupBusiness, GroupBusiness>();
+builder.Services.AddTransient<IGroupMemberRepository, GroupMemberRepository>();
+builder.Services.AddTransient<IGroupMemberBusiness, GroupMemberBusiness>();
+builder.Services.AddTransient<IGroupRequestRepository, GroupRequestRepository>();
+builder.Services.AddTransient<IGroupRequestBusiness, GroupRequestBusiness>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserBusiness, UserBusiness>();
+builder.Services.AddTransient<IPermissionRepository, PermissionRepository>();
+builder.Services.AddTransient<IPermissionBusiness, PermissionBusiness>();
 
-// c?u hình các ??i t??ng cài ??t ???c gõ m?nh
+
+// Configure AppSettings from configuration
 IConfiguration configuration = builder.Configuration;
-var appSettingsSection = configuration.GetSection("AppSettings");
-builder.Services.Configure<AppSettings>(appSettingsSection);
+builder.Services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
 
-// ??nh c?u hình xác th?c jwt
-var appSettings = appSettingsSection.Get<AppSettings>();
+// Configure JWT authentication
+var appSettings = configuration.GetSection("AppSettings").Get<AppSettings>();
 var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-builder.Services.AddAuthentication(x =>
-{
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(x =>
-{
-    x.RequireHttpsMetadata = false;
-    x.SaveToken = true;
-    x.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = false,
-        ValidateAudience = false
-    };
-});
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
 
-// Thêm d?ch v? vào vùng ch?a.
+// Add controllers and configure Swagger
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
-// ??nh c?u hình ???ng d?n yêu c?u HTTP.v
+// Enable CORS for "AllowFrontend" policy
+app.UseCors("AllowFrontend");
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseRouting();
-app.UseCors(x => x
-    .AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader());
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+
 app.Run();

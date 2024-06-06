@@ -1,0 +1,8 @@
+.background-image {
+	background-image: url('../images/background.jpg');
+	background-size: cover;
+	background-position: center;
+	width: 1537px;
+	height: 695px;
+	z-index: 1;
+}

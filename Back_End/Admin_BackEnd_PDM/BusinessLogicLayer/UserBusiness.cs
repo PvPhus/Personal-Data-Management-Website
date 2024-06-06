@@ -36,8 +36,8 @@ namespace BusinessLogicLayer
             var key = Encoding.UTF8.GetBytes(secret.PadRight(16));
 
             // Kiểm tra và gán các thuộc tính của user
-            string userEmail = user.Email ?? string.Empty;
-            string userRole = user.Role ?? string.Empty;
+            string userEmail = user.email ?? string.Empty;
+            string userRole = user.role ?? string.Empty;
 
             // Tạo danh sách các claim từ dữ liệu người dùng
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -57,21 +57,26 @@ namespace BusinessLogicLayer
             return user;
         }
 
-        public UserModel RegisterUser(string username, string email, string password, string role, string avatarUrl)
+        public UserModel RegisterUser(string username, string email, string password, string role, string avatar_url)
         {
             // Thực hiện kiểm tra logic nghiệp vụ, ví dụ: kiểm tra tính hợp lệ của email
 
             // Gọi phương thức từ repository để đăng ký người dùng
-            UserModel registeredUser = _res.RegisterUser(username, email, password, role, avatarUrl);
+            UserModel registeredUser = _res.RegisterUser(username, email, password, role, avatar_url);
 
             return registeredUser;
         }
     
 
-    public UserModel GetUserByEmail(string email)
+        public bool GetUserByEmail(string email)
         {
             return _res.GetUserByEmail(email);
         }
+        public UserModel GetUserByUserId(int user_id)
+        {
+            return _res.GetUserByUserId(user_id);
+        }
+
     }
 }
 

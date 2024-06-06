@@ -37,7 +37,7 @@ namespace DataAccessLayer
             }
         }
 
-        public UserModel RegisterUser(string username, string email, string password, string role, string avatarUrl)
+        public UserModel RegisterUser(string username, string email, string password, string role, string avatar_url)
         {
             string msgError = "";
             try
@@ -47,7 +47,7 @@ namespace DataAccessLayer
                      "@inputEmail", email,
                      "@inputPassword", password,
                      "@inputRole", role,
-                     "@inputAvatarUrl", avatarUrl
+                     "@inputAvatarUrl", avatar_url
                      );
 
                 if (!string.IsNullOrEmpty(msgError))
@@ -64,7 +64,7 @@ namespace DataAccessLayer
             }
         }
 
-        public UserModel GetUserByEmail(string email)
+        public bool GetUserByEmail(string email)
         {
             string msgError = "";
             try
@@ -74,15 +74,34 @@ namespace DataAccessLayer
                      );
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);
-                return dt.ConvertTo<UserModel>().FirstOrDefault();
+                return true;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
+        public UserModel GetUserByUserId(int user_id)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_get_user_by_userId",
+                     "@user_id", user_id
+                     );
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
 
-        
+                // Chuyển đổi DataTable thành UserModel
+                var user = dt.ConvertTo<UserModel>().FirstOrDefault();
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in GetUserByUserId method: " + ex.Message);
+            }
+        }
+
     }
 }
 

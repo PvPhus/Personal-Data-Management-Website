@@ -5,29 +5,20 @@ namespace DataModel;
 
 public partial class FileModel
 {
-    public int FileId { get; set; }
+    public int file_id { get; set; }
 
-    public int? UserId { get; set; }
+    public int user_id { get; set; }
 
-    public string? Filename { get; set; }
+    public string filename_old { get; set; }
+    public string filename_new { get; set; }
 
-    public double? FileSize { get; set; }
+    public double file_size { get; set; }
 
-    public string? FileType { get; set; }
+    public string file_type { get; set; }
 
-    public DateTime? UploadDate { get; set; }
+    public DateTime? upload_date { get; set; }
 
-    public DateTime? LastModified { get; set; }
+    public DateTime? last_modified { get; set; }
 
-    public string? FilePath { get; set; }
-
-    public virtual ICollection<FileVersion> FileVersions { get; set; } = new List<FileVersion>();
-
-    public virtual ICollection<Permission> Permissions { get; set; } = new List<Permission>();
-
-    public virtual UserModel? User { get; set; }
-
-    public virtual ICollection<Folder> Folders { get; set; } = new List<Folder>();
-
-    public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
+    public string file_path { get; set; }
 }

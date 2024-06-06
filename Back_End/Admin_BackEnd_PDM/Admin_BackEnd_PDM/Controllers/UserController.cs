@@ -26,47 +26,73 @@ namespace API_PersonalDataManagement.Controllers
             // Trả về tất cả các thông tin của người dùng từ UserModel
             return Ok(new
             {
-                user_id = user.UserId,
-                username = user.Username,
-                email = user.Email,
-                role = user.Role,
-                password = user.Password,
-                avatar_url = user.AvatarUrl,
-                join_date = user.JoinDate,
+                User_id = user.user_id,
+                Username = user.username,
+                Email = user.email,
+                Role = user.role,
+                Password = user.password,
+                Avatar_url = user.avatar_url,
+                Join_date = user.join_date,
                 token = user.Token
             });
         }
         [HttpGet("user/{email}")]
         public IActionResult GetUserByEmail(string email)
         {
-            var user = _UserBusiness.GetUserByEmail(email);
-            if (user == null)
-                return NotFound();
-
-            // Trả về tất cả các thông tin của người dùng
-            return Ok(new
+            try
             {
-                user_id = user.UserId,
-                username = user.Username,
-                email = user.Email,
-                role = user.Role,
-                password = user.Password,
-                avatar_url = user.AvatarUrl,
-                join_date = user.JoinDate,
-                token = user.Token
-            });
+                // Gọi phương thức GetUserByEmail từ IUserBusiness để kiểm tra xem người dùng có tồn tại không
+                bool userExists = _UserBusiness.GetUserByEmail(email);
+
+                // Kiểm tra xem người dùng có tồn tại không và trả về kết quả
+                return Ok(new { exists = userExists });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
+
 
         [HttpPost("register")]
         public IActionResult Register([FromBody] UserModel model)
         {
             try
             {
+                // Kiểm tra nếu người dùng đã tồn tại
+                if (_UserBusiness.GetUserByEmail(model.email))
+                {
+                    return Conflict("User already exists");
+                }
+
                 // Gọi business logic để thực hiện đăng ký người dùng
-                UserModel registeredUser = _UserBusiness.RegisterUser(model.Username, model.Email, model.Password, model.Role, model.AvatarUrl);
+                UserModel registeredUser = _UserBusiness.RegisterUser(model.username, model.email, model.password, model.role, model.avatar_url);
 
                 // Trả về thông tin người dùng đã đăng ký thành công
                 return Ok(registeredUser);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+
+        [HttpGet("get_user_by_userid/{user_id}")]
+        public IActionResult GetUserByUserId(int user_id)
+        {
+            try
+            {
+                // Gọi phương thức GetUserByEmail từ IUserBusiness để kiểm tra xem người dùng có tồn tại không
+                UserModel user = _UserBusiness.GetUserByUserId(user_id);
+
+                // Kiểm tra xem người dùng có tồn tại không và trả về kết quả
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                return Ok(user);
             }
             catch (Exception ex)
             {

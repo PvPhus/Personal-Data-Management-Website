@@ -9,8 +9,9 @@ namespace DataAccessLayer.Interfaces
 {
     public partial interface IUserRepository
     {
-        UserModel GetUserByEmail(string email);
+        bool GetUserByEmail(string email);
         UserModel Login(string email, string password);
-        UserModel RegisterUser(string username, string email, string password, string role, string avatarUrl);
+        UserModel RegisterUser(string username, string email, string password, string role, string avatar_url);
+        UserModel GetUserByUserId(int user_id);
     }
 }

@@ -47,6 +47,14 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Aspose.Cells": {
+              "target": "Package",
+              "version": "[24.5.0, )"
+            },
+            "Aspose.Words": {
+              "target": "Package",
+              "version": "[24.5.0, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[6.0.25, )"
@@ -67,9 +75,25 @@
               "target": "Package",
               "version": "[7.0.18, )"
             },
+            "Spire.Doc": {
+              "target": "Package",
+              "version": "[12.5.5, )"
+            },
+            "Spire.PDF": {
+              "target": "Package",
+              "version": "[10.5.5, )"
+            },
+            "Spire.XLS": {
+              "target": "Package",
+              "version": "[14.5.3, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.5.0, )"
+            },
+            "itext7": {
+              "target": "Package",
+              "version": "[8.0.4, )"
             }
           },
           "imports": [
@@ -138,6 +162,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Aspose.Words": {
+              "target": "Package",
+              "version": "[24.5.0, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -219,6 +247,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Aspose.Words": {
+              "target": "Package",
+              "version": "[24.5.0, )"
+            },
             "Azure.Identity": {
               "target": "Package",
               "version": "[1.11.0, )"
@@ -308,6 +340,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Aspose.Words": {
+              "target": "Package",
+              "version": "[24.5.0, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
