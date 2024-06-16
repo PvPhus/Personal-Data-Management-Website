@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Interfaces;
+﻿using BusinessLogicLayer;
+using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Interfaces;
 using DataModel;
 using Microsoft.AspNetCore.Http;
@@ -28,6 +29,23 @@ namespace API_PersonalDataManagement.Controllers
             {
                 _permissionBusiness.Update(model);
                 return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+        [HttpGet("get_permission_user")]
+        public IActionResult GetPermissionUser(int user_id, int group_id)
+        {
+            try
+            {
+                var permission = _permissionBusiness.GetPermissionUser(user_id, group_id);
+                if (permission == null)
+                {
+                    return NotFound("No permission found for the search file name.");
+                }
+                return Ok(permission);
             }
             catch (Exception ex)
             {

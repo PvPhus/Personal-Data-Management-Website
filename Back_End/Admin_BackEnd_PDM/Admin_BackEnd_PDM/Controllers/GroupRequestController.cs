@@ -16,14 +16,11 @@ namespace API_PersonalDataManagement.Controllers
     public class GroupRequestController : ControllerBase
     {
         private readonly IGroupRequestBusiness _GroupRequestBusiness;
-        
-
         public GroupRequestController(IGroupRequestBusiness GroupRequestBusiness)
         {
             _GroupRequestBusiness = GroupRequestBusiness ?? throw new ArgumentNullException(nameof(GroupRequestBusiness));
           
         }
-
         [Route("create_request")]
         [HttpPost]
         public IActionResult GroupRequest([FromBody] GroupRequestModel model)
@@ -38,7 +35,6 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message); // Trả về lỗi 500 nếu có lỗi xảy ra
             }
         }
-
         [Route("get_list_request")]
         [HttpGet]
         public IActionResult GetListRequest([FromQuery] int group_id)
@@ -57,8 +53,6 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
-
-
         [Route("delete-request")]
         [HttpDelete]
         public IActionResult DeleteItem(int request_id)
@@ -83,21 +77,6 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "An error occurred while deleting the file.");
             }
         }
-
-        //[Route("AcceptMember")]
-        //[HttpPost]
-        //public IActionResult AcceptMember([FromBody] GroupRequestModel model)
-        //{
-        //    try
-        //    {
-        //        _GroupRequestBusiness.AcceptMember(model);
-        //        return Ok(model); // Trả về kết quả thành công
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, "Internal server error: " + ex.Message); // Trả về lỗi 500 nếu có lỗi xảy ra
-        //    }
-        //}
         [HttpGet("get_1_request")]
         public IActionResult getRequest(int request_id)
         {
@@ -115,7 +94,6 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
-
         [HttpGet("check_group_request")]
         public IActionResult CheckSpam(int user_id, int group_id)
         {

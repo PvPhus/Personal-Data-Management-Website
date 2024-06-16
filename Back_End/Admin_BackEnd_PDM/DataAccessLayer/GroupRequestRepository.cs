@@ -46,7 +46,6 @@ namespace DataAccessLayer
                 throw;
             }
         }
-
         public List<GroupRequestModel> GetListRequest(int group_id)
         {
             string msgError = "";
@@ -66,7 +65,6 @@ namespace DataAccessLayer
                 throw;
             }
         }
-
         public bool Delete(int request_id)
         {
             try

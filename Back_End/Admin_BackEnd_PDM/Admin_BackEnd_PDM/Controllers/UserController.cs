@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using DataModel;
 using BusinessLogicLayer;
+using DataAccessLayer.Interfaces;
 
 namespace API_PersonalDataManagement.Controllers
 {
@@ -52,8 +53,6 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-
-
         [HttpPost("register")]
         public IActionResult Register([FromBody] UserModel model)
         {
@@ -76,8 +75,6 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-
-
         [HttpGet("get_user_by_userid/{user_id}")]
         public IActionResult GetUserByUserId(int user_id)
         {
@@ -97,6 +94,50 @@ namespace API_PersonalDataManagement.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, "Internal server error");
+            }
+        }
+        [HttpPut("update_user_info")]
+        public IActionResult UpdateInfo([FromQuery] int user_id, [FromQuery] string username, [FromQuery] string avatar_url)
+        {
+            try
+            {
+                _UserBusiness.UpdateInfo(user_id, username, avatar_url);
+                return Ok(new { UserId = user_id, UserName = username, Avatar_Url= avatar_url });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+        [Route("log_out/{user_id}")]
+        [HttpPost]
+        public IActionResult LogOut([FromBody] ActivityLogModel model)
+        {
+            try
+            {
+                _UserBusiness.LogOut(model);
+                return Ok(model); // Trả về kết quả thành công
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message); // Trả về lỗi 500 nếu có lỗi xảy ra
+            }
+        }
+        [HttpGet("get_all_activity")]
+        public IActionResult GetAll()
+        {
+            try
+            {
+                var files = _UserBusiness.GetAll();
+                if (files == null)
+                {
+                    return NotFound("No files found for the data.");
+                }
+                return Ok(files);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
     }

@@ -36,7 +36,32 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
+        public bool LogOut(ActivityLogModel model)
+        {
+            try
+            {
+                string msgError = "";
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_logout",
+                    "@user_id", model.user_id);
 
+                if (!string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception("Database error: " + msgError);
+                }
+
+                if (result != null && !string.IsNullOrEmpty(result.ToString()))
+                {
+                    throw new Exception("Database error: " + result.ToString());
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in Create method: " + ex.Message);
+                throw;
+            }
+        }
         public UserModel RegisterUser(string username, string email, string password, string role, string avatar_url)
         {
             string msgError = "";
@@ -101,7 +126,48 @@ namespace DataAccessLayer
                 throw new Exception("Error in GetUserByUserId method: " + ex.Message);
             }
         }
+        public bool UpdateInfo(int user_id, string username, string avatar_url)
+        {
+            try
+            {
+                string msgError = "";
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_update_user_info",
+                    "@user_id", user_id,
+                    "@new_username", username,
+                    "@new_avatar_url", avatar_url);
+                if (!string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception("Database error: " + msgError);
+                }
 
+                if (result != null && !string.IsNullOrEmpty(result.ToString()))
+                {
+                    throw new Exception("Database error: " + result.ToString());
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in Create method: " + ex.Message);
+                throw;
+            }
+        }
+        public List<ActivityLogModel> GetAll()
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_get_all_activitylog");
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+
+                return dt.ConvertTo<ActivityLogModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
 

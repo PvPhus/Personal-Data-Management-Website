@@ -1,10 +1,19 @@
+// webpack.config.js
+
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.tsx', // Adjust this according to your entry file
+  entry: {
+    user: './src/pages/user/alldata.tsx',
+    admin: './src/pages/admin/home.tsx'
+  },
   output: {
-    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    filename: '[name].bundle.js',
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
   },
   module: {
     rules: [
@@ -19,16 +28,16 @@ module.exports = {
       },
     ],
   },
-  resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
-    fallback: {
-      "util": require.resolve("util/"),
-      // Add other fallbacks if necessary
-    },
-  },
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    compress: true,
-    port: 9000,
-  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+      filename: 'index.html',
+      chunks: ['user'],
+    }),
+    new HtmlWebpackPlugin({
+      template: './public/admin.html',
+      filename: 'admin.html',
+      chunks: ['admin'],
+    }),
+  ],
 };

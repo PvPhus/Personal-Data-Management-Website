@@ -13,7 +13,10 @@ namespace BusinessLogicLayer
         {
             _res = res;
         }
-
+        public List<FileModel> GetAllFile()
+        {
+            return _res.GetAllFile();
+        }
         public List<FileModel> GetFilesByUserId(int user_id)
         {
             return _res.GetFilesByUserId(user_id);
@@ -49,6 +52,10 @@ namespace BusinessLogicLayer
         public bool ShareFile(ShareFileModel model)
         {
             return _res.ShareFile(model);
+        }
+        public bool UpdateName(int file_id, string filename_new)
+        {
+            return _res.UpdateName(file_id, filename_new);
         }
     }
 }

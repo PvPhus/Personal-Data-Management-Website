@@ -11,6 +11,7 @@ public partial class GroupModel
     public string? group_name { get; set; }
 
     public int? user_id { get; set; }
+    public string? username { get; set; }
 
     public DateTime? created_date { get; set; }
 

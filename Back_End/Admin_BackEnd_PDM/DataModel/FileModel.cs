@@ -8,7 +8,7 @@ public partial class FileModel
     public int file_id { get; set; }
 
     public int user_id { get; set; }
-
+    public int group_id { get; set; }
     public string filename_old { get; set; }
     public string filename_new { get; set; }
 
@@ -21,4 +21,5 @@ public partial class FileModel
     public DateTime? last_modified { get; set; }
 
     public string file_path { get; set; }
+
 }

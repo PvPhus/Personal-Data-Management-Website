@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.Interfaces;
+using DataAccessLayer;
 using DataAccessLayer.Interfaces;
 using DataModel;
 using System;
@@ -17,7 +18,14 @@ namespace BusinessLogicLayer
         {
             _res = res;
         }
-
+        public List<GroupModel> GetAllListGroups()
+        {
+            return _res.GetAllListGroups();
+        }
+        public List<DataInGroupModel> GetAllDataInGroup(int group_id)
+        {
+            return _res.GetAllDataInGroup(group_id);
+        }
         public List<GroupModel> GetAllGroups(int user_id)
         {
             return _res.GetAllGroups(user_id);
@@ -46,6 +54,19 @@ namespace BusinessLogicLayer
         public CountModel GetCount(int group_id)
         {
             return _res.GetCount(group_id);
+
+        }
+        public List<GroupModel> SearchGroup(string group_name, int user_id)
+        {
+            return _res.SearchGroup(group_name, user_id);
+        }
+        public bool CheckAdminGroup(int group_id, int user_id)
+        {
+            return _res.CheckAdminGroup(group_id, user_id);
+        }
+        public List<FileModel> SearchDataGroup(int group_id, string filename_new)
+        {
+            return _res.SearchDataGroup(group_id, filename_new);
         }
     }
 }

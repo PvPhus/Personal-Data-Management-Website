@@ -68,8 +68,6 @@ namespace DataAccessLayer
                 throw;
             }
         }
-
-
         public List<InfoGroupMembers> GetGroupMembers(int group_id)
         {
             string msgError = "";

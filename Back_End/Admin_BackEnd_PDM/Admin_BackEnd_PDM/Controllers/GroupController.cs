@@ -16,7 +16,40 @@ namespace API_PersonalDataManagement.Controllers
         {
             _GroupBusiness = GroupBusiness;
         }
-
+        [HttpGet("get_all_list_groups")]
+        public IActionResult GetAllListGroups()
+        {
+            try
+            {
+                var groups = _GroupBusiness.GetAllListGroups();
+                if (groups == null)
+                {
+                    return NotFound("No files found for the data.");
+                }
+                return Ok(groups);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+        [HttpGet("get_all_data_in_groups")]
+        public IActionResult GetAllDataInGroup(int group_id)
+        {
+            try
+            {
+                var datas = _GroupBusiness.GetAllDataInGroup(group_id);
+                if (datas == null)
+                {
+                    return NotFound("No files found for the data.");
+                }
+                return Ok(datas);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
         [HttpGet("get_all_group")]
         public IActionResult GetAllGroups(int user_id)
         {
@@ -136,6 +169,55 @@ namespace API_PersonalDataManagement.Controllers
             {
                 var members = _GroupBusiness.GetCount(group_id);
                 return Ok(members);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+        [HttpGet("search_group_by_name")]
+        public IActionResult SearchFile(string group_name, int user_id)
+        {
+            try
+            {
+                var search = _GroupBusiness.SearchGroup(group_name, user_id);
+                if (search == null)
+                {
+                    return NotFound("No file found for the search file name.");
+                }
+                return Ok(search);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+        [HttpGet("check_admin_group/")]
+        public IActionResult CheckAdminGroup(int group_id, int user_id)
+        {
+            try
+            {
+                bool isAdmin = _GroupBusiness.CheckAdminGroup(group_id, user_id);
+                return Ok(new { IsAdmin = isAdmin });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                return StatusCode(500, "An error occurred while checking admin group.");
+            }
+        }
+        [HttpGet("search_data_group")]
+        public IActionResult SearchDataGroup(int group_id, string filename_new)
+        {
+            try
+            {
+                var datas = _GroupBusiness.SearchDataGroup(group_id, filename_new);
+                if (datas == null)
+                {
+                    return NotFound("No datas found for the specified file name.");
+                }
+                return Ok(datas);
             }
             catch (Exception ex)
             {

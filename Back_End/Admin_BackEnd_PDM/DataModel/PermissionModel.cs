@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataModel 
 { 
-    public class PermissionModel
+    public partial class PermissionModel
     {
         public int permission_id { get; set; }
 

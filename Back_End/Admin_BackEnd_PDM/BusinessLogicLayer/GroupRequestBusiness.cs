@@ -13,22 +13,18 @@ namespace BusinessLogicLayer
     public class GroupRequestBusiness : IGroupRequestBusiness
     {
         private readonly IGroupRequestRepository _res;
-
         public GroupRequestBusiness(IGroupRequestRepository res)
         {
             _res = res ?? throw new ArgumentNullException(nameof(res));
         }
-
         public bool GroupRequest(GroupRequestModel model)
         {
             return _res.GroupRequest(model);
         }
-
         public List<GroupRequestModel> GetListRequest(int group_id)
         {
             return _res.GetListRequest(group_id);
         }
-
         public bool Delete(int request_id)
         {
             return _res.Delete(request_id);

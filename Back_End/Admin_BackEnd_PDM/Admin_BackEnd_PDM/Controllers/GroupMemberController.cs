@@ -41,7 +41,6 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message); // Trả về lỗi 500 nếu có lỗi xảy ra
             }
         }
-
         [Route("delete-member")]
         [HttpDelete]
         public IActionResult DeleteItem(int group_id, int user_id)
@@ -52,7 +51,7 @@ namespace API_PersonalDataManagement.Controllers
 
                 if (isDeleted)
                 {
-                    return Ok("File deleted successfully.");
+                    return Ok("Member deleted successfully.");
                 }
                 else
                 {
@@ -63,7 +62,7 @@ namespace API_PersonalDataManagement.Controllers
             {
                 // Ghi log lỗi và trả về lỗi 500 (Internal Server Error)
                 Console.WriteLine("Error: " + ex.Message);
-                return StatusCode(500, "An error occurred while deleting the file.");
+                return StatusCode(500, "An error occurred while deleting the member.");
             }
         }
         [HttpGet("groupMembers/{group_id}")]

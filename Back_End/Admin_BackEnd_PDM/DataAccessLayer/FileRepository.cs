@@ -17,7 +17,22 @@ namespace DataAccessLayer
         {
             _dbHelper = dbHelper;
         }
+        public List<FileModel> GetAllFile()
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_get_all_files");
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
 
+                return dt.ConvertTo<FileModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<FileModel> GetFilesByUserId(int user_id)
         {
             string msgError = "";
@@ -124,6 +139,31 @@ namespace DataAccessLayer
                 throw;
             }
         }
+        public bool UpdateName(int file_id, string filename_new)
+        {
+            try
+            {
+                string msgError = "";
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_update_filename_new",
+                    "@file_id", file_id,
+                    "@new_filename", filename_new);
+                if (!string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception("Database error: " + msgError);
+                }
+
+                if (result != null && !string.IsNullOrEmpty(result.ToString()))
+                {
+                    throw new Exception("Database error: " + result.ToString());
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in Create method: " + ex.Message);
+                throw;
+            }
+        }
 
         //Sửa file
         public bool Update(FileModel model)
@@ -152,6 +192,7 @@ namespace DataAccessLayer
                 throw;
             }
         }
+       
 
         //Xóa file
         public bool Delete(int file_id)

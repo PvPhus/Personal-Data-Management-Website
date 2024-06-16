@@ -1,18 +1,9 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Interfaces;
 using DataModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Text;
-using System.Threading.Tasks;
-using Aspose.Words;
-using iText.Kernel.Pdf;
-using iText.Kernel.Pdf.Canvas.Parser;
-using Spire.Xls;
-using iText.Kernel.Pdf.Canvas.Parser.Listener;
+
 
 namespace API_PersonalDataManagement.Controllers
 {
@@ -27,7 +18,23 @@ namespace API_PersonalDataManagement.Controllers
         {
             _fileBusiness = fileBusiness;
         }
-
+        [HttpGet("get_all_files")]
+        public IActionResult GetAllFile()
+        {
+            try
+            {
+                var files = _fileBusiness.GetAllFile();
+                if (files == null)
+                {
+                    return NotFound("No files found for the data.");
+                }
+                return Ok(files);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
         [HttpGet("get_files_by_user")]
         public IActionResult GetFilesByUser(int user_id)
         {
@@ -93,6 +100,23 @@ namespace API_PersonalDataManagement.Controllers
                     return NotFound("No file found for the search file name.");
                 }
                 return Ok(search);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+        [HttpGet("get_file_by_fileId")]
+        public IActionResult GetFileByFileId(int file_id)
+        {
+            try
+            {
+                var file = _fileBusiness.GetFileByFileId(file_id);
+                if (file == null)
+                {
+                    return NotFound("No file found for the search file name.");
+                }
+                return Ok(file);
             }
             catch (Exception ex)
             {
@@ -174,7 +198,19 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
-
+        [HttpPut("update_name_file")]
+        public IActionResult UpdateName([FromQuery] int file_id, [FromQuery] string filename_new)
+        {
+            try
+            {
+                _fileBusiness.UpdateName(file_id, filename_new);
+                return Ok(new { FileId = file_id, NewFileName = filename_new });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
         [Route("delete-file/{file_id}")]
         [HttpDelete]
         public IActionResult DeleteItem(int file_id)
@@ -238,69 +274,22 @@ namespace API_PersonalDataManagement.Controllers
         }
 
 
-        //[HttpGet("read/{file_id}")]
-        //public IActionResult ReadAndDecodeFile(int file_id)
-        //{
-        //    try
-        //    {
-        //        // Lấy thông tin file từ file_id
-        //        var fileInfo = _fileBusiness.GetFileByFileId(file_id);
-        //        if (fileInfo == null)
-        //        {
-        //            return NotFound("File not found.");
-        //        }
-
-        //        // Tạo đường dẫn tới file
-        //        var filePath = Path.Combine(_fileDirectory, fileInfo.filename_old);
-
-        //        // Kiểm tra xem file có tồn tại không
-        //        if (!System.IO.File.Exists(filePath))
-        //        {
-        //            return NotFound("File not found.");
-        //        }
-
-        //        // Đọc nội dung của file
-        //        var fileContent = System.IO.File.ReadAllBytes(filePath);
-
-        //        // Kiểm tra xem file có phải là loại dữ liệu văn bản hay không
-        //        var contentType = GetContentType(filePath);
-        //        if (!contentType.StartsWith("text/") && !contentType.Contains("json") && !contentType.Contains("xml"))
-        //        {
-        //            // Nếu không phải là dữ liệu văn bản, thì giải mã dưới dạng base64
-        //            var base64String = Convert.ToBase64String(fileContent);
-        //            return Content(base64String, contentType);
-        //        }
-
-        //        // Giải mã dữ liệu nhị phân thành văn bản
-        //        string decodedText = Encoding.UTF8.GetString(fileContent);
-
-        //        // Trả về dữ liệu giải mã dưới dạng văn bản
-        //        return Content(decodedText, contentType);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Xử lý lỗi nếu có
-        //        return StatusCode(500, "Internal server error: " + ex.Message);
-        //    }
-        //}
-
-
         [HttpGet("read/{file_id}")]
         public IActionResult ReadAndDecodeFile(int file_id)
         {
             try
             {
-                //Lấy thông tin file từ file_id
+                // Lấy thông tin file từ file_id
                 var fileInfo = _fileBusiness.GetFileByFileId(file_id);
                 if (fileInfo == null)
                 {
                     return NotFound("File not found.");
                 }
 
-                //Tạo đường dẫn tới file
+                // Tạo đường dẫn tới file
                 var filePath = Path.Combine(_fileDirectory, fileInfo.filename_old);
 
-                //Kiểm tra xem file có tồn tại không
+                // Kiểm tra xem file có tồn tại không
                 if (!System.IO.File.Exists(filePath))
                 {
                     return NotFound("File not found.");
@@ -309,75 +298,122 @@ namespace API_PersonalDataManagement.Controllers
                 // Đọc nội dung của file
                 var fileContent = System.IO.File.ReadAllBytes(filePath);
 
-                //Giải mã dữ liệu nhị phân thành văn bản
-                string decodedText;
-
-                // Kiểm tra loại file và giải mã nếu cần
+                // Kiểm tra xem file có phải là loại dữ liệu văn bản hay không
                 var contentType = GetContentType(filePath);
-                if (contentType == "application/pdf")
+                if (!contentType.StartsWith("text/") && !contentType.Contains("json") && !contentType.Contains("xml"))
                 {
-                    //Giải mã file PDF bằng iText7
-                    StringBuilder textBuilder = new StringBuilder();
-                    using (PdfReader reader = new PdfReader(new MemoryStream(fileContent)))
-                    using (PdfDocument pdfDocument = new PdfDocument(reader))
-                    {
-                        for (int i = 1; i <= pdfDocument.GetNumberOfPages(); i++)
-                        {
-                            var page = pdfDocument.GetPage(i);
-                            var strategy = new SimpleTextExtractionStrategy();
-                            var text = PdfTextExtractor.GetTextFromPage(page, strategy);
-                            textBuilder.Append(text);
-                        }
-                    }
-                    decodedText = textBuilder.ToString();
-                }
-                else if (contentType == "application/msword" || contentType == "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-                {
-                   // Giải mã file Word
-                    Aspose.Words.Document doc = new Aspose.Words.Document(filePath);
-                    decodedText = doc.GetText();
-                }
-                else if (contentType == "application/vnd.ms-excel" || contentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-                {
-                   // Giải mã file Excel
-                    Spire.Xls.Workbook workbook = new Spire.Xls.Workbook();
-                    workbook.LoadFromFile(filePath);
-                    StringBuilder textBuilder = new StringBuilder();
-                    foreach (Spire.Xls.Worksheet sheet in workbook.Worksheets)
-                    {
-                        for (int r = 1; r <= sheet.LastRow; r++)
-                        {
-                            for (int c = 1; c <= sheet.LastColumn; c++)
-                            {
-                                textBuilder.Append(sheet.Range[r, c].Text);
-                                textBuilder.Append("\t");
-                            }
-                            textBuilder.AppendLine();
-                        }
-                    }
-                    decodedText = textBuilder.ToString();
-                }
-                else if (contentType.StartsWith("text/") || contentType.Contains("json") || contentType.Contains("xml"))
-                {
-                    //Đối với file văn bản(như.txt, .json, .xml), không cần giải mã, đọc trực tiếp nội dung
-                    decodedText = Encoding.UTF8.GetString(fileContent);
-                }
-                else
-                {
-                    //Nếu không phải là loại file có thể giải mã, trả về nội dung dưới dạng base64
+                    // Nếu không phải là dữ liệu văn bản, thì giải mã dưới dạng base64
                     var base64String = Convert.ToBase64String(fileContent);
                     return Content(base64String, contentType);
                 }
 
-                //Trả về dữ liệu giải mã dưới dạng văn bản
+                // Giải mã dữ liệu nhị phân thành văn bản
+                string decodedText = Encoding.UTF8.GetString(fileContent);
+
+                // Trả về dữ liệu giải mã dưới dạng văn bản
                 return Content(decodedText, contentType);
             }
             catch (Exception ex)
             {
-                //Xử lý lỗi nếu có
+                // Xử lý lỗi nếu có
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
+
+
+        //[HttpGet("read/{file_id}")]
+        //public IActionResult ReadAndDecodeFile(int file_id)
+        //{
+        //    try
+        //    {
+        //        //Lấy thông tin file từ file_id
+        //        var fileInfo = _fileBusiness.GetFileByFileId(file_id);
+        //        if (fileInfo == null)
+        //        {
+        //            return NotFound("File not found.");
+        //        }
+
+        //        //Tạo đường dẫn tới file
+        //        var filePath = Path.Combine(_fileDirectory, fileInfo.filename_old);
+
+        //        //Kiểm tra xem file có tồn tại không
+        //        if (!System.IO.File.Exists(filePath))
+        //        {
+        //            return NotFound("File not found.");
+        //        }
+
+        //        // Đọc nội dung của file
+        //        var fileContent = System.IO.File.ReadAllBytes(filePath);
+
+        //        //Giải mã dữ liệu nhị phân thành văn bản
+        //        string decodedText;
+
+        //        // Kiểm tra loại file và giải mã nếu cần
+        //        var contentType = GetContentType(filePath);
+        //        if (contentType == "application/pdf")
+        //        {
+        //            //Giải mã file PDF bằng iText7
+        //            StringBuilder textBuilder = new StringBuilder();
+        //            using (PdfReader reader = new PdfReader(new MemoryStream(fileContent)))
+        //            using (PdfDocument pdfDocument = new PdfDocument(reader))
+        //            {
+        //                for (int i = 1; i <= pdfDocument.GetNumberOfPages(); i++)
+        //                {
+        //                    var page = pdfDocument.GetPage(i);
+        //                    var strategy = new SimpleTextExtractionStrategy();
+        //                    var text = PdfTextExtractor.GetTextFromPage(page, strategy);
+        //                    textBuilder.Append(text);
+        //                }
+        //            }
+        //            decodedText = textBuilder.ToString();
+        //        }
+        //        else if (contentType == "application/msword" || contentType == "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        //        {
+        //           // Giải mã file Word
+        //            Aspose.Words.Document doc = new Aspose.Words.Document(filePath);
+        //            decodedText = doc.GetText();
+        //        }
+        //        else if (contentType == "application/vnd.ms-excel" || contentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        //        {
+        //           // Giải mã file Excel
+        //            Spire.Xls.Workbook workbook = new Spire.Xls.Workbook();
+        //            workbook.LoadFromFile(filePath);
+        //            StringBuilder textBuilder = new StringBuilder();
+        //            foreach (Spire.Xls.Worksheet sheet in workbook.Worksheets)
+        //            {
+        //                for (int r = 1; r <= sheet.LastRow; r++)
+        //                {
+        //                    for (int c = 1; c <= sheet.LastColumn; c++)
+        //                    {
+        //                        textBuilder.Append(sheet.Range[r, c].Text);
+        //                        textBuilder.Append("\t");
+        //                    }
+        //                    textBuilder.AppendLine();
+        //                }
+        //            }
+        //            decodedText = textBuilder.ToString();
+        //        }
+        //        else if (contentType.StartsWith("text/") || contentType.Contains("json") || contentType.Contains("xml"))
+        //        {
+        //            //Đối với file văn bản(như.txt, .json, .xml), không cần giải mã, đọc trực tiếp nội dung
+        //            decodedText = Encoding.UTF8.GetString(fileContent);
+        //        }
+        //        else
+        //        {
+        //            //Nếu không phải là loại file có thể giải mã, trả về nội dung dưới dạng base64
+        //            var base64String = Convert.ToBase64String(fileContent);
+        //            return Content(base64String, contentType);
+        //        }
+
+        //        //Trả về dữ liệu giải mã dưới dạng văn bản
+        //        return Content(decodedText, contentType);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //Xử lý lỗi nếu có
+        //        return StatusCode(500, "Internal server error: " + ex.Message);
+        //    }
+        //}
         private string GetContentType(string fileType)
         {
             var types = new Dictionary<string, string>

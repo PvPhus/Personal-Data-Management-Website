@@ -19,13 +19,19 @@ namespace BusinessLogicLayer
     {
         private IUserRepository _res;
         private string secret;
-
         public UserBusiness(IUserRepository res, IConfiguration configuration)
         {
             _res = res;
             secret = configuration["AppSettings:Secret"];
         }
-
+        public bool LogOut(ActivityLogModel model)
+        {
+            return _res.LogOut(model);
+        }
+        public List<ActivityLogModel> GetAll()
+        {
+            return _res.GetAll();
+        }
         public UserModel Login(string email, string password)
         {
             var user = _res.Login(email, password);
@@ -56,7 +62,6 @@ namespace BusinessLogicLayer
 
             return user;
         }
-
         public UserModel RegisterUser(string username, string email, string password, string role, string avatar_url)
         {
             // Thực hiện kiểm tra logic nghiệp vụ, ví dụ: kiểm tra tính hợp lệ của email
@@ -66,8 +71,6 @@ namespace BusinessLogicLayer
 
             return registeredUser;
         }
-    
-
         public bool GetUserByEmail(string email)
         {
             return _res.GetUserByEmail(email);
@@ -76,7 +79,10 @@ namespace BusinessLogicLayer
         {
             return _res.GetUserByUserId(user_id);
         }
-
+        public bool UpdateInfo(int user_id, string username, string avatar_url)
+        {
+            return _res.UpdateInfo(user_id, username, avatar_url);
+        }
     }
 }
 

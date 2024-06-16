@@ -21,5 +21,9 @@ namespace BusinessLogicLayer
         {
             return _res.Update(model);
         }
+        public PermissionModel GetPermissionUser(int user_id, int group_id)
+        {
+            return _res.GetPermissionUser(user_id, group_id);
+        }
     }
 }

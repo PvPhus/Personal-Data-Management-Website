@@ -21,5 +21,6 @@
   },
   "include": [
     "src"
-, "src/assets/js/update.ts", "public/resources/js/topbar.ts"  ]
+  ]
+  
 }

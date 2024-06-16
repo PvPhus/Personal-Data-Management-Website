@@ -41,5 +41,33 @@ namespace DataAccessLayer
                 throw;
             }
         }
+        public PermissionModel GetPermissionUser(int user_id, int group_id)
+        {
+            try
+            {
+                string msgError = "";
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_get_permission_user_group",
+                    "@user_id", user_id,
+                    "@group_id", group_id);
+
+                if (!string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception("Database error: " + msgError);
+                }
+
+                if (dt.Rows.Count == 0)
+                {
+                    return null;
+                }
+
+                var request = dt.ConvertTo<PermissionModel>().FirstOrDefault();
+                return request;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in getRequest method: " + ex.Message);
+                throw;
+            }
+        }
     }
 }

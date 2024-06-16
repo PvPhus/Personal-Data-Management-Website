@@ -10,5 +10,6 @@ namespace DataAccessLayer.Interfaces
     public partial interface IPermissionRepository
     {
         bool Update(PermissionModel model);
+        PermissionModel GetPermissionUser(int user_id, int group_id);
     }
 }

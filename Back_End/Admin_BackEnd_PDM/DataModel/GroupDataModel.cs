@@ -9,6 +9,7 @@ public partial class GroupDataModel
     public int? group_id { get; set; }
     public int? user_id { get; set; }
     public DateTime? upload_date { get; set; }
+    public string? filename_old { get; set; }
     public string? filename_new { get; set; }
     public string? file_type { get; set; }
     public float? file_size { get; set; }

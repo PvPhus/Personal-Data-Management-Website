@@ -28,8 +28,43 @@ CREATE TABLE Files (
     file_path NVARCHAR(MAX)
 );
 
-select*from files;
+delete from files;
+delete from Permissions;
+delete from Groups;
+delete from GroupData;
+delete from GroupRequests;
+delete from GroupMembers;
 delete from files where file_id=1;
+select * from files;
+-- Tạo bảng Files
+CREATE TABLE Files (
+    file_id INT PRIMARY KEY IDENTITY,
+    user_id INT FOREIGN KEY REFERENCES Users(user_id),
+    filename_old NVARCHAR(255),
+    filename_new NVARCHAR(255),
+    file_size FLOAT,
+    file_type NVARCHAR(50),
+    upload_date DATETIME,
+    last_modified DATETIME,
+    file_path NVARCHAR(MAX)
+);
+
+-- Chèn 30 bản ghi vào bảng Files
+-- Create the Files table
+CREATE TABLE Files (
+    file_id INT PRIMARY KEY IDENTITY,
+    user_id INT FOREIGN KEY REFERENCES Users(user_id),
+    filename_old NVARCHAR(255),
+    filename_new NVARCHAR(255),
+    file_size FLOAT,
+    file_type NVARCHAR(50),
+    upload_date DATETIME,
+    last_modified DATETIME,
+    file_path NVARCHAR(MAX)
+);
+select * from users;
+
+
 
 -- Bảng Thư mục (Folders)
 CREATE TABLE Folders (
@@ -61,14 +96,11 @@ CREATE TABLE Groups (
     CONSTRAINT FK_Creator_User FOREIGN KEY (user_id) REFERENCES Users(user_id) -- Khóa ngoại tham chiếu đến bảng Users
 );
 
-
-
 --SELECT TOP(3) * FROM Groups WHERE user_id = @user_id and max(total_members);
 
 delete from groups where group_id=3; 
-select * from GroupMembers;
-
-
+select * from Groups;
+select * from users
 CREATE TABLE GroupRequests (
     request_id INT PRIMARY KEY IDENTITY,
     user_id INT NOT NULL,
@@ -77,8 +109,10 @@ CREATE TABLE GroupRequests (
     CONSTRAINT FK_GroupRequests_Users FOREIGN KEY (user_id) REFERENCES Users(user_id),
     CONSTRAINT FK_GroupRequests_Groups FOREIGN KEY (group_id) REFERENCES Groups(group_id)
 );
+
 select * from GroupRequests;
 select * from users;
+
 INSERT INTO GroupRequests (user_id, group_id, request_date)
 VALUES 
 (23, 10, '2023-01-01 08:00:00'),
@@ -152,14 +186,6 @@ CREATE TABLE ActivityLog (
 	time_out DATETIME
 );
 
-INSERT INTO Users (username, email, password, role, avatar_url, join_date)
-VALUES
-('admin', 'admin@email.com', CONVERT(NVARCHAR(255), HASHBYTES('SHA2_256', 'password1'), 2), 'Admin', 'avatar-1.jfif', '2024-01-01 08:00:00'),
-('Vũ Phong Phú', 'user1@email.com', CONVERT(NVARCHAR(255), HASHBYTES('SHA2_256', 'password1'), 2), 'KhachHang', 'avatar-2.jfif', '2024-01-01 08:00:00'),
-('Vũ Văn Tân', 'user2@email.com', CONVERT(NVARCHAR(255), HASHBYTES('SHA2_256', 'password1'), 2), 'KhachHang', 'avatar-3.jfif', '2024-01-01 08:00:00');
-
-
-select * from users;
 
 INSERT INTO Files (user_id, filename_old, filename_new, file_size, file_type, upload_date, last_modified, file_path)
 VALUES 
@@ -382,6 +408,10 @@ BEGIN
         -- Kiểm tra mật khẩu
         IF @StoredHash = @InputHash
         BEGIN
+            -- Chèn bản ghi vào bảng ActivityLog
+            INSERT INTO ActivityLog (user_id, description, time_log, time_out)
+            VALUES (@UserID, 'User logged in', GETDATE(), NULL);
+
             -- Trả về thông tin người dùng nếu tìm thấy và mật khẩu khớp
             SELECT
                 user_id AS user_id,
@@ -408,6 +438,38 @@ BEGIN
     END;
 END;
 
+CREATE PROCEDURE sp_logout
+    @user_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Thêm một bản ghi mới vào bảng ActivityLog
+    INSERT INTO ActivityLog (user_id, description, time_log, time_out)
+    VALUES (@user_id, N'Đăng xuất', NULL, GETDATE());
+END;
+exec sp_logout
+    @user_id =22;
+
+CREATE PROCEDURE sp_logoutjkj--
+    @user_id INT,
+    @log_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Cập nhật cột time_out với thời gian hiện tại cho bản ghi cụ thể
+    UPDATE ActivityLog
+    SET time_out = GETDATE()
+    WHERE user_id = @user_id AND log_id = @log_id;
+
+    -- Kiểm tra xem có bản ghi nào được cập nhật không
+    IF @@ROWCOUNT = 0
+    BEGIN
+        PRINT 'Không tìm thấy bản ghi phù hợp để cập nhật.';
+    END
+END;
+
 
 EXEC sp_login 'phu010501@gmail.com', '12345';
 
@@ -416,7 +478,7 @@ CREATE PROCEDURE sp_register
     @inputUsername NVARCHAR(255),
     @inputEmail NVARCHAR(255),
     @inputPassword NVARCHAR(255),
-    @inputRole NVARCHAR(50) = 'NguoiDung', -- Thiết lập mặc định là 'KhachHang'
+    @inputRole NVARCHAR(50) = 'NguoiDung', -- Thiết lập mặc định là 'NguoiDung'
     @inputAvatarUrl NVARCHAR(MAX)
 AS
 BEGIN
@@ -454,6 +516,75 @@ EXEC sp_register N'Phú', 'phu@gmail.com', '12345', 'NguoiDung', 'avatar-4.jpg';
 EXEC sp_register N'Nam', 'nam@gmail.com', '12345', 'NguoiDung', 'avatar-3.jpg';
 EXEC sp_register N'Phượng', 'phuong@gmail.com', '12345', 'NguoiDung', 'avatar-2.jpg';
 
+
+DECLARE @i INT = 1;
+WHILE @i <= 30
+BEGIN
+    INSERT INTO Files (user_id, filename_old, filename_new, file_size, file_type, upload_date, last_modified, file_path)
+    VALUES (
+        FLOOR(RAND() * 4) + 21, -- user_id random từ 21 đến 24
+        'image' + CAST(@i AS NVARCHAR(3)) + '.jpg', -- filename_old là image1.jpg -> image30.jpg
+        'random_image_' + CAST(FLOOR(RAND() * 1000) AS NVARCHAR(4)) + '.jpg', -- filename_new là tên ngẫu nhiên
+        CAST(RAND() * 1000 AS FLOAT), -- file_size ngẫu nhiên
+        'jpg', -- file_type là jpg
+        DATEADD(DAY, -FLOOR(RAND() * 365), GETDATE()), -- upload_date ngẫu nhiên trong vòng 1 năm qua
+        GETDATE(), -- last_modified là thời điểm hiện tại
+        'C:\\files\\' + 'image' + CAST(@i AS NVARCHAR(3)) + '.jpg' -- file_path
+    );
+    SET @i = @i + 1;
+END;
+
+DECLARE @counter INT = 1;
+
+-- Insert 20 records with random data
+WHILE @counter <= 20
+BEGIN
+    DECLARE @user_id INT = ROUND(RAND() * 3 + 21, 0); -- Random user_id between 21 and 24
+    DECLARE @filename_new NVARCHAR(255);
+    DECLARE @file_size FLOAT;
+    DECLARE @upload_date DATETIME;
+
+    SET @filename_new = CONCAT('image_', NEWID(), '.mp4'); -- Random filename_new
+    SET @file_size = ROUND(RAND() * 1000 + 500, 2); -- Random file_size between 500 and 1500
+    SET @upload_date = DATEADD(second, ROUND(RAND() * 31536000, 0), GETDATE()); -- Random upload_date within the past year
+
+    INSERT INTO Files (user_id, filename_old, filename_new, file_size, file_type, upload_date, last_modified, file_path)
+    VALUES (
+        @user_id,
+        CONCAT('video', CAST(@counter AS NVARCHAR(2)), '.mp4'), -- filename_old based on counter
+        @filename_new,
+        @file_size,
+        'mp4',
+        @upload_date,
+        @upload_date, -- last_modified set to upload_date initially
+        '/path/to/files/' -- example file_path
+    );
+
+    SET @counter = @counter + 1;
+END
+-- Insert 20 records into Files table with random data
+INSERT INTO Files (user_id, filename_old, filename_new, file_size, file_type, upload_date, last_modified, file_path)
+VALUES
+    (21, 'file1.pdf', 'important_document.pdf', 1024.5, 'pdf', '2023-04-10', '2023-04-10', '/path/to/important_document.pdf'),
+    (21, 'file2.txt', 'meeting_notes.txt', 512.75, 'txt', '2023-06-22', '2023-06-22', '/path/to/meeting_notes.txt'),
+    (22, 'file3.pdf', 'proposal.pdf', 2048.0, 'pdf', '2023-05-15', '2023-05-15', '/path/to/proposal.pdf'),
+    (22, 'file4.txt', 'todo_list.txt', 256.3, 'txt', '2023-07-01', '2023-07-01', '/path/to/todo_list.txt'),
+    (23, 'file5.pdf', 'financial_report.pdf', 4096.75, 'pdf', '2023-03-28', '2023-03-28', '/path/to/financial_report.pdf'),
+    (23, 'file6.txt', 'project_plan.txt', 768.1, 'txt', '2023-06-10', '2023-06-10', '/path/to/project_plan.txt'),
+    (24, 'file7.pdf', 'research_paper.pdf', 1536.25, 'pdf', '2023-04-05', '2023-04-05', '/path/to/research_paper.pdf'),
+    (24, 'file8.txt', 'presentation_notes.txt', 1280.9, 'txt', '2023-07-18', '2023-07-18', '/path/to/presentation_notes.txt'),
+    (21, 'file9.pdf', 'contract.pdf', 3072.4, 'pdf', '2023-03-15', '2023-03-15', '/path/to/contract.pdf'),
+    (21, 'file10.txt', 'user_guide.txt', 640.2, 'txt', '2023-05-20', '2023-05-20', '/path/to/user_guide.txt'),
+    (22, 'file1.pdf', 'invoice.pdf', 8192.8, 'pdf', '2023-02-10', '2023-02-10', '/path/to/invoice.pdf'),
+    (22, 'file2.txt', 'memo.txt', 384.6, 'txt', '2023-06-30', '2023-06-30', '/path/to/memo.txt'),
+    (23, 'file3.pdf', 'policy_document.pdf', 6144.6, 'pdf', '2023-01-25', '2023-01-25', '/path/to/policy_document.pdf'),
+    (23, 'file4.txt', 'survey_results.txt', 1024.7, 'txt', '2023-07-05', '2023-07-05', '/path/to/survey_results.txt'),
+    (24, 'file5.pdf', 'manual.pdf', 2048.3, 'pdf', '2023-03-01', '2023-03-01', '/path/to/manual.pdf'),
+    (24, 'file6.txt', 'agenda.txt', 512.8, 'txt', '2023-06-15', '2023-06-15', '/path/to/agenda.txt'),
+    (21, 'file7.pdf', 'newsletter.pdf', 1024.0, 'pdf', '2023-02-20', '2023-02-20', '/path/to/newsletter.pdf'),
+    (21, 'file8.txt', 'report.txt', 768.5, 'txt', '2023-05-05', '2023-05-05', '/path/to/report.txt'),
+    (22, 'file9.pdf', 'brochure.pdf', 1536.2, 'pdf', '2023-01-10', '2023-01-10', '/path/to/brochure.pdf'),
+    (22, 'file10.txt', 'guidebook.txt', 896.4, 'txt', '2023-04-15', '2023-04-15', '/path/to/guidebook.txt');
 UPDATE Users
 SET 
     avatar_url = 'admin.jpg'
@@ -579,13 +710,25 @@ BEGIN
     SELECT * FROM GroupMembers;
 END;
 
-CREATE PROCEDURE [dbo].[sp_get_all_groups]
+--CREATE PROCEDURE [dbo].[sp_get_all_groups]
+--    @user_id INT
+--AS
+--BEGIN
+--    SELECT *
+--    FROM Groups
+--    WHERE user_id <> @user_id;
+--END;
+
+ALTER PROCEDURE [dbo].[sp_get_all_groups]
     @user_id INT
 AS
 BEGIN
-    SELECT *
-    FROM Groups
-    WHERE user_id <> @user_id;
+    SET NOCOUNT ON;
+
+    SELECT g.group_id, g.group_image, g.group_name, g.created_date, g.total_members
+    FROM Groups g
+    LEFT JOIN GroupMembers gm ON g.group_id = gm.group_id AND gm.user_id = @user_id
+    WHERE gm.user_id IS NULL;
 END;
 select*from groups;
 --Create group
@@ -624,18 +767,17 @@ BEGIN
 END;
 
 
-
-
 --Lấy ra danh sách group theo user_id
-CREATE PROCEDURE sp_get_groups_by_userId
+ALTER PROCEDURE [dbo].[sp_get_groups_by_userId]
     @user_id INT
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    SELECT group_id, group_image, group_name, created_date, total_members
-    FROM Groups 
-    WHERE user_id = @user_id;
+    SELECT g.group_id, g.group_image, g.group_name, g.created_date, g.total_members
+    FROM Groups g
+    INNER JOIN GroupMembers gm ON g.group_id = gm.group_id
+    WHERE gm.user_id = @user_id;
 END;
 
 exec sp_get_groups_by_userId @user_id=21;
@@ -650,7 +792,12 @@ AS
 BEGIN
     SELECT * FROM Permissions;
 END;
-
+CREATE PROCEDURE [dbo].[sp_get_all_files]
+AS
+BEGIN
+    SELECT * FROM Files;
+END;
+exec  [dbo].[sp_get_all_files];
 CREATE PROCEDURE [dbo].[sp_get_all_tags]
 AS
 BEGIN
@@ -663,7 +810,12 @@ BEGIN
     SELECT * FROM Users;
 END;
 
-
+CREATE PROCEDURE [dbo].[sp_get_all_activitylog]
+AS
+BEGIN
+    SELECT * FROM activitylog;
+END;
+exec sp_get_all_activitylog;
 ----------FILES------------
 ----------SHARE FILE WITH GROUPS----------
 CREATE PROCEDURE sp_share_file_with_groups
@@ -780,7 +932,8 @@ SELECT
 FROM
 	Files
 WHERE
-	user_id = @user_id and filename_new LIKE '%' + @filename_new + '%';
+	user_id = @user_id 
+	and filename_new LIKE '%' + @filename_new + '%';
 END;
 --SEARCH GROUP
 CREATE PROCEDURE sp_group_search
@@ -815,11 +968,6 @@ BEGIN
     DROP TABLE #TempGroups;
 END;
 
-
-select * from groups;
-
-exec sp_file_search @user_id = 22,
-@filename_new = thùng;
 --Get image_files
 CREATE PROCEDURE sp_get_image_files
 	@user_id INT
@@ -980,6 +1128,57 @@ BEGIN
     -- Thêm bản ghi vào bảng GroupMembers
     INSERT INTO GroupMembers (group_id, user_id, permission_id, join_date)
     VALUES (@group_id, @user_id, @permission_id, @join_date);
+
+    -- Xóa bản ghi khỏi bảng GroupRequests
+    DELETE FROM GroupRequests
+    WHERE request_id = @request_id;
+
+    PRINT 'Request đã được chuyển thành công vào bảng GroupMembers.';
+END;
+
+ALTER PROCEDURE sp_group_request_accept
+    @request_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @group_id INT;
+    DECLARE @user_id INT;
+    DECLARE @join_date DATETIME;
+    DECLARE @permission_id INT;
+    DECLARE @existing_member INT;
+
+    -- Lấy ngày giờ hiện tại
+    SET @join_date = GETDATE();
+
+    -- Lấy dữ liệu từ bảng GroupRequests
+    SELECT @group_id = group_id, @user_id = user_id
+    FROM GroupRequests
+    WHERE request_id = @request_id;
+
+    -- Kiểm tra xem user_id đã là thành viên của group_id hay chưa
+    SELECT @existing_member = COUNT(*)
+    FROM GroupMembers
+    WHERE group_id = @group_id AND user_id = @user_id;
+
+    IF @existing_member = 0
+    BEGIN
+        -- Thêm bản ghi vào bảng Permissions và lấy permission_id
+        INSERT INTO Permissions (user_id, can_read, can_download, can_share, can_delete)
+        VALUES (@user_id, 0, 0, 0, 0);
+
+        -- Lấy permission_id của bản ghi mới được thêm vào
+        SET @permission_id = SCOPE_IDENTITY();
+
+        -- Thêm bản ghi vào bảng GroupMembers
+        INSERT INTO GroupMembers (group_id, user_id, permission_id, join_date)
+        VALUES (@group_id, @user_id, @permission_id, @join_date);
+
+        -- Cập nhật tổng số thành viên trong nhóm
+        UPDATE Groups
+        SET total_members = total_members + 1
+        WHERE group_id = @group_id;
+    END;
 
     -- Xóa bản ghi khỏi bảng GroupRequests
     DELETE FROM GroupRequests
@@ -1170,8 +1369,6 @@ END;
 exec sp_get_request_by_id @request_id=1;
 select*from GroupMembers;
 
-
-
 --GROUPMEMBER
 CREATE PROCEDURE sp_add_group_member
     @group_id INT,
@@ -1211,7 +1408,7 @@ END;
 
 exec sp_add_group_member @group_id=9, @user_id=23;
 
-select * from groups;
+select * from files;
 
 --Xóa thành viên khỏi group
 CREATE PROCEDURE sp_delete_group_member
@@ -1262,8 +1459,11 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    SELECT U.avatar_url,
+    SELECT 
+		   U.user_id,
+		   U.avatar_url,
            U.username,
+		   GM.group_id,
            GM.join_date,
 		   p.permission_id,
            P.can_read,
@@ -1323,6 +1523,7 @@ BEGIN
         GD.group_id,
         GD.user_id,
         GD.upload_date,
+		F.filename_old,
         F.filename_new,
 		F.file_type,  
         F.file_size,     
@@ -1360,3 +1561,208 @@ BEGIN
          WHERE group_id = @group_id) AS total_members
 END;
 exec sp_get_total_requests_members @group_id = 9;
+
+CREATE PROCEDURE sp_update_password
+    @inputEmail NVARCHAR(255),
+    @newPassword NVARCHAR(255)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Kiểm tra xem email (@inputEmail) có tồn tại trong cơ sở dữ liệu không.
+    IF NOT EXISTS (SELECT 1 FROM Users WHERE email = @inputEmail)
+    BEGIN
+        PRINT 'Email không tồn tại.';
+        RETURN;
+    END;
+
+    -- Băm mật khẩu mới (@newPassword) với thuật toán SHA2_256
+    DECLARE @hashedNewPassword NVARCHAR(255);
+    SET @hashedNewPassword = CONVERT(NVARCHAR(64), HASHBYTES('SHA2_256', @newPassword), 2);
+
+    -- Cập nhật mật khẩu mới đã băm cho người dùng có email (@inputEmail)
+    UPDATE Users
+    SET password = @hashedNewPassword
+    WHERE email = @inputEmail;
+
+    PRINT 'Mật khẩu đã được cập nhật thành công.';
+END;
+
+
+CREATE PROCEDURE sp_update_user_info
+    @user_id INT,
+    @new_username NVARCHAR(255),
+    @new_avatar_url NVARCHAR(MAX)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Kiểm tra xem user_id có tồn tại trong cơ sở dữ liệu không.
+    IF NOT EXISTS (SELECT 1 FROM Users WHERE user_id = @user_id)
+    BEGIN
+        PRINT 'Người dùng không tồn tại.';
+        RETURN;
+    END;
+
+    -- Cập nhật username và avatar_url
+    UPDATE Users
+    SET username = @new_username,
+        avatar_url = @new_avatar_url
+    WHERE user_id = @user_id;
+
+    PRINT 'Thông tin người dùng đã được cập nhật thành công.';
+END;
+exec sp_update_user_info
+    @user_id = 22,
+    @new_username ="Vũ Phong Phú",
+    @new_avatar_url ="avatar-4.jpg";
+	select * from users;
+
+
+CREATE PROCEDURE sp_update_filename_new
+    @file_id INT,
+    @new_filename NVARCHAR(255)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Kiểm tra xem file_id có tồn tại trong cơ sở dữ liệu không.
+    IF NOT EXISTS (SELECT 1 FROM Files WHERE file_id = @file_id)
+    BEGIN
+        PRINT 'File không tồn tại.';
+        RETURN;
+    END;
+
+    -- Cập nhật filename_new với tên file mới
+    UPDATE Files
+    SET filename_new = @new_filename,
+        last_modified = GETDATE() -- Cập nhật thời gian sửa đổi cuối cùng
+    WHERE file_id = @file_id;
+
+    PRINT 'Tên file mới đã được cập nhật thành công.';
+END;
+exec sp_update_filename_new
+    @file_id = 16,
+    @new_filename = "Mẫu hợp đồng thuê nhà";
+	select*from files;
+
+
+CREATE PROCEDURE sp_get_all_data_in_group
+    @group_id INT = NULL -- Có thể cung cấp giá trị mặc định là NULL để lấy tất cả các nhóm nếu không cung cấp giá trị
+AS
+BEGIN
+    SELECT 
+        f.file_id,
+        f.filename_old,
+        f.filename_new,
+        f.file_size,
+        f.file_type,
+        f.upload_date AS file_upload_date,
+        f.last_modified,
+        f.file_path,
+        gd.upload_date AS groupdata_upload_date,
+        u.username,
+        g.group_id,
+        g.group_name
+    FROM 
+        Files f
+    JOIN 
+        GroupData gd ON f.file_id = gd.file_id
+    JOIN 
+        Users u ON gd.user_id = u.user_id
+    JOIN 
+        Groups g ON gd.group_id = g.group_id
+    WHERE 
+        (@group_id IS NULL OR g.group_id = @group_id);
+END;
+
+exec sp_get_all_data_in_group @group_id  = 4;
+select * from groups;
+
+
+CREATE PROCEDURE sp_check_admin_group
+    @group_id INT,
+    @user_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @is_creator BIT;
+
+    -- Kiểm tra xem user_id có phải là người tạo của group_id hay không
+    IF EXISTS (
+        SELECT 1
+        FROM Groups
+        WHERE group_id = @group_id AND user_id = @user_id
+    )
+    BEGIN
+        SET @is_creator = 1;
+    END
+    ELSE
+    BEGIN
+        SET @is_creator = 0;
+    END
+
+    -- Trả về kết quả
+    SELECT @is_creator AS IsCreator;
+END;
+
+CREATE PROCEDURE sp_get_permission_user_group
+    @user_id INT,
+    @group_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        p.permission_id,
+        p.user_id,
+        p.can_read,
+        p.can_download,
+        p.can_share,
+        p.can_delete
+    FROM 
+        GroupMembers gm
+    INNER JOIN 
+        Permissions p ON gm.permission_id = p.permission_id
+    WHERE 
+        gm.user_id = @user_id AND gm.group_id = @group_id;
+END
+exec GetUserPermissionsByGroup
+    @user_id = 21,
+    @group_id = 23;
+
+select * from permissions;
+select * from groupdata;
+select * from files;
+
+
+ALTER PROCEDURE sp_data_group_search
+    @group_id INT,
+    @filename_new NVARCHAR(255)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        f.file_id,
+        f.user_id,
+        f.filename_old,
+        f.filename_new,
+        f.file_size,
+        f.file_type,
+        f.upload_date AS file_upload_date,
+        f.last_modified,
+        f.file_path,
+        gd.group_id,
+        gd.user_id,
+        gd.upload_date
+    FROM 
+        Files f
+    INNER JOIN 
+        GroupData gd ON f.file_id = gd.file_id
+    WHERE 
+        gd.group_id = @group_id
+        AND f.filename_new LIKE '%' + @filename_new + '%';
+END
+select * from users;

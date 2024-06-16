@@ -13,7 +13,8 @@ namespace BusinessLogicLayer.Interfaces
         bool GetUserByEmail(string email);
         UserModel RegisterUser(string username, string email, string password, string role, string avatarUrl);
         UserModel GetUserByUserId(int user_id);
-
-
+        bool UpdateInfo(int user_id, string username, string avatar_url);
+        bool LogOut(ActivityLogModel model);
+        List<ActivityLogModel> GetAll();
     }
 }
