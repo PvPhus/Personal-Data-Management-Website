@@ -27,9 +27,6 @@ namespace BusinessLogicLayer
         {
             return _res.GetGroupMembers(group_id);
         }
-        public GroupMemberModel GetCountMember(int group_id)
-        {
-            return _res.GetCountMember(group_id);
-        }
+  
     }
 }

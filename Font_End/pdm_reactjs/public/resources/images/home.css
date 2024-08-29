@@ -1,0 +1,73 @@
+body{
+    height: auto;
+    width: 100%;margin: 0px;
+    font-family: futuraltpro-book,'Times New Roman', Times, serif bold,sans-serif;
+    background-color: white;
+}
+.top{
+    #anhto{height: auto;width: auto;position: relative;z-index: 1;top: 0;}
+    #demuc{height: 230px;width: 100%;position: absolute;z-index: 2; top:0;}
+    #demuc:hover{background-color:white;}
+    #demuc:hover #textmn{color: black;}
+    #demuc:hover #TH{ color: black; }
+    #menu{ height: 20%;width: 60%;display: flex;float: left; }
+    #textmn{
+        padding: 10px;color: aliceblue;}
+    #textmn:hover{
+        text-decoration: underline;}
+    #timkiem{
+        height: 20%;width: 40%;margin-top: 20px;float: left;
+    }
+    #TH{
+        font-size: 80px;height: 80px;text-align: center;margin-top: 0;padding-top: 0;color: aliceblue;}
+}
+.danhsachsanpham{
+    width: 80%;
+    margin-left: 150px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Tạo 5 cột bằng nhau */
+    grid-gap: 20px; /* Khoảng cách giữa các cột */
+      
+}
+#sanpham {
+    box-shadow: 5px 5px 10px #888888;
+    margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 10px; /* Góc bo tròn */
+    overflow: hidden; /* Để ảnh không bị tràn khỏi phần nền */
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out; /* Hiệu ứng chuyển động khi hover */
+}
+
+#sanpham:hover {
+    transform: scale(1.05);
+}
+
+.anhsp {
+    height: 100%;
+    width: 100%;
+    object-fit: cover; /* Giữ tỉ lệ khung hình của ảnh */
+}
+
+.chusp {
+    height: 98px;
+    width: 172px;
+    margin-left: 10px;
+}
+
+.giatien {
+    display: flex;
+    align-items: center;
+}
+
+.gia {
+    font-size: 20px;
+    margin-left: 4px;
+}
+
+/* Định dạng chữ và khoảng cách giữa các phần tử */
+h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #333; /* Màu chữ đen */
+}

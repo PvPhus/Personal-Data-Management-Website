@@ -20,7 +20,6 @@ const Update: React.FC = () => {
     const showCodeRef = useRef<HTMLButtonElement>(null);
 
     const fetchFileData = async (file_id: number) => {
-       
         try {
             const response = await fetch(`https://localhost:7227/api/File/read/${file_id}`);
             if (!response.ok) {

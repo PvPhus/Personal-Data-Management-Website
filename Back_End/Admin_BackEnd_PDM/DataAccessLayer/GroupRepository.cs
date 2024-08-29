@@ -175,33 +175,7 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
-        public CountModel GetCount(int group_id)
-        {
-            try
-            {
-                string msgError = "";
-                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_get_total_requests_members",
-                    "@group_id", group_id);
-
-                if (!string.IsNullOrEmpty(msgError))
-                {
-                    throw new Exception("Database error: " + msgError);
-                }
-
-                if (dt.Rows.Count == 0)
-                {
-                    return null;
-                }
-
-                var request = dt.ConvertTo<CountModel>().FirstOrDefault();
-                return request;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error in getRequest method: " + ex.Message);
-                throw;
-            }
-        }
+     
         public List<GroupModel> SearchGroup(string group_name, int user_id)
         {
             string msgError = "";
@@ -262,6 +236,51 @@ namespace DataAccessLayer
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public List<GroupMessagesModel> MessagesGroup(int group_id)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_Get_Group_Chat_Messages",          
+                    "@group_id", group_id);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+
+                return dt.ConvertTo<GroupMessagesModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool CreateMessages(GroupMessagesModel model)
+        {
+            try
+            {
+                string msgError = "";
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_Group_Message_Create",
+                    "@group_id", model.group_id,
+                    "@sender_id", model.sender_id,
+                    "@content", model.content);
+                if (!string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception("Database error: " + msgError);
+                }
+
+                if (result != null && !string.IsNullOrEmpty(result.ToString()))
+                {
+                    throw new Exception("Database error: " + result.ToString());
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in Create method: " + ex.Message);
+                throw;
             }
         }
     }

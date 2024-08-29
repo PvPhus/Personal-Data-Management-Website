@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import { clickTopbar } from "../../../assets/js/topbar";
+import { clickTopbar } from "../../../assets/js/functionDrop";
 import { useUser } from '../../../constant/userContext';
 import TopbarGroupData from "../../../components/user/topbargroupdata";
 
@@ -24,7 +24,7 @@ const SearchDataGroup: React.FC = () => {
 
 
     useEffect(() => {
-        clickTopbar();
+   
         fetchIsAdminStatus();
         fetchCount();
         fetchPermission();

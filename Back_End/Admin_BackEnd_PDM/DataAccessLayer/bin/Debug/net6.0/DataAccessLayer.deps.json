@@ -9,7 +9,7 @@
       "DataAccessLayer/1.0.0": {
         "dependencies": {
           "Aspose.Words": "24.5.0",
-          "Azure.Identity": "1.11.0",
+          "Azure.Identity": "1.12.0",
           "DataModel": "1.0.0",
           "Microsoft.EntityFrameworkCore.Design": "7.0.18",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.18",
@@ -40,7 +40,7 @@
           }
         }
       },
-      "Azure.Core/1.38.0": {
+      "Azure.Core/1.40.0": {
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "1.1.1",
           "System.ClientModel": "1.0.0",
@@ -53,16 +53,16 @@
         },
         "runtime": {
           "lib/net6.0/Azure.Core.dll": {
-            "assemblyVersion": "1.38.0.0",
-            "fileVersion": "1.3800.24.12602"
+            "assemblyVersion": "1.40.0.0",
+            "fileVersion": "1.4000.24.30605"
           }
         }
       },
-      "Azure.Identity/1.11.0": {
+      "Azure.Identity/1.12.0": {
         "dependencies": {
-          "Azure.Core": "1.38.0",
-          "Microsoft.Identity.Client": "4.60.1",
-          "Microsoft.Identity.Client.Extensions.Msal": "4.60.1",
+          "Azure.Core": "1.40.0",
+          "Microsoft.Identity.Client": "4.61.3",
+          "Microsoft.Identity.Client.Extensions.Msal": "4.61.3",
           "System.Memory": "4.5.4",
           "System.Security.Cryptography.ProtectedData": "6.0.0",
           "System.Text.Json": "7.0.0",
@@ -70,8 +70,8 @@
         },
         "runtime": {
           "lib/netstandard2.0/Azure.Identity.dll": {
-            "assemblyVersion": "1.11.0.0",
-            "fileVersion": "1.1100.24.20901"
+            "assemblyVersion": "1.12.0.0",
+            "fileVersion": "1.1200.24.31701"
           }
         }
       },
@@ -94,9 +94,9 @@
       "Microsoft.CSharp/4.5.0": {},
       "Microsoft.Data.SqlClient/5.1.5": {
         "dependencies": {
-          "Azure.Identity": "1.11.0",
+          "Azure.Identity": "1.12.0",
           "Microsoft.Data.SqlClient.SNI.runtime": "5.1.1",
-          "Microsoft.Identity.Client": "4.60.1",
+          "Microsoft.Identity.Client": "4.61.3",
           "Microsoft.IdentityModel.JsonWebTokens": "6.35.0",
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "6.35.0",
           "Microsoft.SqlServer.Server": "1.0.0",
@@ -345,27 +345,27 @@
           }
         }
       },
-      "Microsoft.Identity.Client/4.60.1": {
+      "Microsoft.Identity.Client/4.61.3": {
         "dependencies": {
           "Microsoft.IdentityModel.Abstractions": "6.35.0",
           "System.Diagnostics.DiagnosticSource": "6.0.1"
         },
         "runtime": {
           "lib/net6.0/Microsoft.Identity.Client.dll": {
-            "assemblyVersion": "4.60.1.0",
-            "fileVersion": "4.60.1.0"
+            "assemblyVersion": "4.61.3.0",
+            "fileVersion": "4.61.3.0"
           }
         }
       },
-      "Microsoft.Identity.Client.Extensions.Msal/4.60.1": {
+      "Microsoft.Identity.Client.Extensions.Msal/4.61.3": {
         "dependencies": {
-          "Microsoft.Identity.Client": "4.60.1",
+          "Microsoft.Identity.Client": "4.61.3",
           "System.Security.Cryptography.ProtectedData": "6.0.0"
         },
         "runtime": {
           "lib/net6.0/Microsoft.Identity.Client.Extensions.Msal.dll": {
-            "assemblyVersion": "4.60.1.0",
-            "fileVersion": "4.60.1.0"
+            "assemblyVersion": "4.61.3.0",
+            "fileVersion": "4.61.3.0"
           }
         }
       },
@@ -882,19 +882,19 @@
       "path": "aspose.words/24.5.0",
       "hashPath": "aspose.words.24.5.0.nupkg.sha512"
     },
-    "Azure.Core/1.38.0": {
+    "Azure.Core/1.40.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-IuEgCoVA0ef7E4pQtpC3+TkPbzaoQfa77HlfJDmfuaJUCVJmn7fT0izamZiryW5sYUFKizsftIxMkXKbgIcPMQ==",
-      "path": "azure.core/1.38.0",
-      "hashPath": "azure.core.1.38.0.nupkg.sha512"
+      "sha512": "sha512-eOx6wk3kQ3SCnoAj7IytAu/d99l07PdarmUc+RmMkVOTkcQ3s+UQEaGzMyEqC2Ua4SKnOW4Xw/klLeB5V2PiSA==",
+      "path": "azure.core/1.40.0",
+      "hashPath": "azure.core.1.40.0.nupkg.sha512"
     },
-    "Azure.Identity/1.11.0": {
+    "Azure.Identity/1.12.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-JcpkMpW8Wx/XfQfMiSc9ecdIy0GhdpsMCT3Lh8EJZQ/NN6OxPeY7OAcfmucsvdfrldbFJd04m+Kfd+1QILBAgg==",
-      "path": "azure.identity/1.11.0",
-      "hashPath": "azure.identity.1.11.0.nupkg.sha512"
+      "sha512": "sha512-OBIM3aPz8n9oEO5fdnee+Vsc5Nl4W3FeslPpESyDiyByntQI5BAa76KD60eFXm9ulevnwxGZP9YXL8Y+paI5Uw==",
+      "path": "azure.identity/1.12.0",
+      "hashPath": "azure.identity.1.12.0.nupkg.sha512"
     },
     "Humanizer.Core/2.14.1": {
       "type": "package",
@@ -1057,19 +1057,19 @@
       "path": "microsoft.extensions.primitives/7.0.0",
       "hashPath": "microsoft.extensions.primitives.7.0.0.nupkg.sha512"
     },
-    "Microsoft.Identity.Client/4.60.1": {
+    "Microsoft.Identity.Client/4.61.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-rC+qiskr8RKq2a43hH55vuDRz4Wto+bxwxMrKzCIOann1NL0OFFTjEk4ZVnTTBdijVWC6mhOaSmdV1H6J6bXmA==",
-      "path": "microsoft.identity.client/4.60.1",
-      "hashPath": "microsoft.identity.client.4.60.1.nupkg.sha512"
+      "sha512": "sha512-naJo/Qm35Caaoxp5utcw+R8eU8ZtLz2ALh8S+gkekOYQ1oazfCQMWVT4NJ/FnHzdIJlm8dMz0oMpMGCabx5odA==",
+      "path": "microsoft.identity.client/4.61.3",
+      "hashPath": "microsoft.identity.client.4.61.3.nupkg.sha512"
     },
-    "Microsoft.Identity.Client.Extensions.Msal/4.60.1": {
+    "Microsoft.Identity.Client.Extensions.Msal/4.61.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-EdPcGqvruFzNBcW+/3DSP4vNmLNYXSSnngj+QecAxmy6VRnvA7kt5KE2bU8qQmt4KkOitNHBVYVwze2XkqOLxw==",
-      "path": "microsoft.identity.client.extensions.msal/4.60.1",
-      "hashPath": "microsoft.identity.client.extensions.msal.4.60.1.nupkg.sha512"
+      "sha512": "sha512-PWnJcznrSGr25MN8ajlc2XIDW4zCFu0U6FkpaNLEWLgd1NgFCp5uDY3mqLDgM8zCN8hqj8yo5wHYfLB2HjcdGw==",
+      "path": "microsoft.identity.client.extensions.msal/4.61.3",
+      "hashPath": "microsoft.identity.client.extensions.msal.4.61.3.nupkg.sha512"
     },
     "Microsoft.IdentityModel.Abstractions/6.35.0": {
       "type": "package",

@@ -34,7 +34,6 @@ namespace BusinessLogicLayer
         {
             return _res.Create(model);
         }
-       
         public List<GroupModel> GetGroupsByUserId(int user_id)
         {
             return _res.GetGroupsByUserId(user_id);
@@ -51,11 +50,7 @@ namespace BusinessLogicLayer
         {
             return _res.GetDataGroup(user_id, group_id);
         }
-        public CountModel GetCount(int group_id)
-        {
-            return _res.GetCount(group_id);
-
-        }
+    
         public List<GroupModel> SearchGroup(string group_name, int user_id)
         {
             return _res.SearchGroup(group_name, user_id);
@@ -67,6 +62,14 @@ namespace BusinessLogicLayer
         public List<FileModel> SearchDataGroup(int group_id, string filename_new)
         {
             return _res.SearchDataGroup(group_id, filename_new);
+        }
+        public List<GroupMessagesModel> MessagesGroup(int group_id)
+        {
+            return _res.MessagesGroup(group_id);
+        }
+        public bool CreateMessages(GroupMessagesModel model)
+        {
+            return _res.CreateMessages(model);
         }
     }
 }

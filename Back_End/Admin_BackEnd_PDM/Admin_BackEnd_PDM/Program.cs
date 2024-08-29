@@ -21,7 +21,7 @@ builder.Services.AddCors(options =>
     // Define a CORS policy named "AllowFrontend" specifically for http://127.0.0.1:8000 and http://localhost:3000
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://127.0.0.1:8000", "http://localhost:3000")
+        policy.WithOrigins("http://127.0.0.1:8000", "http://localhost:3000", "http://localhost:3001", "http://localhost:3002")
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
@@ -43,7 +43,11 @@ builder.Services.AddTransient<IUserBusiness, UserBusiness>();
 builder.Services.AddTransient<IPermissionRepository, PermissionRepository>();
 builder.Services.AddTransient<IPermissionBusiness, PermissionBusiness>();
 
+builder.Services.AddTransient<IFriendRepository, FriendRepository>();
+builder.Services.AddTransient<IFriendBusiness, FriendBusiness>();
 
+builder.Services.AddTransient<IFriendRequestRepository, FriendRequestRepository>();
+builder.Services.AddTransient<IFriendRequestBusiness, FriendRequestBusiness>();
 // Configure AppSettings from configuration
 IConfiguration configuration = builder.Configuration;
 builder.Services.Configure<AppSettings>(configuration.GetSection("AppSettings"));

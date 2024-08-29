@@ -28,44 +28,6 @@ CREATE TABLE Files (
     file_path NVARCHAR(MAX)
 );
 
-delete from files;
-delete from Permissions;
-delete from Groups;
-delete from GroupData;
-delete from GroupRequests;
-delete from GroupMembers;
-delete from files where file_id=1;
-select * from files;
--- Tạo bảng Files
-CREATE TABLE Files (
-    file_id INT PRIMARY KEY IDENTITY,
-    user_id INT FOREIGN KEY REFERENCES Users(user_id),
-    filename_old NVARCHAR(255),
-    filename_new NVARCHAR(255),
-    file_size FLOAT,
-    file_type NVARCHAR(50),
-    upload_date DATETIME,
-    last_modified DATETIME,
-    file_path NVARCHAR(MAX)
-);
-
--- Chèn 30 bản ghi vào bảng Files
--- Create the Files table
-CREATE TABLE Files (
-    file_id INT PRIMARY KEY IDENTITY,
-    user_id INT FOREIGN KEY REFERENCES Users(user_id),
-    filename_old NVARCHAR(255),
-    filename_new NVARCHAR(255),
-    file_size FLOAT,
-    file_type NVARCHAR(50),
-    upload_date DATETIME,
-    last_modified DATETIME,
-    file_path NVARCHAR(MAX)
-);
-select * from users;
-
-
-
 -- Bảng Thư mục (Folders)
 CREATE TABLE Folders (
     folder_id INT PRIMARY KEY IDENTITY,
@@ -82,8 +44,10 @@ CREATE TABLE Permissions (
 	can_read BIT,
 	can_download BIT,
 	can_share BIT,
-	can_delete BIT
+	can_delete BIT,
+	can_chat BIT
 );
+
 
 -- Bảng Nhóm (Groups)
 CREATE TABLE Groups (
@@ -93,14 +57,12 @@ CREATE TABLE Groups (
     user_id INT, -- ID của người tạo nhóm
     created_date DATETIME, -- Ngày tạo nhóm
 	total_members INT,
+	group_content NVARCHAR(256),
+    group_update DATETIME,
     CONSTRAINT FK_Creator_User FOREIGN KEY (user_id) REFERENCES Users(user_id) -- Khóa ngoại tham chiếu đến bảng Users
 );
 
---SELECT TOP(3) * FROM Groups WHERE user_id = @user_id and max(total_members);
-
-delete from groups where group_id=3; 
-select * from Groups;
-select * from users
+-- Bảng yêu cầu join group
 CREATE TABLE GroupRequests (
     request_id INT PRIMARY KEY IDENTITY,
     user_id INT NOT NULL,
@@ -110,33 +72,19 @@ CREATE TABLE GroupRequests (
     CONSTRAINT FK_GroupRequests_Groups FOREIGN KEY (group_id) REFERENCES Groups(group_id)
 );
 
-select * from GroupRequests;
-select * from users;
-
-INSERT INTO GroupRequests (user_id, group_id, request_date)
-VALUES 
-(23, 10, '2023-01-01 08:00:00'),
-(24, 10, '2023-01-01 08:00:00'),
-(22, 10, '2023-01-01 08:00:00'),
-(21, 10, '2023-01-01 08:00:00');
-
 -- Bảng dữ liệu của nhóm (GroupData)
 CREATE TABLE GroupData (
     file_id INT,
     group_id INT,
 	user_id INT,
     upload_date DATETIME,
-	CONSTRAINT FK_GroupData_Files FOREIGN KEY (file_id) REFERENCES Files(file_id),
     CONSTRAINT FK_GroupData_Group FOREIGN KEY (group_id) REFERENCES Groups(group_id),
     CONSTRAINT FK_GroupData_User FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
-select*from GroupData;
---INSERT INTO GroupData (group_id, data_name, data_description, uploaded_by_user_id, upload_date)
---SELECT @group_id, filename, 'Mô tả dữ liệu', @uploaded_by_user_id, GETDATE() -- Thêm dữ liệu vào bảng GroupData
---FROM Files
---WHERE file_id = @file_id; -- Điều kiện để chọn tệp cụ thể từ bảng Files
 
 
+select * from groups;
+select * from groupdata where group_id = 23;
 -- Bảng Thành viên nhóm (GroupMembers)
 CREATE TABLE GroupMembers (
     group_id INT,
@@ -148,6 +96,7 @@ CREATE TABLE GroupMembers (
     CONSTRAINT FK_GroupMembers_User FOREIGN KEY (user_id) REFERENCES Users(user_id),
 	CONSTRAINT FK_GroupMembers_Permissions FOREIGN KEY (permission_id) REFERENCES Permissions(permission_id)
 );
+
 -- Bảng Liên kết Thư mục-Tệp (FolderFiles)
 CREATE TABLE FolderFiles (
     folder_id INT FOREIGN KEY REFERENCES Folders(folder_id),
@@ -185,7 +134,71 @@ CREATE TABLE ActivityLog (
 	time_log DATETIME,
 	time_out DATETIME
 );
+-- Bảng Hoạt động tệp tin (FileActivity)
+CREATE TABLE FileActivity (
+    activity_id INT PRIMARY KEY IDENTITY,
+    file_id INT FOREIGN KEY REFERENCES Files(file_id),
+    user_id INT FOREIGN KEY REFERENCES Users(user_id),
+    action NVARCHAR(50), -- xem, sửa, xóa, tải xuống, chia sẻ
+    timestamp DATETIME
+);
 
+-- Bảng Thống kê tệp tin (FileStatistics)
+CREATE TABLE FileStatistics (
+    file_id INT PRIMARY KEY FOREIGN KEY REFERENCES Files(file_id),
+    view_count INT DEFAULT 0,
+    download_count INT DEFAULT 0
+);
+-- Bảng Yêu cầu kết bạn (FriendRequests)
+CREATE TABLE FriendRequests (
+    request_id INT PRIMARY KEY IDENTITY,
+    sender_id INT FOREIGN KEY REFERENCES Users(user_id),
+    receiver_id INT FOREIGN KEY REFERENCES Users(user_id),
+    status NVARCHAR(50), -- pending, accepted, declined
+    request_date DATETIME
+);
+
+-- Bảng Tin nhắn (Messages)
+CREATE TABLE Messages (
+    message_id INT PRIMARY KEY IDENTITY,
+    sender_id INT FOREIGN KEY REFERENCES Users(user_id),
+    receiver_id INT FOREIGN KEY REFERENCES Users(user_id),
+    content NVARCHAR(MAX),
+    timestamp DATETIME
+);
+select * from users;
+-- Bảng Tin nhắn nhóm (GroupMessages)
+CREATE TABLE GroupMessages (
+    message_id INT PRIMARY KEY IDENTITY,
+    group_id INT FOREIGN KEY REFERENCES Groups(group_id),
+    sender_id INT FOREIGN KEY REFERENCES Users(user_id),
+    content NVARCHAR(MAX),
+    timestamp DATETIME
+);
+
+-- Thêm dữ liệu vào bảng GroupMessages
+INSERT INTO GroupMessages (group_id, sender_id, content, timestamp) 
+VALUES 
+(24, 21, 'Tin nhắn 1 từ người dùng 21', GETDATE()),
+(24, 22, 'Tin nhắn 2 từ người dùng 22', GETDATE()),
+(24, 24, 'Tin nhắn 3 từ người dùng 24', GETDATE()),
+(24, 21, 'Tin nhắn 4 từ người dùng 21', GETDATE()),
+(24, 22, 'Tin nhắn 5 từ người dùng 22', GETDATE()),
+(24, 24, 'Tin nhắn 6 từ người dùng 24', GETDATE()),
+(24, 21, 'Tin nhắn 7 từ người dùng 21', GETDATE()),
+(24, 22, 'Tin nhắn 8 từ người dùng 22', GETDATE()),
+(24, 24, 'Tin nhắn 9 từ người dùng 24', GETDATE()),
+(24, 21, 'Tin nhắn 10 từ người dùng 21', GETDATE()),
+(24, 22, 'Tin nhắn 11 từ người dùng 22', GETDATE()),
+(24, 24, 'Tin nhắn 12 từ người dùng 24', GETDATE()),
+(24, 21, 'Tin nhắn 13 từ người dùng 21', GETDATE()),
+(24, 22, 'Tin nhắn 14 từ người dùng 22', GETDATE()),
+(24, 24, 'Tin nhắn 15 từ người dùng 24', GETDATE()),
+(24, 21, 'Tin nhắn 16 từ người dùng 21', GETDATE()),
+(24, 22, 'Tin nhắn 17 từ người dùng 22', GETDATE()),
+(24, 24, 'Tin nhắn 18 từ người dùng 24', GETDATE()),
+(24, 21, 'Tin nhắn 19 từ người dùng 21', GETDATE()),
+(24, 22, 'Tin nhắn 20 từ người dùng 22', GETDATE());
 
 INSERT INTO Files (user_id, filename_old, filename_new, file_size, file_type, upload_date, last_modified, file_path)
 VALUES 
@@ -205,7 +218,6 @@ VALUES
 (22, 'thungractreocanhtubep.webp',N'Thùng rác', 10240, 'webp', '2023-01-10 17:00:00', '2023-01-10 17:00:00', 'thungractreocanhtubep.webp'),
 (22, 'NewTextDocument.txt',N'test', 10240, 'txt', '2023-01-10 17:00:00', '2023-01-10 17:00:00', 'text test'),
 (22, 'trangtrinhacua.webp',N'Trang trí nhà', 10240, 'webp', '2023-01-10 17:00:00', '2023-01-10 17:00:00', 'trangtrinhacua.webp');
-select * from files;
 
 INSERT INTO Folders (user_id, folder_name, parent_folder_id, creation_date)
 VALUES 
@@ -220,28 +232,12 @@ VALUES
 (9, 'Folder 9', NULL, '2023-01-09 16:00:00'),
 (10, 'Folder 10', NULL, '2023-01-10 17:00:00');
 
-
-INSERT INTO Permissions (user_id, file_id, can_read, can_write, can_share)
-VALUES 
-(1, 11, 1, 0, 1),
-(2, 2, 1, 1, 0),
-(3, 3, 0, 1, 1),
-(4, 4, 1, 0, 0),
-(5, 5, 1, 1, 1),
-(6, 6, 0, 0, 1),
-(7, 7, 1, 1, 1),
-(8, 8, 0, 0, 0),
-(9, 9, 1, 1, 1),
-(10, 10, 0, 1, 0);
-
 INSERT INTO Groups (group_image, group_name, user_id, created_date, total_members)
 VALUES 
 ('group1.jpg',N'MeMe j97', 22, '2023-01-01 08:00:00', 5),
 ('group2.jpg',N'Anh em cây khế', 22, '2023-01-02 09:00:00', 3),
 ('group3.htm',N'3 chị em', 22, '2023-01-03 10:00:00', 7),
 ('group4.jpg',N'Nhóm hội chợ', 22, '2023-01-04 11:00:00', 4);
-
-select*from groups;
 
 INSERT INTO GroupData (file_id, group_id, user_id, upload_date)
 VALUES 
@@ -355,20 +351,8 @@ VALUES
 (9, N'User 9 logged in.', '2023-01-02 12:00:00', '2023-01-02 13:00:00'),
 (10, N'User 10 logged in.', '2023-01-02 13:00:00', '2023-01-02 14:00:00');
 
-select * from files;
-select * from folders;
-select * from Groups;
-select * from users;
-select * from permissions;
-
-delete from users;
-delete from files;
-delete from users;
-
-drop table files;
-drop table folders;
 --==========================================PROCEDURE===================================--
-	--Đăng nhập
+-- Đăng nhập
 CREATE PROCEDURE sp_login
     @inputEmail NVARCHAR(255),
     @inputPassword NVARCHAR(255)
@@ -448,38 +432,16 @@ BEGIN
     INSERT INTO ActivityLog (user_id, description, time_log, time_out)
     VALUES (@user_id, N'Đăng xuất', NULL, GETDATE());
 END;
-exec sp_logout
-    @user_id =22;
-
-CREATE PROCEDURE sp_logoutjkj--
-    @user_id INT,
-    @log_id INT
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    -- Cập nhật cột time_out với thời gian hiện tại cho bản ghi cụ thể
-    UPDATE ActivityLog
-    SET time_out = GETDATE()
-    WHERE user_id = @user_id AND log_id = @log_id;
-
-    -- Kiểm tra xem có bản ghi nào được cập nhật không
-    IF @@ROWCOUNT = 0
-    BEGIN
-        PRINT 'Không tìm thấy bản ghi phù hợp để cập nhật.';
-    END
-END;
 
 
-EXEC sp_login 'phu010501@gmail.com', '12345';
 
-	--Đăng ký
-CREATE PROCEDURE sp_register
+--Đăng ký
+ALTER PROCEDURE sp_register
     @inputUsername NVARCHAR(255),
     @inputEmail NVARCHAR(255),
     @inputPassword NVARCHAR(255),
-    @inputRole NVARCHAR(50) = 'NguoiDung', -- Thiết lập mặc định là 'NguoiDung'
-    @inputAvatarUrl NVARCHAR(MAX)
+    @inputRole NVARCHAR(50),
+    @inputAvatarUrl NVARCHAR(MAX) 
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -504,11 +466,12 @@ BEGIN
 
     -- Thêm người dùng vào bảng Users với mật khẩu đã băm
     INSERT INTO Users (username, email, password, role, avatar_url, join_date)
-    VALUES (@inputUsername, @inputEmail, @hashedPassword, @inputRole, @inputAvatarUrl, GETDATE());
+    VALUES (@inputUsername, @inputEmail, @hashedPassword, 'NguoiDung', 'images/avatar.jpg', GETDATE());
 
     PRINT 'Người dùng đã được đăng ký thành công.';
 END;
-
+select * from users
+delete from users where user_id=41;
 
 EXEC sp_register N'Admin', 'admin@gmail.com', '12345', 'Admin', 'admin.jpg';
 EXEC sp_register N'Hùng', 'hung@gmail.com', '12345', 'NguoiDung', 'avatar-5.jpg';
@@ -585,12 +548,7 @@ VALUES
     (21, 'file8.txt', 'report.txt', 768.5, 'txt', '2023-05-05', '2023-05-05', '/path/to/report.txt'),
     (22, 'file9.pdf', 'brochure.pdf', 1536.2, 'pdf', '2023-01-10', '2023-01-10', '/path/to/brochure.pdf'),
     (22, 'file10.txt', 'guidebook.txt', 896.4, 'txt', '2023-04-15', '2023-04-15', '/path/to/guidebook.txt');
-UPDATE Users
-SET 
-    avatar_url = 'admin.jpg'
-WHERE user_id = 19;
 
-select * from files;
 --Get user by user_id
 CREATE PROCEDURE sp_get_user_by_userId
     @user_id INT
@@ -603,7 +561,6 @@ BEGIN
     WHERE user_id = @user_id;
 END;
 
-exec sp_get_user_by_userId @user_id=22;
 --Nhập email lấy ra all thông tin
 CREATE PROCEDURE sp_get_user_by_email
     @email NVARCHAR(255)
@@ -654,16 +611,27 @@ BEGIN
     END;
 END;
 
-EXEC sp_get_user_by_email 'admin@email.com';
-
 --GET ALL TABLES--
-CREATE PROCEDURE [dbo].[sp_get_all_activitylog]
+ALTER PROCEDURE [dbo].[sp_get_all_activitylog]
 AS
 BEGIN
-    SELECT * FROM ActivityLog;
+    SELECT 
+        a.log_id,
+        a.user_id,
+        u.username,
+        u.avatar_url,
+        a.description,
+        a.time_log,
+        a.time_out
+    FROM 
+        ActivityLog a
+    JOIN 
+        Users u ON a.user_id = u.user_id
+    ORDER BY 
+        a.log_id DESC;
 END;
 
-CREATE PROCEDURE [dbo].[sp_get_files_by_user_id]
+ALTER PROCEDURE [dbo].[sp_get_files_by_user_id]
     @UserID INT
 AS
 BEGIN
@@ -672,7 +640,6 @@ BEGIN
     INNER JOIN Users u ON f.user_id = u.user_id
     WHERE u.user_id = @UserID;
 END;
-exec [sp_get_files_by_user_id]  @UserID = 10;
 
 CREATE PROCEDURE [dbo].[sp_get_all_filetags]
 AS
@@ -710,15 +677,6 @@ BEGIN
     SELECT * FROM GroupMembers;
 END;
 
---CREATE PROCEDURE [dbo].[sp_get_all_groups]
---    @user_id INT
---AS
---BEGIN
---    SELECT *
---    FROM Groups
---    WHERE user_id <> @user_id;
---END;
-
 ALTER PROCEDURE [dbo].[sp_get_all_groups]
     @user_id INT
 AS
@@ -730,7 +688,7 @@ BEGIN
     LEFT JOIN GroupMembers gm ON g.group_id = gm.group_id AND gm.user_id = @user_id
     WHERE gm.user_id IS NULL;
 END;
-select*from groups;
+
 --Create group
 CREATE PROCEDURE [dbo].[sp_group_create]
     @group_image NVARCHAR(255),
@@ -780,24 +738,18 @@ BEGIN
     WHERE gm.user_id = @user_id;
 END;
 
-exec sp_get_groups_by_userId @user_id=21;
-
-
-exec sp_group_create 'image.jpg','Anh em oi','22';
-exec sp_get_all_groups;
-select*from groups;
-select*from GroupMembers;
 CREATE PROCEDURE [dbo].[sp_get_all_permissions]
 AS
 BEGIN
     SELECT * FROM Permissions;
 END;
+
 CREATE PROCEDURE [dbo].[sp_get_all_files]
 AS
 BEGIN
     SELECT * FROM Files;
 END;
-exec  [dbo].[sp_get_all_files];
+
 CREATE PROCEDURE [dbo].[sp_get_all_tags]
 AS
 BEGIN
@@ -815,7 +767,7 @@ AS
 BEGIN
     SELECT * FROM activitylog;
 END;
-exec sp_get_all_activitylog;
+
 ----------FILES------------
 ----------SHARE FILE WITH GROUPS----------
 CREATE PROCEDURE sp_share_file_with_groups
@@ -839,8 +791,6 @@ BEGIN
     FROM @xml.nodes('//root/r') T(N);
 END;
 
-
-
 ---------Create File----------
 CREATE PROCEDURE sp_file_create
     @user_id INT,
@@ -858,38 +808,6 @@ BEGIN
 END
 select*from files;
 
----------Update File-----------
-CREATE PROCEDURE sp_file_update
-    @file_id INT,
-    @filename NVARCHAR(255),
-    @file_size FLOAT,
-    @file_type NVARCHAR(50),
-    @file_path NVARCHAR(MAX)
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    -- Kiểm tra xem tệp có tồn tại không
-    IF EXISTS (SELECT 1 FROM Files WHERE file_id = @file_id)
-    BEGIN
-        -- Cập nhật thông tin của tệp
-        UPDATE Files
-        SET
-            filename = @filename,
-            file_size = @file_size,
-            file_type = @file_type,
-            last_modified = GETDATE(),
-            file_path = @file_path
-        WHERE
-            file_id = @file_id;
-
-        PRINT 'Thông tin tệp đã được cập nhật thành công.';
-    END
-    ELSE
-    BEGIN
-        PRINT 'Không tìm thấy tệp có ID = ' + CAST(@file_id AS NVARCHAR(10));
-    END;
-END;
 ---------Delete File-----------
 CREATE PROCEDURE sp_file_delete
 	@file_id INT
@@ -1647,8 +1565,8 @@ exec sp_update_filename_new
 	select*from files;
 
 
-CREATE PROCEDURE sp_get_all_data_in_group
-    @group_id INT = NULL -- Có thể cung cấp giá trị mặc định là NULL để lấy tất cả các nhóm nếu không cung cấp giá trị
+alter PROCEDURE [dbo].[sp_get_all_data_in_group]
+    @group_id INT
 AS
 BEGIN
     SELECT 
@@ -1660,10 +1578,17 @@ BEGIN
         f.upload_date AS file_upload_date,
         f.last_modified,
         f.file_path,
-        gd.upload_date AS groupdata_upload_date,
-        u.username,
+        gd.group_id,
+        gd.user_id,
+        gd.upload_date,
         g.group_id,
-        g.group_name
+		g.group_image,
+        g.group_name,
+		u.user_id,
+		u.username,
+        u.avatar_url,
+		(SELECT COUNT(*) FROM GroupRequests WHERE group_id = @group_id) AS total_requests,
+		g.total_members
     FROM 
         Files f
     JOIN 
@@ -1673,12 +1598,9 @@ BEGIN
     JOIN 
         Groups g ON gd.group_id = g.group_id
     WHERE 
-        (@group_id IS NULL OR g.group_id = @group_id);
+        g.group_id = @group_id;
 END;
-
-exec sp_get_all_data_in_group @group_id  = 4;
-select * from groups;
-
+exec [sp_get_all_data_in_group] @group_id = 24;
 
 CREATE PROCEDURE sp_check_admin_group
     @group_id INT,
@@ -1766,3 +1688,234 @@ BEGIN
         AND f.filename_new LIKE '%' + @filename_new + '%';
 END
 select * from users;
+
+ALTER PROCEDURE [dbo].[sp_groupdata_delete]
+    @file_id INT,
+	@group_id int
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Kiểm tra xem tệp có tồn tại không
+    IF EXISTS (SELECT 1 FROM Groupdata WHERE file_id = @file_id)
+    BEGIN
+        -- Xóa tệp khỏi bảng Files
+        DELETE FROM groupdata WHERE file_id = @file_id and group_id = @group_id;
+
+        PRINT 'Tệp đã được xóa thành công.';
+    END
+    ELSE
+    BEGIN
+        PRINT 'Không tìm thấy tệp có ID = ' + CAST(@file_id AS NVARCHAR(10));
+    END;
+END;
+select*from groupdata;
+select*from groups;
+
+CREATE PROCEDURE sp_add_file_activity
+    @file_id INT,
+    @user_id INT,
+    @action NVARCHAR(50)
+AS
+BEGIN
+    INSERT INTO FileActivity (file_id, user_id, action, timestamp)
+    VALUES (@file_id, @user_id, @action, GETDATE());
+
+    IF @action = 'view'
+    BEGIN
+        UPDATE FileStatistics
+        SET view_count = view_count + 1
+        WHERE file_id = @file_id;
+    END
+    ELSE IF @action = 'download'
+    BEGIN
+        UPDATE FileStatistics
+        SET download_count = download_count + 1
+        WHERE file_id = @file_id;
+    END
+END;
+
+--Chats group
+ALTER PROCEDURE sp_Get_Group_Chat_Messages
+    @group_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        GM.message_id,
+        GM.group_id,
+        GM.sender_id,
+		u.avatar_url,
+        u.username,
+        GM.content,
+        GM.timestamp
+    FROM 
+        GroupMessages GM
+    INNER JOIN
+        Users u ON GM.sender_id = u.user_id
+    WHERE 
+        GM.group_id = @group_id
+    ORDER BY 
+        GM.timestamp ASC;
+END;
+exec sp_Get_Group_Chat_Messages @group_id=24;
+
+select *from Users;
+select *from GroupMessages;
+select *from Groups;
+select *from GroupMembers;
+
+
+--Update messages group
+Alter PROCEDURE sp_Update_Group_Message
+    @message_id INT,
+    @new_content NVARCHAR(MAX)
+   
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Kiểm tra xem message_id có tồn tại không
+    IF EXISTS (SELECT 1 FROM GroupMessages WHERE message_id = @message_id)
+    BEGIN
+        -- Cập nhật bản ghi
+        UPDATE GroupMessages
+        SET content = @new_content
+        WHERE message_id = @message_id;
+
+        PRINT 'Message updated successfully.';
+    END
+    ELSE
+    BEGIN
+        PRINT 'Message ID does not exist.';
+    END
+END;
+exec sp_Update_Group_Message @message_id=1, @new_content= N'Anh gì ơi!';
+
+select*from users;
+
+--Create messages group
+ALTER PROCEDURE [dbo].[sp_Group_Message_Create]
+    @group_id INT,
+    @sender_id INT,
+    @content NVARCHAR(MAX)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Thêm bản ghi mới vào bảng GroupMessages
+    INSERT INTO GroupMessages (group_id, sender_id, content, timestamp)
+    VALUES (@group_id, @sender_id, @content, GETDATE());
+
+    PRINT 'Message added successfully.';
+END;
+
+--Create messages friend
+CREATE PROCEDURE [dbo].[sp_Friend_Message_Create]
+    @sender_id INT,
+    @receiver_id INT,
+    @content NVARCHAR(MAX)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Thêm bản ghi mới vào bảng GroupMessages
+    INSERT INTO Messages (sender_id, receiver_id, content, timestamp)
+    VALUES (@sender_id, @receiver_id, @content, GETDATE());
+
+    PRINT 'Message added successfully.';
+END;
+select * from friendrequests;
+exec sp_Friend_Message_Create @sender_id=21, @receiver_id=22, @content="anh yeu em"
+
+--Gửi lời mời kết bạn
+CREATE PROCEDURE [dbo].[sp_friend_request_create]
+    @sender_id INT,
+    @receiver_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @request_date DATETIME;
+    DECLARE @existing_request_count INT;
+
+    -- Kiểm tra số lượng bản ghi tồn tại với user_id và group_id đã cho
+    SELECT @existing_request_count = COUNT(*)
+    FROM FriendRequests
+    WHERE sender_id = @sender_id AND receiver_id = @receiver_id;
+
+    -- Nếu có bản ghi tồn tại, không thêm bản ghi mới và thông báo
+    IF @existing_request_count > 0
+    BEGIN
+        PRINT N'Yêu cầu đã được gửi!';
+    END
+    ELSE
+    BEGIN
+        -- Nếu không có bản ghi tồn tại, thêm bản ghi mới vào bảng GroupRequests     
+        INSERT INTO FriendRequests (sender_id, receiver_id, status, request_date)
+        VALUES (@sender_id, @receiver_id, N'Pending', GETDATE());
+        PRINT N'Yêu cầu đã được tạo thành công.';
+    END
+END;
+exec [sp_friend_request_create] @sender_id= 21, @receiver_id=22;
+select *from FriendRequests;
+
+--Chấp nhận kết bạn 
+CREATE PROCEDURE [dbo].[sp_friend_request_accept]
+    @request_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    -- Cập nhật quyền cho người dùng trong bảng Permissions
+    UPDATE FriendRequests
+    SET
+        status = N'Accepted',
+        request_date = GETDATE()
+    WHERE
+        request_id = @request_id;
+    PRINT N'Kết bạn thành công';
+END;
+--Chặn bạn bè
+CREATE PROCEDURE [dbo].[sp_friend_block]
+    @request_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    -- Cập nhật quyền cho người dùng trong bảng Permissions
+    UPDATE FriendRequests
+    SET
+        status = N'Block',
+        request_date = GETDATE()
+    WHERE
+        request_id = @request_id;
+    PRINT N'Chặn thành công!';
+END;
+exec [sp_friend_block] @request_id=3;
+
+--TỪ chối kết bạn
+CREATE PROCEDURE [dbo].[sp_friend_declined]
+    @request_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    -- Cập nhật quyền cho người dùng trong bảng Permissions
+    UPDATE FriendRequests
+    SET
+        status = N'Declined',
+        request_date = GETDATE()
+    WHERE
+        request_id = @request_id;
+    PRINT N'Từ chối kết bạn';
+END;
+--Hủy kết bạn
+CREATE PROCEDURE [dbo].[sp_friend_destroy]
+    @request_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DELETE FriendRequests
+    WHERE
+        request_id = @request_id;
+    PRINT N'Hủy kết bạn thành công';
+END;

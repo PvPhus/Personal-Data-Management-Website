@@ -1,0 +1,120 @@
+body {
+    margin: 0;
+    font-family: unset;
+    background: #f2f2f2;
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background-color: black;
+    color: #fff;
+    height: 80px;
+}
+
+#menu,
+#search,
+#content,
+#giohang,
+#giohang1 {
+    cursor: pointer;
+}
+
+.content-menu {
+    display: none;
+}
+
+#content-menu ul {
+    padding: 0;
+}
+
+.textmenu {
+    padding-left: 10%;
+    cursor: pointer;
+}
+
+.textmenu a {
+    color: #fff;
+}
+
+.textmenu a:hover {
+    text-decoration: underline;
+}
+
+#anh {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ttsp {
+    width: 50%;
+    background-color: #fff;
+    float: left;
+    height: 100%;
+}
+
+.ctttsp {
+    margin-left: 120px;
+    padding: 20px;
+    width: 60%;
+    height: 100%;
+    justify-content: center;
+}
+
+#ten {
+    font-size: 24px;
+    color: #d62626;
+}
+
+.text {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#tien {
+    color: #e44d26;
+    font-weight: bold;
+}
+
+.select-container {
+    width: 40%;
+    height: 30px;
+    line-height: 30px;
+}
+
+#sl {
+    margin-left: 10px;
+}
+
+.btnsl {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: #e44d26;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn-txt {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #e44d26;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.size {
+    width: 32%;
+    height: 30px;
+    line-height: 30px;
+}
+
+

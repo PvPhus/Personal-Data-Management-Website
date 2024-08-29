@@ -2,6 +2,9 @@ import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import axios from 'axios';
 import { useUser } from "../../../constant/userContext";
 import { useNavigate, useParams } from 'react-router-dom';
+import Topbar from "../topbar";
+import Sidebar from "../sidebar";
+import FunctionUser from "../function";
 
 const Information = () => {
     const { userId } = useUser();
@@ -40,7 +43,7 @@ const Information = () => {
                     upload_date: fileData.upload_date,
                     last_modified: fileData.last_modified,
                     file_path: fileData.file_path,
-                    filename_old: fileData.filename_old 
+                    filename_old: fileData.filename_old
                 });
             } catch (error) {
                 console.error('Error fetching file details:', error);
@@ -78,10 +81,10 @@ const Information = () => {
     const renderFile = () => {
         const { file_type, filename_old } = fileDetails;
         if (imageFileTypes.includes(file_type.toUpperCase())) {
-            return <img style={{height:'auto', width:'50%'}} src={`/resources/images/${filename_old}`} alt="File" className="img-fluid" />;
+            return <img style={{ height: 'auto', width: '50%' }} src={`/resources/images/${filename_old}`} alt="File" className="img-fluid" />;
         } else if (videoFileTypes.includes(file_type.toUpperCase())) {
             return (
-                <video style={{height:'auto', width:'100%'}} controls className="img-fluid">
+                <video style={{ height: 'auto', width: '100%' }} controls className="img-fluid">
                     <source src={`/resources/images/${filename_old}`} type={`video/${file_type.toLowerCase()}`} />
                 </video>
             );
@@ -94,118 +97,123 @@ const Information = () => {
 
     return (
         <>
-            <main>
-                <div className="content">
-                <div className="alert alert-primary text-center" style={{ zIndex: 30, width: "75.5%", position: "fixed", fontSize: "larger", fontWeight: "bold" }}>
-                        Properties
-                    </div>
-                    <div style={{marginTop:"65px"}} className="container-fluid">
-                        {/* Page Heading */}
-                        
-                        {/* DataTales Example */}
-                        <div className="card shadow mb-4">
-                            <div className="card-body">
-                                {message && (
-                                   <div className="alert alert-success fixed-top text-center" style={{zIndex:1000}}>
-                                   {message}
-                               </div>
-                                )}
-                                <form method="POST" onSubmit={handleUpdate}>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="form-group">
-                                                <label>Name:</label>
-                                                <input
-                                                    type="text"
-                                                    name="filename_new"
-                                                    id="filename_new"
-                                                    className="form-control"
-                                                    value={fileName}
-                                                    onChange={handleFileNameChange}
-                                                />
-                                            </div>
-                                        </div>
-                                        
-                                        <div className="col-md-6">
-                                            <div className="form-group">
-                                                <label>Type of file:</label>
-                                                <input
-                                                    type="text"
-                                                    name="file_type"
-                                                    id="file_type"
-                                                    className="form-control"
-                                                    value={fileDetails.file_type}
-                                                    readOnly
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="form-group">
-                                                <label>Size (bytes):</label>
-                                                <input
-                                                    type="text"
-                                                    name="file_size"
-                                                    id="file_size"
-                                                    className="form-control"
-                                                    value={fileDetails.file_size.toString()}
-                                                    readOnly
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="form-group">
-                                                <label>Upload Date:</label>
-                                                <input
-                                                    type="datetime-local"
-                                                    name="upload_date"
-                                                    id="upload_date"
-                                                    className="form-control"
-                                                    value={fileDetails.upload_date.split('.')[0]}
-                                                    readOnly
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="form-group">
-                                                <label>Modified:</label>
-                                                <input
-                                                    type="datetime-local"
-                                                    name="last_modified"
-                                                    id="last_modified"
-                                                    className="form-control"
-                                                    value={fileDetails.last_modified.split('.')[0]}
-                                                    readOnly
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="form-group">
-                                                <label>Location:</label>
-                                                <input
-                                                    type="text"
-                                                    name="file_path"
-                                                    id="file_path"
-                                                    className="form-control"
-                                                    value={fileDetails.file_path}
-                                                    readOnly
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6" style={{justifyContent:'center', width:'100%', alignItems:'center'}}>
-                                        <div className="form-group">
-                                            <label>Preview:</label>
-                                            {renderFile()}
-                                        </div>
-                                    </div>
+            <div className="background-image">
+                <Topbar />
+                <Sidebar />
+                <FunctionUser />
+                <main>
+                    <div className="content">
+                        <div className="alert alert-primary text-center" style={{ zIndex: 30, width: "75.5%", position: "fixed", fontSize: "larger", fontWeight: "bold" }}>
+                            Properties
+                        </div>
+                        <div style={{ marginTop: "65px" }} className="container-fluid">
+                            {/* Page Heading */}
 
-                                    <button type="submit" className="btn btn-primary">Update</button>
-                                </form>
+                            {/* DataTales Example */}
+                            <div className="card shadow mb-4">
+                                <div className="card-body">
+                                    {message && (
+                                        <div className="alert alert-success fixed-top text-center" style={{ zIndex: 1000 }}>
+                                            {message}
+                                        </div>
+                                    )}
+                                    <form method="POST" onSubmit={handleUpdate}>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <div className="form-group">
+                                                    <label>Name:</label>
+                                                    <input
+                                                        type="text"
+                                                        name="filename_new"
+                                                        id="filename_new"
+                                                        className="form-control"
+                                                        value={fileName}
+                                                        onChange={handleFileNameChange}
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="col-md-6">
+                                                <div className="form-group">
+                                                    <label>Type of file:</label>
+                                                    <input
+                                                        type="text"
+                                                        name="file_type"
+                                                        id="file_type"
+                                                        className="form-control"
+                                                        value={fileDetails.file_type}
+                                                        readOnly
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <div className="form-group">
+                                                    <label>Size (bytes):</label>
+                                                    <input
+                                                        type="text"
+                                                        name="file_size"
+                                                        id="file_size"
+                                                        className="form-control"
+                                                        value={fileDetails.file_size.toString()}
+                                                        readOnly
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <div className="form-group">
+                                                    <label>Upload Date:</label>
+                                                    <input
+                                                        type="datetime-local"
+                                                        name="upload_date"
+                                                        id="upload_date"
+                                                        className="form-control"
+                                                        value={fileDetails.upload_date.split('.')[0]}
+                                                        readOnly
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <div className="form-group">
+                                                    <label>Modified:</label>
+                                                    <input
+                                                        type="datetime-local"
+                                                        name="last_modified"
+                                                        id="last_modified"
+                                                        className="form-control"
+                                                        value={fileDetails.last_modified.split('.')[0]}
+                                                        readOnly
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <div className="form-group">
+                                                    <label>Location:</label>
+                                                    <input
+                                                        type="text"
+                                                        name="file_path"
+                                                        id="file_path"
+                                                        className="form-control"
+                                                        value={fileDetails.file_path}
+                                                        readOnly
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6" style={{ justifyContent: 'center', width: '100%', alignItems: 'center' }}>
+                                            <div className="form-group">
+                                                <label>Preview:</label>
+                                                {renderFile()}
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" className="btn btn-primary">Update</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </main>
+                </main>
+            </div>
         </>
     );
 }

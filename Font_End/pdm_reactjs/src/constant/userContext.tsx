@@ -1,19 +1,26 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface UserContextProps {
-    userId: number  | null;
-    setUserId: (id: number  | null) => void; // Allow null as well
+    userId: number | null;
+    setUserId: (id: number | null) => void;
+    role: string | null;
+    setRole: (role: string | null) => void; 
 }
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [userId, setUserId] = useState<number | null>(null);
+    const [role, setRole] = useState<string | null>(null);
+
     useEffect(() => {
-        // Load user data from localStorage or API
         const storedUserId = localStorage.getItem('userId');
+        const storedrole = localStorage.getItem('role');
         if (storedUserId) {
             setUserId(Number(storedUserId));
+        }
+        if (storedrole) {
+            setRole(storedrole);
         }
     }, []);
 
@@ -25,8 +32,16 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     }, [userId]);
 
+    useEffect(() => {
+        if (role !== null) {
+            localStorage.setItem('role', role);
+        } else {
+            localStorage.removeItem('role');
+        }
+    }, [role]);
+
     return (
-        <UserContext.Provider value={{ userId, setUserId }}>
+        <UserContext.Provider value={{ userId, setUserId, role, setRole }}>
             {children}
         </UserContext.Provider>
     );

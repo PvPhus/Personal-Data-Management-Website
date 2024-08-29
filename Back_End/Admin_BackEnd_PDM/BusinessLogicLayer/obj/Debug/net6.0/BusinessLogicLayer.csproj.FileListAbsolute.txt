@@ -12,9 +12,9 @@ D:\Personal Data Management Website\Back_End\Admin_BackEnd_PDM\BusinessLogicLaye
 D:\Personal Data Management Website\Back_End\Admin_BackEnd_PDM\BusinessLogicLayer\obj\Debug\net6.0\BusinessLogicLayer.AssemblyInfo.cs
 D:\Personal Data Management Website\Back_End\Admin_BackEnd_PDM\BusinessLogicLayer\obj\Debug\net6.0\BusinessLogicLayer.csproj.CoreCompileInputs.cache
 D:\Personal Data Management Website\Back_End\Admin_BackEnd_PDM\BusinessLogicLayer\obj\Debug\net6.0\BusinessLogicLayer.sourcelink.json
-D:\Personal Data Management Website\Back_End\Admin_BackEnd_PDM\BusinessLogicLayer\obj\Debug\net6.0\BusinessLogicLayer.csproj.CopyComplete
 D:\Personal Data Management Website\Back_End\Admin_BackEnd_PDM\BusinessLogicLayer\obj\Debug\net6.0\BusinessLogicLayer.dll
 D:\Personal Data Management Website\Back_End\Admin_BackEnd_PDM\BusinessLogicLayer\obj\Debug\net6.0\refint\BusinessLogicLayer.dll
 D:\Personal Data Management Website\Back_End\Admin_BackEnd_PDM\BusinessLogicLayer\obj\Debug\net6.0\BusinessLogicLayer.pdb
 D:\Personal Data Management Website\Back_End\Admin_BackEnd_PDM\BusinessLogicLayer\obj\Debug\net6.0\BusinessLogicLayer.genruntimeconfig.cache
 D:\Personal Data Management Website\Back_End\Admin_BackEnd_PDM\BusinessLogicLayer\obj\Debug\net6.0\ref\BusinessLogicLayer.dll
+D:\Personal Data Management Website\Back_End\Admin_BackEnd_PDM\BusinessLogicLayer\obj\Debug\net6.0\Business.450209FB.Up2Date

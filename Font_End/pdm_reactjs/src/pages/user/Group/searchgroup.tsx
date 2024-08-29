@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import { clickTopbar } from "../../../assets/js/topbar";
 import { useUser } from '../../../constant/userContext';
 import TopbarGroup from "../../../components/user/topbargroup";
+import FunctionUser from "../../../components/user/function";
+import Sidebar from "../../../components/user/sidebar";
 
 const SearchGroup: React.FC = () => {
     const { userId } = useUser();
@@ -14,7 +15,7 @@ const SearchGroup: React.FC = () => {
     const [error, setError] = useState<string>('');
 
     useEffect(() => {
-        clickTopbar();
+
     }, []);
 
     useEffect(() => {
@@ -43,8 +44,8 @@ const SearchGroup: React.FC = () => {
             await axios.post('https://localhost:7227/api/GroupRequest/create_request', {
                 user_id: userId,
                 group_id: group_id,
-                username: "", 
-                avatar_url: "", 
+                username: "",
+                avatar_url: "",
                 request_date: new Date()
             });
             setSuccessMessage('Gửi yêu cầu thành công. Hãy chờ xét duyệt!');
@@ -56,15 +57,17 @@ const SearchGroup: React.FC = () => {
 
     return (
         <>
+            <FunctionUser />
+            <Sidebar />
             <TopbarGroup />
             <main>
                 <div className="content">
                     <div className="base">
                         <i className='bx bxs-group icon'>Group</i>
-                        {successMessage && <div className="alert alert-success fixed-top text-center" style={{zIndex:1000}}>{successMessage}</div>}
+                        {successMessage && <div className="alert alert-success fixed-top text-center" style={{ zIndex: 1000 }}>{successMessage}</div>}
                         {error && <div className="alert alert-danger">{error}</div>}
                     </div>
-                    
+
                     {loading ? (
                         <div>Loading...</div>
                     ) : (

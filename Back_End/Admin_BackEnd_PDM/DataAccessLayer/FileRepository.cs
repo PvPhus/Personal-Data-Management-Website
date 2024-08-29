@@ -33,6 +33,24 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
+        public List<FileModel> GetAllFilesByUserId(int user_id)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_get_all_file_by_user",
+                    "@user_id", user_id);
+
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+
+                return dt.ConvertTo<FileModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<FileModel> GetFilesByUserId(int user_id)
         {
             string msgError = "";
@@ -139,6 +157,7 @@ namespace DataAccessLayer
                 throw;
             }
         }
+       
         public bool UpdateName(int file_id, string filename_new)
         {
             try
@@ -165,34 +184,7 @@ namespace DataAccessLayer
             }
         }
 
-        //Sửa file
-        public bool Update(FileModel model)
-        {
-            try
-            {
-                string msgError = "";
-                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_file_update",
-                    "@file_id", model.file_id,
-                    "@filename_old", model.filename_old,
-                    "@filename_new", model.filename_new,
-                    "@file_size", model.file_size,
-                    "@file_type", model.file_type,
-                    "@file_path", model.file_path);
-                if (!string.IsNullOrEmpty(msgError))
-                {
-                    throw new Exception("Database error: " + msgError);
-                }
-
-                return true; // Trả về true nếu không có lỗi xảy ra
-            }
-            catch (Exception ex)
-            {
-                // Ghi log lỗi và ném lại ngoại lệ để cho phép lớp gọi xử lý ngoại lệ
-                Console.WriteLine("Error in Update method: " + ex.Message);
-                throw;
-            }
-        }
-       
+     
 
         //Xóa file
         public bool Delete(int file_id)
@@ -202,6 +194,30 @@ namespace DataAccessLayer
                 string msgError = "";
                 var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_file_delete",
                     "@file_id", file_id);
+
+                if (!string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception("Database error: " + msgError);
+                }
+
+                // Trả về true nếu không có lỗi xảy ra
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Ghi log lỗi và ném lại ngoại lệ để cho phép lớp gọi xử lý ngoại lệ
+                Console.WriteLine("Error in Delete method: " + ex.Message);
+                throw;
+            }
+        }
+        public bool DeleteFileGroup(int file_id, int group_id)
+        {
+            try
+            {
+                string msgError = "";
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_groupdata_delete",
+                    "@file_id", file_id,
+                    "@group_id", group_id);
 
                 if (!string.IsNullOrEmpty(msgError))
                 {

@@ -25,11 +25,26 @@ namespace DataAccessLayer
             {
                 var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_login",
                      "@inputEmail", email,
-                     "@inputPassword", password
-                     );
+                     "@inputPassword", password);
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);
                 return dt.ConvertTo<UserModel>().FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool GetUserByEmail(string email)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_get_user_by_email",
+                     "@email", email);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.Rows.Count > 0;
             }
             catch (Exception ex)
             {
@@ -89,23 +104,8 @@ namespace DataAccessLayer
             }
         }
 
-        public bool GetUserByEmail(string email)
-        {
-            string msgError = "";
-            try
-            {
-                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_get_user_by_email",
-                     "@email", email
-                     );
-                if (!string.IsNullOrEmpty(msgError))
-                    throw new Exception(msgError);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+      
+
         public UserModel GetUserByUserId(int user_id)
         {
             string msgError = "";

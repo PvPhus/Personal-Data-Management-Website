@@ -3,6 +3,8 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useUser } from "../../../constant/userContext";
 import Topbar from "../topbar";
+import Sidebar from "../sidebar";
+import FunctionUser from "../function";
 
 const Search: React.FC = () => {
     const { userId } = useUser();
@@ -91,6 +93,8 @@ const Search: React.FC = () => {
 
     return (
         <>
+            <FunctionUser />
+            <Sidebar />
             <Topbar />
             <main>
                 {message && (

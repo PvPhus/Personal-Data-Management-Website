@@ -14,6 +14,6 @@ namespace BusinessLogicLayer.Interfaces
         bool Delete(int request_id);
         GroupRequestModel getRequest(int request_id);
         bool CheckSpam(int user_id, int group_id);
-        GroupRequestModel GetCountRequest(int group_id);
+     
     }
 }

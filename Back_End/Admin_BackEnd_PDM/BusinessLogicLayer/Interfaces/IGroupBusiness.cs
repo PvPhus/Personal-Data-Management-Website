@@ -17,9 +17,11 @@ namespace BusinessLogicLayer.Interfaces
         List<GroupModel> Get3Group(int user_id);
         bool Delete(int group_id);
         List<GroupDataModel> GetDataGroup(int user_id, int group_id);
-        CountModel GetCount(int group_id);
+
         List<GroupModel> SearchGroup(string group_name, int user_id);
         bool CheckAdminGroup(int group_id, int user_id);
         List<FileModel> SearchDataGroup(int group_id, string filename_new);
+        List<GroupMessagesModel> MessagesGroup(int group_id);
+        bool CreateMessages(GroupMessagesModel model);
     }
 }

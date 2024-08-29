@@ -17,6 +17,10 @@ namespace BusinessLogicLayer
         {
             return _res.GetAllFile();
         }
+        public List<FileModel> GetAllFilesByUserId(int user_id)
+        {
+            return _res.GetAllFilesByUserId(user_id);
+        }
         public List<FileModel> GetFilesByUserId(int user_id)
         {
             return _res.GetFilesByUserId(user_id);
@@ -37,13 +41,14 @@ namespace BusinessLogicLayer
         {
             return _res.Create(model);
         }
-        public bool Update(FileModel model)
-        {
-            return _res.Update(model);
-        }
+        
         public bool Delete(int file_id)
         {
             return _res.Delete(file_id);
+        }
+        public bool DeleteFileGroup(int file_id, int group_id)
+        {
+            return _res.DeleteFileGroup(file_id, group_id);
         }
         public FileModel GetFileByFileId(int file_id)
         {

@@ -81,33 +81,5 @@ namespace DataAccessLayer
 
             return dt.ConvertTo<InfoGroupMembers>().ToList();
         }
-        public GroupMemberModel GetCountMember(int group_id)
-        {
-            try
-            {
-                string msgError = "";
-                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_count_group_members",
-                    "@group_id", group_id);
-
-                if (!string.IsNullOrEmpty(msgError))
-                {
-                    throw new Exception("Database error: " + msgError);
-                }
-
-                if (dt.Rows.Count == 0)
-                {
-                    return null;
-                }
-
-                var request = dt.ConvertTo<GroupMemberModel>().FirstOrDefault();
-                return request;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error in getRequest method: " + ex.Message);
-                throw;
-            }
-        }
-
     }
 }

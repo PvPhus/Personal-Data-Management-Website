@@ -78,18 +78,6 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
-        [HttpGet("count_member/{group_id}")]
-        public IActionResult GetCountMember(int group_id)
-        {
-            try
-            {
-                var members = _GroupMemberBusiness.GetCountMember(group_id);
-                return Ok(members);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Internal server error: " + ex.Message);
-            }
-        }
+      
     }
 }

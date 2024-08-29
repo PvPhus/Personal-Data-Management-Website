@@ -162,19 +162,7 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
-        [HttpGet("get_count/{group_id}")]
-        public IActionResult GetCount(int group_id)
-        {
-            try
-            {
-                var members = _GroupBusiness.GetCount(group_id);
-                return Ok(members);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Internal server error: " + ex.Message);
-            }
-        }
+        
 
         [HttpGet("search_group_by_name")]
         public IActionResult SearchFile(string group_name, int user_id)
@@ -222,6 +210,36 @@ namespace API_PersonalDataManagement.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+        [HttpGet("get_messages_group")]
+        public IActionResult MessagesGroup(int group_id)
+        {
+            try
+            {
+                var Messages = _GroupBusiness.MessagesGroup(group_id);
+                if (Messages == null)
+                {
+                    return NotFound("No files found for the data.");
+                }
+                return Ok(Messages);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+        [HttpPost("create_messages")]
+        public IActionResult CreateMessages([FromBody] GroupMessagesModel model)
+        {
+            try
+            {
+                _GroupBusiness.CreateMessages(model);
+                return Ok(model); // Trả về kết quả thành công
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message); // Trả về lỗi 500 nếu có lỗi xảy ra
             }
         }
     }

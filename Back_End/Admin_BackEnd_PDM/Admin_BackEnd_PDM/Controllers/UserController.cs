@@ -42,10 +42,10 @@ namespace API_PersonalDataManagement.Controllers
         {
             try
             {
-                // Gọi phương thức GetUserByEmail từ IUserBusiness để kiểm tra xem người dùng có tồn tại không
+                // Call the business method to check if the user exists
                 bool userExists = _UserBusiness.GetUserByEmail(email);
 
-                // Kiểm tra xem người dùng có tồn tại không và trả về kết quả
+                // Return the result
                 return Ok(new { exists = userExists });
             }
             catch (Exception ex)
@@ -53,6 +53,7 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
         [HttpPost("register")]
         public IActionResult Register([FromBody] UserModel model)
         {

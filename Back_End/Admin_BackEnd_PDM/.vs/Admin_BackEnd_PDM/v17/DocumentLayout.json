@@ -1,0 +1,157 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}|Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\admin_backend_pdm\\controllers\\friendrequestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}|Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj|solutionrelative:admin_backend_pdm\\controllers\\friendrequestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}|BusinessLogicLayer\\BusinessLogicLayer.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\businesslogiclayer\\friendrequestbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\friendrequestbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5EA05C23-16FE-482E-808C-71DB1C07DD25}|DataAccessLayer\\DataAccessLayer.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\dataaccesslayer\\friendrequestrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5EA05C23-16FE-482E-808C-71DB1C07DD25}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\friendrequestrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}|BusinessLogicLayer\\BusinessLogicLayer.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\businesslogiclayer\\interfaces\\ifriendrequestbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\interfaces\\ifriendrequestbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}|BusinessLogicLayer\\BusinessLogicLayer.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\businesslogiclayer\\interfaces\\igrouprequestbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\interfaces\\igrouprequestbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}|Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\admin_backend_pdm\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}|Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj|solutionrelative:admin_backend_pdm\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}|BusinessLogicLayer\\BusinessLogicLayer.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\businesslogiclayer\\businesslogiclayer.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\businesslogiclayer.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 231,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FriendRequestRepository.cs",
+              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\DataAccessLayer\\FriendRequestRepository.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\FriendRequestRepository.cs",
+              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\DataAccessLayer\\FriendRequestRepository.cs",
+              "RelativeToolTip": "DataAccessLayer\\FriendRequestRepository.cs",
+              "ViewState": "AQIAAEEAAAAAAAAAAAAgwEEAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-29T02:44:23.679Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\Admin_BackEnd_PDM\\Program.cs",
+              "RelativeDocumentMoniker": "Admin_BackEnd_PDM\\Program.cs",
+              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\Admin_BackEnd_PDM\\Program.cs",
+              "RelativeToolTip": "Admin_BackEnd_PDM\\Program.cs",
+              "ViewState": "AQIAABsAAAAAAAAAAAAAAC8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-29T02:36:30.562Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BusinessLogicLayer",
+              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\BusinessLogicLayer.csproj",
+              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+              "RelativeToolTip": "BusinessLogicLayer\\BusinessLogicLayer.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-08-29T02:36:29.766Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FriendRequestController.cs",
+              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\Admin_BackEnd_PDM\\Controllers\\FriendRequestController.cs",
+              "RelativeDocumentMoniker": "Admin_BackEnd_PDM\\Controllers\\FriendRequestController.cs",
+              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\Admin_BackEnd_PDM\\Controllers\\FriendRequestController.cs",
+              "RelativeToolTip": "Admin_BackEnd_PDM\\Controllers\\FriendRequestController.cs",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAYwDAAAAAPAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-29T02:31:23.499Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FriendRequestBusiness.cs",
+              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\BusinessLogicLayer\\FriendRequestBusiness.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\FriendRequestBusiness.cs",
+              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\BusinessLogicLayer\\FriendRequestBusiness.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\FriendRequestBusiness.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAgwBcAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-29T02:27:44.078Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IGroupRequestBusiness.cs",
+              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\BusinessLogicLayer\\Interfaces\\IGroupRequestBusiness.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\Interfaces\\IGroupRequestBusiness.cs",
+              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\BusinessLogicLayer\\Interfaces\\IGroupRequestBusiness.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\Interfaces\\IGroupRequestBusiness.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-29T02:40:27.924Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IFriendRequestBusiness.cs",
+              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\BusinessLogicLayer\\Interfaces\\IFriendRequestBusiness.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\Interfaces\\IFriendRequestBusiness.cs",
+              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\BusinessLogicLayer\\Interfaces\\IFriendRequestBusiness.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\Interfaces\\IFriendRequestBusiness.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-29T02:28:09.799Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedHeight": 169,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -20,16 +20,4 @@ public partial class UserModel
     public DateTime? join_date { get; set; }
 
     public string Token { get; set; }
-
-    public virtual ICollection<ActivityLogModel> ActivityLogs { get; set; } = new List<ActivityLogModel>();
-
-    public virtual ICollection<FileModel> Files { get; set; } = new List<FileModel>();
-
-    public virtual ICollection<FolderModel> Folders { get; set; } = new List<FolderModel>();
-
-    public virtual ICollection<GroupMemberModel> GroupMembers { get; set; } = new List<GroupMemberModel>();
-
-    public virtual ICollection<GroupModel> Groups { get; set; } = new List<GroupModel>();
-
-    public virtual ICollection<PermissionModel> Permissions { get; set; } = new List<PermissionModel>();
 }

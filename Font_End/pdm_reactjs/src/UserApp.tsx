@@ -5,26 +5,24 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { UserProvider } from './constant/userContext';
 import Footer from "./components/user/footer";
 import Sidebar from "./components/user/sidebar";
-import Register from './services/register';
-import Login from './services/login';
 import Alldata from './pages/user/alldata';
-import File from './pages/user/file';
-import Video from './pages/user/video';
-import Image from './pages/user/image';
+import File from './pages/user/Upload/file';
+import Video from './pages/user/Upload/video';
+import Image from './pages/user/Upload/image';
 import Create from './components/user/functions/create';
 import Update from './components/user/functions/update';
-import Joingroup from './pages/user/joingroup';
-import MyGroup from './pages/user/mygroup';
+import Joingroup from './pages/user/Group/joingroup';
+import MyGroup from './pages/user/Group/mygroup';
 import CreateGroup from './pages/user/Group/creategroup';
-import ListDataGroup from './pages/user/listdatagroup';
-import GroupRequest from './pages/user/grouprequest';
-import GroupMembers from './pages/user/groupmembers';
+import ListDataGroup from './pages/user/Group/listdatagroup';
+import GroupRequest from './pages/user/Group/grouprequest';
+import GroupMembers from './pages/user/Group/groupmembers';
 import Share from './components/user/functions/share';
 import FunctionUser from './components/user/function';
 import Search from './components/user/functions/search';
 import SearchGroup from './pages/user/Group/searchgroup';
 import Information from './components/user/functions/information';
-import InforUser from './pages/user/inforuser';
+import InforUser from './pages/user/FunctionUser/inforuser';
 import SearchDataGroup from './pages/user/Group/searchdatagroup';
 
 
@@ -38,9 +36,9 @@ const UserApp: React.FC = () => {
           <FunctionUser />
           <Alldata />
           <Routes>
-            <Route path="/login" element={<Login />} />
+         
             <Route path="/alldata" element={<Alldata />} />
-            <Route path="/register" element={<Register />} />
+   
             <Route path="/search/:filename_new" element={<Search />} />
             <Route path="/searchgroup/:group_name" element={<SearchGroup />} />
             <Route path="/searchdatagroup/:filename_new" element={<SearchDataGroup />} />

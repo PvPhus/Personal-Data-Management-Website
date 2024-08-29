@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { clickTopbar } from "../../assets/js/topbar";
+import { clickTopbar } from "../../assets/js/functionDrop";
 import { useNavigate } from "react-router-dom";
 import { useUser } from '../../constant/userContext'; 
 
@@ -20,14 +20,14 @@ const FunctionUser = () => {
             clickTopbar();
             setIsLoggedIn(false); 
             setUserId(null); 
-            navigate("/login");
+            navigate("/login-register");
         }
     };
 
     const handleLogin = () => {
         setIsLoggedIn(true);
         setUserId(userId);
-        navigate("/login");
+        navigate("/login-register");
     };
 
     const handleInfo = () => {
@@ -55,7 +55,7 @@ const FunctionUser = () => {
                         <a  >
                             {user && (<h5>{user.username}</h5>)}
                         </a>
-                        <a className="dropdown-toggle"   id="userDropdown" role="button" data-toggle="dropdown">
+                        <a className="dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown">
                             {user && (<img className="image-function" src={`/resources/${user.avatar_url}`} />)}
                         </a>
                     </div>

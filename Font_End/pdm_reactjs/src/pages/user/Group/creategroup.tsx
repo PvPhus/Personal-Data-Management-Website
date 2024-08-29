@@ -1,7 +1,9 @@
-import React, { useState, FormEvent, ChangeEvent } from "react";
+import React, { useState, FormEvent, ChangeEvent, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../../constant/userContext";
+import { clickTopbar } from "../../../assets/js/functionDrop";
+import Sidebar from "../../../components/user/sidebar";
 
 const CreateGroup: React.FC = () => {
     const navigate = useNavigate();
@@ -18,6 +20,10 @@ const CreateGroup: React.FC = () => {
         created_date: new Date().toISOString(),
         total_members: 1
     });
+    
+    useEffect(() => {
+  
+    }, []);
 
     const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
         const image = event.target.files?.[0];
@@ -80,6 +86,7 @@ const CreateGroup: React.FC = () => {
 
     return (
         <>
+        <Sidebar></Sidebar>
             <header>
                 <div className="searchbar">
                     <li>

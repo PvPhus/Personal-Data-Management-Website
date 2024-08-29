@@ -2,6 +2,9 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import axios from 'axios';
 import { useUser } from "../../../constant/userContext";
 import { useNavigate } from 'react-router-dom';
+import Sidebar from "../sidebar";
+import Topbar from "../topbar";
+import FunctionUser from "../function";
 
 const Create = () => {
     const { userId } = useUser();
@@ -87,6 +90,10 @@ const Create = () => {
 
     return (
         <>
+        <div className="background-image">
+            <Topbar />
+            <Sidebar />
+            <FunctionUser />
             <main>
                 <div className="content">
                 <div className="alert alert-primary text-center" style={{ zIndex: 1000, width: "75.5%", position: "fixed", fontSize: "larger", fontWeight: "bold" }}>
@@ -219,6 +226,7 @@ const Create = () => {
                     </div>
                 </div>
             </main>
+            </div>
         </>
     );
 }

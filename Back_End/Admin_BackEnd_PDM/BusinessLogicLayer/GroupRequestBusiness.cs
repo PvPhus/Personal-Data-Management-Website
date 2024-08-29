@@ -37,9 +37,6 @@ namespace BusinessLogicLayer
         {
             return _res.CheckSpam(user_id, group_id);
         }
-        public GroupRequestModel GetCountRequest(int group_id)
-        {
-            return _res.GetCountRequest(group_id);
-        }
+      
     }
 }

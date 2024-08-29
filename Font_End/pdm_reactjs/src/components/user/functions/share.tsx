@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUser } from "../../../constant/userContext";
 import Topbar from "../topbar";
+import Sidebar from "../sidebar";
+import FunctionUser from "../function";
 
 const Share: React.FC = () => {
     const { userId } = useUser();
@@ -64,7 +66,9 @@ const Share: React.FC = () => {
     };
 
     return (
-        <>
+        <><div className="background-image">
+            <Sidebar />
+            <FunctionUser />
             <Topbar />
             <header>
                 <div className="searchbar">
@@ -80,10 +84,68 @@ const Share: React.FC = () => {
                 <div className="content">
                     <div className="card shadow mb-4">
                         <div className="alert alert-primary text-center" style={{ zIndex: 30, width: "auto", position: "fixed", fontSize: "larger", fontWeight: "bold", }}>
+                            Choose The Friends You Want To Share
+                            <button className="btn btn-success" onClick={handleShare} style={{ marginLeft: '9.7px' }}>SHARE</button>
+                        </div>
+                        <div className="card-header py-3" style={{ display: 'flex', marginTop: "31.5px" }}>
+                        </div>
+                        <div className="card-body">
+                            <div className="table-responsive">
+                                <table className="table table-bordered" id="dataTable" width="100%" cellSpacing={0}>
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Name</th>
+                                            <th>Avatar</th>                                         
+                                            <th>Choose</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {loading ? (
+                                            <div>Loading...</div>
+                                        ) : message ? (
+                                            <div className="alert alert-success fixed-top text-center" style={{ zIndex: 20 }}>
+                                                {message}
+                                            </div>
+                                        ) : (
+                                            groups.map((group, index) => (
+                                                <tr key={group.group_id}>
+                                                    <td>{index + 1}</td>
+                                                    <td>{group.group_name}</td>
+                                                    <td>
+                                                        <img src={`/resources/images/${group.group_image}`} alt="Avatar" style={{ width: 50, height: 50 }} />
+                                                    </td>
+                                                    <td>
+                                                        <input
+                                                            type="checkbox"
+                                                            value={group.group_id}
+                                                            onChange={() => handleCheckboxChange(group.group_id)}
+                                                        />
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        )}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    {/* <div className="card shadow mb-4">
+                       
+                        <div className="card-body">
+                            <div className="table-responsive">
+                                
+
+                            </div>
+                        </div>
+                    </div> */}
+                    <div className="card shadow mb-4">
+                        <div className="alert alert-primary text-center" style={{ zIndex: 30, width: "auto", position: "fixed", fontSize: "larger", fontWeight: "bold", }}>
                             Choose The Groups You Want To Share
                             <button className="btn btn-success" onClick={handleShare} style={{ marginLeft: '116.7px' }}>SHARE</button>
                         </div>
-                        <div className="card-header py-3" style={{ display: 'flex', marginTop:"31.5px" }}>
+                        <div className="card-header py-3" style={{ display: 'flex', marginTop: "31.5px" }}>
                         </div>
                         <div className="card-body">
                             <div className="table-responsive">
@@ -131,6 +193,7 @@ const Share: React.FC = () => {
                     </div>
                 </div>
             </main>
+        </div>
         </>
     );
 };

@@ -52,7 +52,23 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
-
+        [HttpGet("get_all_file_by_user")]
+        public IActionResult GetAllFilesByUserId(int user_id)
+        {
+            try
+            {
+                var video = _fileBusiness.GetAllFilesByUserId(user_id);
+                if (video == null)
+                {
+                    return NotFound("No video found for the specified user.");
+                }
+                return Ok(video);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
         [HttpGet("get_videos_by_user")]
         public IActionResult GetVideosByUser(int user_id)
         {
@@ -184,20 +200,6 @@ namespace API_PersonalDataManagement.Controllers
             }
         }
 
-        [Route("update-file")]
-        [HttpPut]
-        public IActionResult UpdateItem([FromBody] FileModel model)
-        {
-            try
-            {
-                _fileBusiness.Update(model);
-                return Ok(model);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Internal server error: " + ex.Message);
-            }
-        }
         [HttpPut("update_name_file")]
         public IActionResult UpdateName([FromQuery] int file_id, [FromQuery] string filename_new)
         {
@@ -235,7 +237,30 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "An error occurred while deleting the file.");
             }
         }
+        [Route("delete-groupdata/{file_id}")]
+        [HttpDelete]
+        public IActionResult DeleteFileGroup(int file_id, int group_id)
+        {
+            try
+            {
+                bool isDeleted = _fileBusiness.DeleteFileGroup(file_id,group_id);
 
+                if (isDeleted)
+                {
+                    return Ok("File deleted successfully.");
+                }
+                else
+                {
+                    return NotFound("File not found or could not be deleted.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Ghi log lỗi và trả về lỗi 500 (Internal Server Error)
+                Console.WriteLine("Error: " + ex.Message);
+                return StatusCode(500, "An error occurred while deleting the file.");
+            }
+        }
         [HttpGet("download/{file_id}")]
         public IActionResult DownloadFile(int file_id)
         {
@@ -280,7 +305,7 @@ namespace API_PersonalDataManagement.Controllers
             try
             {
                 // Lấy thông tin file từ file_id
-                var fileInfo = _fileBusiness.GetFileByFileId(file_id);
+                var fileInfo = _fileBusiness.GetFileByFileId(file_id); //GetFileByFileId là 1 api lấy thông tin của file bằng id
                 if (fileInfo == null)
                 {
                     return NotFound("File not found.");
