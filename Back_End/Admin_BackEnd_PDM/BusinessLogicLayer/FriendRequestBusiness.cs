@@ -12,7 +12,10 @@ namespace BusinessLogicLayer
     public class FriendRequestBusiness : IFriendRequestBusiness
     {
         private IFriendRequestRepository _res;
-
+        public List<FriendRequestModel> GetAllRequestFriend(int user_id)
+        {
+            return _res.GetAllRequestFriend(user_id);
+        }
         public FriendRequestBusiness(IFriendRequestRepository res)
         {
             _res = res;

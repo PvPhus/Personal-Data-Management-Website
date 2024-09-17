@@ -16,5 +16,6 @@ namespace DataAccessLayer.Interfaces
         bool UpdateInfo(int user_id, string username, string avatar_url);
         bool LogOut(ActivityLogModel model);
         List<ActivityLogModel> GetAll();
+        List<UserModel> GetAllUser(int user_id);
     }
 }

@@ -14,9 +14,9 @@ const LoginRegister: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string>('');
-    const {userId, setUserId } = useUser();
+    const { userId, setUserId } = useUser();
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         clickLoginRegister();
     }, [userId]);
@@ -88,11 +88,11 @@ const LoginRegister: React.FC = () => {
 
                 setUserId(user_id);
                 // Save user_id and role to LocalStorage
-                localStorage.setItem('userId', user_id);
                 localStorage.setItem('role', role);
+                localStorage.setItem('userId', user_id);
 
                 if (role === 'NguoiDung') {
-                    navigate(`/alldata/${userId}}`)
+                    navigate(`/alldata/${userId}`)
                 } else {
                     navigate(`/show-files`)
                 }
@@ -122,8 +122,7 @@ const LoginRegister: React.FC = () => {
                             onChange={(e) => setUsername(e.target.value)}
                             required
                             className="form-control form-control-user"
-                            placeholder="Name: "
-                        />
+                            placeholder="Name: " />
                         <input
                             type="email"
                             id="email"
@@ -131,8 +130,7 @@ const LoginRegister: React.FC = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             required
                             className="form-control form-control-user"
-                            placeholder="Email: "
-                        />
+                            placeholder="Email: " />
                         <input
                             type="password"
                             id="password"
@@ -140,8 +138,7 @@ const LoginRegister: React.FC = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                             className="form-control form-control-user"
-                            placeholder="Password: "
-                        />
+                            placeholder="Password: " />
                         <input
                             type="password"
                             id="confirmPassword"
@@ -149,8 +146,7 @@ const LoginRegister: React.FC = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             required
                             className="form-control form-control-user"
-                            placeholder="Confirm Password: "
-                        />
+                            placeholder="Confirm Password: " />
                         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                         {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
                         <button type="submit">Register</button>
@@ -163,9 +159,7 @@ const LoginRegister: React.FC = () => {
                             <a className="icon">P</a>
                             <a className="icon"> <i className='bx bxs-data'></i> </a>
                             <a className="icon">M</a>
-
                         </div>
-
                         <input
                             type="email"
                             className="form-control form-control-user"
@@ -174,8 +168,7 @@ const LoginRegister: React.FC = () => {
                             placeholder="Enter Email Address..."
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
+                            required />
                         <input
                             type="password"
                             className="form-control form-control-user"
@@ -183,8 +176,7 @@ const LoginRegister: React.FC = () => {
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
+                            required />
                         <a href="#">Forget Your Password?</a>
                         {error && <div className="text-danger text-center mt-3">{error}</div>}
                         <button type="submit">Login</button>

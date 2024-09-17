@@ -129,6 +129,7 @@ const Information = () => {
                                                         className="form-control"
                                                         value={fileName}
                                                         onChange={handleFileNameChange}
+                                                        readOnly={userId !== fileDetails.user_id}
                                                     />
                                                 </div>
                                             </div>
@@ -161,7 +162,7 @@ const Information = () => {
                                             </div>
                                             <div className="col-md-6">
                                                 <div className="form-group">
-                                                    <label>Upload Date:</label>
+                                                    <label hidden={userId !== fileDetails.user_id}>Upload Date:</label>
                                                     <input
                                                         type="datetime-local"
                                                         name="upload_date"
@@ -169,12 +170,13 @@ const Information = () => {
                                                         className="form-control"
                                                         value={fileDetails.upload_date.split('.')[0]}
                                                         readOnly
+                                                        hidden={userId !== fileDetails.user_id}
                                                     />
                                                 </div>
                                             </div>
                                             <div className="col-md-6">
                                                 <div className="form-group">
-                                                    <label>Modified:</label>
+                                                    <label hidden={userId !== fileDetails.user_id}>Modified:</label>
                                                     <input
                                                         type="datetime-local"
                                                         name="last_modified"
@@ -182,12 +184,13 @@ const Information = () => {
                                                         className="form-control"
                                                         value={fileDetails.last_modified.split('.')[0]}
                                                         readOnly
+                                                        hidden={userId !== fileDetails.user_id}
                                                     />
                                                 </div>
                                             </div>
                                             <div className="col-md-6">
                                                 <div className="form-group">
-                                                    <label>Location:</label>
+                                                    <label hidden={userId !== fileDetails.user_id}>Location:</label>
                                                     <input
                                                         type="text"
                                                         name="file_path"
@@ -195,6 +198,7 @@ const Information = () => {
                                                         className="form-control"
                                                         value={fileDetails.file_path}
                                                         readOnly
+                                                        hidden={userId !== fileDetails.user_id}
                                                     />
                                                 </div>
                                             </div>
@@ -206,7 +210,7 @@ const Information = () => {
                                             </div>
                                         </div>
 
-                                        <button type="submit" className="btn btn-primary">Update</button>
+                                        <button type="submit" className="btn btn-primary" hidden={userId !== fileDetails.user_id}>Update</button>
                                     </form>
                                 </div>
                             </div>

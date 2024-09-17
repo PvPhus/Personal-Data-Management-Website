@@ -9,7 +9,7 @@ import RightMouseGroup from "../../../components/user/rightMouseGroup";
 import { clickRightMouseGroup } from "../../../assets/js/rightmouseDataGroup";
 
 
-const ListChatFriend: React.FC = () => {
+const ChatFriend: React.FC = () => {
     const navigate = useNavigate();
     const { group_id } = useParams<{ group_id: string }>();
     const { userId } = useUser();
@@ -391,4 +391,4 @@ const ListChatFriend: React.FC = () => {
     );
 };
 
-export default ListChatFriend;
+export default ChatFriend;

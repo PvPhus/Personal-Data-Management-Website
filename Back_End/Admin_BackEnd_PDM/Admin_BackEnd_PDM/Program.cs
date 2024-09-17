@@ -9,24 +9,17 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure CORS policies
 builder.Services.AddCors(options =>
 {
-    // Define a CORS policy named "AllowAll"
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-    });
-
-    // Define a CORS policy named "AllowFrontend" specifically for http://127.0.0.1:8000 and http://localhost:3000
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://127.0.0.1:8000", "http://localhost:3000", "http://localhost:3001", "http://localhost:3002")
+        policy.WithOrigins(
+            "http://127.0.0.1:8000",
+            "http://localhost:3000")
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
 });
-
 // Add services to the DI container
 builder.Services.AddTransient<IDatabaseHelper, DatabaseHelper>();
 

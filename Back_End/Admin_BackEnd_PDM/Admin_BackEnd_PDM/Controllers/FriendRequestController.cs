@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer;
 using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Interfaces;
 using DataModel;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +15,23 @@ namespace API_PersonalDataManagement.Controllers
         {
             _FriendRequestBusiness = FriendRequestBusiness;
         }
-
+        [HttpGet("get_all_request_friend")]
+        public IActionResult GetAllRequestFriend(int user_id)
+        {
+            try
+            {
+                var rf = _FriendRequestBusiness.GetAllRequestFriend(user_id);
+                if (rf == null)
+                {
+                    return NotFound("No request friend found for the specified user.");
+                }
+                return Ok(rf);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
         [HttpPost("create_friend_request")]
         public IActionResult FriendRequest([FromBody] FriendRequestModel model)
         {
@@ -71,7 +88,7 @@ namespace API_PersonalDataManagement.Controllers
             }
         }
         [Route("friend_destroy")]
-        [HttpPut]
+        [HttpDelete]
         public IActionResult FriendDestroy(int request_id)
         {
             try

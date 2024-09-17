@@ -195,6 +195,7 @@ const InforUser = () => {
                                                     className="form-control"
                                                     value={userDetails.username}
                                                     onChange={e => setUserDetails({ ...userDetails, username: e.target.value })}
+                                                    readOnly={userId !== userDetails.user_id}
                                                 />
                                             </div>
                                         </div>

@@ -20,7 +20,7 @@ const Sidebar = () => {
     const handleMygroup = () => navigate(`/mygroup/${userId}`);
     const handleTrash = () => navigate(`/trash/${userId}`)
     const handleRequetFriend = () => navigate(`/requestfriend/${userId}`)
-    const handleChat = () => navigate(`/chat/${userId}`)
+    // const handleChat = () => navigate(`/chat/${userId}`)
     // const openListDataGroup = (group_id: number) => navigate(`/listdatagroup/${group_id}`);
 
     const toggleSidebar = () => {
@@ -87,7 +87,7 @@ const Sidebar = () => {
                             </ul>
                         </li>
                         <li><a onClick={handleRequetFriend} role="button"><i className='bx bxs-group icon'></i>Request Friends</a></li>
-                        <li><a onClick={handleChat} role="button"><i className='bx bxs-group icon'></i> Chats </a></li>
+                        {/* <li><a onClick={handleChat} role="button"><i className='bx bxs-group icon'></i> Chats </a></li> */}
                         
                         <li className="divider" data-text="table and forms">Data Processing</li>
                         <li><a role="button" onClick={handleTrash}><i className="bx bxs-trash icon" />Trash</a></li>

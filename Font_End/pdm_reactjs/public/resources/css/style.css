@@ -287,6 +287,7 @@ li {
 
 .functionusers a h5 {
 	color: #0C5FCD;
+	font-weight: bolder;
 }
 
 .functiondrop {
@@ -746,7 +747,10 @@ footer {
 .data-files,
 .data-videos,
 .data-link,
-.my-data {
+.my-data,
+.data-spending,
+.data-accepted,
+.data-block {
 	overflow-y: auto;
 	scrollbar-width: none;
 	display: none;
@@ -756,7 +760,10 @@ footer {
 .data-images.active,
 .data-files.active,
 .data-videos.active,
-.my-data.active {
+.my-data.active,
+.data-accepted.active,
+.data-spending.active,
+.data-block.active {
 	display: block;
 	display: flex;
 }
@@ -863,4 +870,57 @@ footer {
 .context-menu ul li:hover {
 	background-color: #f0f0f0;
 	border-radius: 8px;
+}
+/*Css chat friend*/
+.list-users{
+	flex: 1;
+	overflow-y: auto;
+	scrollbar-width: none;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	margin-bottom: 10px;
+	max-height: 430px;
+}
+.form-user{
+	gap: 20px;
+	border-bottom: 1px solid #ddd;
+	width: 100%;
+	max-height: 70px;
+	display: flex;
+	padding: 10px;
+	
+}
+.form-user .avatar-user img{
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
+	cursor: pointer;
+	margin: -5px 0 0 -5px;
+}
+
+.form-user h6{
+	border:none;
+	margin-top: 5px;
+	font-weight: bold;
+}
+.form-user button{
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
+	border: 1px solid #ddd;
+	justify-content: center;
+	
+}
+.form-user button:hover{
+	background-color:#ccc;
+}
+.botton-user{
+	margin-left: auto;
+	display: flex;
+    gap: 10px;
+}
+.botton-user h6{
+	font-size:medium;
+	font-weight: normal;
 }

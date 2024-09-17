@@ -104,8 +104,6 @@ namespace DataAccessLayer
             }
         }
 
-      
-
         public UserModel GetUserByUserId(int user_id)
         {
             string msgError = "";
@@ -124,6 +122,23 @@ namespace DataAccessLayer
             catch (Exception ex)
             {
                 throw new Exception("Error in GetUserByUserId method: " + ex.Message);
+            }
+        }
+        public List<UserModel> GetAllUser(int user_id) 
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_get_all_users",
+                    "@user_id", user_id);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+
+                return dt.ConvertTo<UserModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         public bool UpdateInfo(int user_id, string username, string avatar_url)

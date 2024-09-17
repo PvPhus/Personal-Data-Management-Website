@@ -147,6 +147,9 @@ const ListDataGroup: React.FC = () => {
         } catch (err) {
             console.error('Failed to delete video', err);
             setMessage('Failed to delete file');
+            setTimeout(() => {
+                setMessage('');
+            }, 1300);
         }
     };
 

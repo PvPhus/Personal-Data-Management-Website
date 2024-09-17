@@ -32,7 +32,8 @@ import ShowImages from './pages/admin/ListData/ListImage';
 import ShowVideos from './pages/admin/ListData/ListVideo';
 import DeletedData from './pages/user/Trash/deleteddata';
 import ListRequestFriend from './pages/user/Friend/requestfriends';
-import ListChatFriend from './pages/user/Friend/chatfriends';
+import ChatFriend from './pages/user/Friend/chatfriends';
+import InformationUser from './pages/user/Friend/informationuser';
 
 const App: React.FC = () => {
     return (
@@ -68,13 +69,14 @@ const AppRoutes: React.FC = () => {
                     <Route path="/share/file/:file_id" element={<Share />} />
                     <Route path="/joingroup/:userId" element={<Joingroup />} />
                     <Route path="/infouser/:userId" element={<InforUser />} />
+                    <Route path="/informationuser/:user_id" element={<InformationUser />} />
                     <Route path="/mygroup/:userId" element={<MyGroup />} />
                     <Route path="/listdatagroup/:group_id" element={<ListDataGroup />} />
                     <Route path="/openRequests/:group_id" element={<GroupRequest />} />
                     <Route path="/openMembers/:group_id" element={<GroupMembers />} />
                     <Route path="/creategroup" element={<CreateGroup />} />
                     <Route path="/requestfriend/:userId" element={<ListRequestFriend />} />
-                    <Route path="/chat/:userId" element={<ListChatFriend />} />
+                    <Route path="/chatfriend/:user_id" element={<ChatFriend />} />
                 </>
             )}
             {role === 'Admin' && (

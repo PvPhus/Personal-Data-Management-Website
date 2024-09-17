@@ -141,5 +141,22 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
+        [HttpGet("get_all_users")]
+        public IActionResult GetAllUser(int user_id)
+        {
+            try
+            {
+                var user = _UserBusiness.GetAllUser(user_id);
+                if (user == null)
+                {
+                    return NotFound("No user found for the specified user.");
+                }
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
     }
 }

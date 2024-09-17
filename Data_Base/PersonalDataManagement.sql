@@ -159,13 +159,23 @@ CREATE TABLE FriendRequests (
 );
 
 -- Bảng Tin nhắn (Messages)
-CREATE TABLE Messages (
+CREATE TABLE FriendMessages (
     message_id INT PRIMARY KEY IDENTITY,
     sender_id INT FOREIGN KEY REFERENCES Users(user_id),
     receiver_id INT FOREIGN KEY REFERENCES Users(user_id),
     content NVARCHAR(MAX),
     timestamp DATETIME
 );
+
+CREATE TABLE FriendData (
+    file_id INT,
+    message_id INT,
+	user_id INT,
+    send_date DATETIME,
+    CONSTRAINT FK_FriendData_Message FOREIGN KEY (message_id) REFERENCES FriendMessages(message_id),
+    CONSTRAINT FK_FriendData_User FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
 select * from users;
 -- Bảng Tin nhắn nhóm (GroupMessages)
 CREATE TABLE GroupMessages (
@@ -1918,4 +1928,38 @@ BEGIN
     WHERE
         request_id = @request_id;
     PRINT N'Hủy kết bạn thành công';
+END;
+
+Alter PROCEDURE [dbo].[sp_get_all_users]
+	@user_id int
+AS
+BEGIN
+    SELECT * FROM Users where role='NguoiDung' and @user_id != user_id;
+END;
+
+CREATE PROCEDURE [dbo].[sp_get_all_friend_request]
+	@user_id int
+AS
+BEGIN
+    SELECT * FROM FriendRequests where @user_id != sender_id or @user_id = receiver_id;
+END;
+
+--Lấy danh sách yêu cầu của người dùng(mục bạn bè)
+ALTER PROCEDURE [dbo].[sp_get_all_request_friend]
+	@user_id int
+AS
+BEGIN
+    SELECT
+		u.user_id,
+		u.username,
+		u.avatar_url,
+		fr.request_id,
+		fr.sender_id,
+		fr.receiver_id,
+		fr.status,
+		fr.request_date
+	FROM 
+		Users u
+	JOIN
+		FriendRequests fr ON u.user_id = fr.receiver_id
 END;

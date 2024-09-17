@@ -10,27 +10,20 @@ interface UserContextProps {
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [userId, setUserId] = useState<number | null>(null);
     const [role, setRole] = useState<string | null>(null);
-
+    const [userId, setUserId] = useState<number | null>(null);
+    
     useEffect(() => {
-        const storedUserId = localStorage.getItem('userId');
         const storedrole = localStorage.getItem('role');
-        if (storedUserId) {
-            setUserId(Number(storedUserId));
-        }
         if (storedrole) {
             setRole(storedrole);
         }
-    }, []);
-
-    useEffect(() => {
-        if (userId !== null) {
-            localStorage.setItem('userId', userId.toString());
-        } else {
-            localStorage.removeItem('userId');
+        const storedUserId = localStorage.getItem('userId');
+        if (storedUserId) {
+            setUserId(Number(storedUserId));
         }
-    }, [userId]);
+        
+    }, [role, userId]);
 
     useEffect(() => {
         if (role !== null) {
@@ -40,8 +33,16 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     }, [role]);
 
+    useEffect(() => {
+        if (userId !== null) {
+            localStorage.setItem('userId', userId.toString());
+        } else {
+            localStorage.removeItem('userId');
+        }
+    }, [userId]);
+
     return (
-        <UserContext.Provider value={{ userId, setUserId, role, setRole }}>
+        <UserContext.Provider value={{ role, setRole, userId, setUserId}}>
             {children}
         </UserContext.Provider>
     );

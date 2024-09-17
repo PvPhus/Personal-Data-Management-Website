@@ -9,6 +9,7 @@ namespace BusinessLogicLayer.Interfaces
 {
     public partial interface IFriendRequestBusiness
     {
+        List<FriendRequestModel> GetAllRequestFriend(int user_id);
         bool FriendRequest(FriendRequestModel model);
         bool FriendAccept(int request_id);
         bool FriendBlock(int request_id);

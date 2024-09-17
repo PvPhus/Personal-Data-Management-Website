@@ -83,6 +83,10 @@ namespace BusinessLogicLayer
         {
             return _res.UpdateInfo(user_id, username, avatar_url);
         }
+        public List<UserModel> GetAllUser(int user_id)
+        {
+            return _res.GetAllUser(user_id);
+        }
     }
 }
 

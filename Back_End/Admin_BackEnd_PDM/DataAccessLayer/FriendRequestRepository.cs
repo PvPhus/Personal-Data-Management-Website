@@ -15,6 +15,24 @@ namespace DataAccessLayer
         {
             _dbHelper = dbHelper;
         }
+        public List<FriendRequestModel> GetAllRequestFriend(int user_id)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_get_all_request_friend",
+                    "@user_id", user_id);
+
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+
+                return dt.ConvertTo<FriendRequestModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public bool FriendRequest(FriendRequestModel model)
         {
             try
