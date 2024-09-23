@@ -5,16 +5,14 @@ import { useUser } from '../../../constant/userContext';
 import Sidebar from "../../../components/user/sidebar";
 import FunctionUser from "../../../components/user/function";
 import { clickTabData } from "../../../assets/js/tabdata";
-import RightMouseGroup from "../../../components/user/rightMouseGroup";
-import { clickRightMouseGroup } from "../../../assets/js/rightmouseDataGroup";
+
 
 
 const ChatFriend: React.FC = () => {
     const navigate = useNavigate();
-    const { group_id } = useParams<{ group_id: string }>();
+    const { user_id } = useParams<{ user_id: string }>();
     const { userId } = useUser();
     const [Datas, setDatas] = useState<any[]>([]);
-    const [messagesGroup, setMessagesGroup] = useState<any[]>([]);
     const [message, setMessage] = useState<string>('');
     const [messageContent, setMessageContent] = useState<string>('');
     const [isAtBottom, setIsAtBottom] = useState(true);
@@ -42,15 +40,24 @@ const ChatFriend: React.FC = () => {
     };
 
     useEffect(() => {
-        clickRightMouseGroup();
+
         clickTabData();
-        fetchGroupData();
-        fetchMessagesGroup();
+        fetchDataFriendChat();
         if (isAtBottom) {
             scrollToBottom();
         }
-    }, [userId, group_id, messagesGroup]);
+    }, [userId, user_id, Datas]);
 
+    // Get data friend chat(messages and files)
+    const fetchDataFriendChat = async () => {
+        try {
+            const respone = await axios.get(`https://localhost:7227/api/Friend/get_data_friend_chat?sender_id=${userId}&receiver_id=${user_id}`);
+            setDatas(respone.data);
+        } catch (error) {
+            console.error('Error fetching messages group:', error)
+
+        }
+    }
 
     // Handle scroll event to determine if the user has scrolled up
     useEffect(() => {
@@ -61,38 +68,20 @@ const ChatFriend: React.FC = () => {
         }
     }, []);
 
-    // Get all info data in group
-    const fetchGroupData = async () => {
-        try {
-            const response = await axios.get(`https://localhost:7227/api/Group/get_all_data_in_groups?group_id=${group_id}`);
-            setDatas(response.data);
-        } catch (error) {
-            console.error('Error fetching group data:', error);
-        }
-    };
 
-    // Get messages in group
-    const fetchMessagesGroup = async () => {
-        try {
-            const response = await axios.get(`https://localhost:7227/api/Group/get_messages_group?group_id=${group_id}`);
-            setMessagesGroup(response.data);
-        } catch (error) {
-            console.error('Error fetching messages group:', error)
-        }
-    }
 
     const formatTime = (timestamp: string) => {
         const date = new Date(timestamp);
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
 
-    const openListRequests = () => {
-        navigate(`/openRequests/${group_id}`);
-    };
+    // const openListRequests = () => {
+    //     navigate(`/openRequests/${group_id}`);
+    // };
 
-    const openListMembers = () => {
-        navigate(`/openMembers/${group_id}`);
-    };
+    // const openListMembers = () => {
+    //     navigate(`/openMembers/${group_id}`);
+    // };
 
     const infoData = (file_id: number) => {
         navigate(`/information/file/${file_id}`);
@@ -113,15 +102,20 @@ const ChatFriend: React.FC = () => {
         }
 
         try {
-            await axios.delete(`https://localhost:7227/api/File/delete-groupdata/${file_id}?group_id=${group_id}`);
+            await axios.delete(``);
             setMessage('Deleted the data successful');
             setTimeout(() => {
-                fetchGroupData();
+                fetchDataFriendChat();
+                setMessage('');
             }, 1300);
 
         } catch (err) {
-            console.error('Failed to delete video', err);
-            setMessage('Failed to delete file');
+            console.error('Failed to delete data', err);
+            setMessage('Failed to delete data');
+            setTimeout(() => {
+                fetchDataFriendChat();
+                setMessage('');
+            }, 1300);
         }
     };
 
@@ -169,15 +163,15 @@ const ChatFriend: React.FC = () => {
         if (!messageContent.trim()) return;
 
         const newMessage = {
-            group_id: group_id,
             sender_id: userId,
+            receiver_id: user_id,
             content: messageContent,
             timestamp: new Date().toISOString(),
         };
 
         try {
             await axios.post('https://localhost:7227/api/Group/create_messages', newMessage);
-            setMessagesGroup([...messagesGroup, newMessage]);
+            setDatas([...Datas, newMessage]);
             setMessageContent('');
             scrollToBottom();
         } catch (error) {
@@ -193,15 +187,15 @@ const ChatFriend: React.FC = () => {
 
     return (
         <>
-            <RightMouseGroup />
+
             <Sidebar />
             <FunctionUser />
             <main>
                 <div className="content">
                     {Datas.map(data => (
-                        <div className="alert alert-primary" style={{ zIndex: 30, width: '75.5%', position: 'fixed', fontSize: 'larger', fontWeight: 'bold', textAlign: 'center' }}>
-                            <img className="avatarGroup" src={`/resources/images/${data.group_image}`} alt="avatar-group" />
-                            {data.group_name}
+                        <div className="alert alert-primary" key={data.receiver_id} style={{ zIndex: 30, width: '75.5%', position: 'fixed', fontSize: 'larger', fontWeight: 'bold', textAlign: 'center' }}>
+                            <img className="avatarGroup" src={`/resources/${data.avatar_url}`} alt="avatar" />
+                            {data.username}
                         </div>
                     ))}
                     <div className="contentGroup">
@@ -209,23 +203,44 @@ const ChatFriend: React.FC = () => {
                             <h5>CONVERSATION</h5>
                             <div className="list-messages"
                                 ref={messagesContainerRef}>
-                                {messagesGroup.map(message => (
-                                    message.sender_id === userId ? (
-                                        <div className="right-message" id="right-message" key={message.message_id}>
-                                            <div role="button" className="messageUser" id="messageUser">{message.content}</div>
-                                            <div className="messageTime">{formatTime(message.timestamp)}</div>
+                                {/* {Datas.map(data => data.message_id !== null && (
+                                    data.sender_id === userId ? (
+                                        <div className="right-message" id="right-message" key={data.message_id}>
+                                            <div role="button" className="messageUser" id="messageUser">{data.content}</div>
+                                            <div className="messageTime">{formatTime(data.timestamp)}</div>
                                         </div>
                                     ) : (
                                         <div role="button" className="left-message">
-                                            <img className="avatarUser" src={`/resources/${message.avatar_url}`} />
+                                            <img className="avatarUser" src={`/resources/${data.avatar_url}`} />
                                             <div className="messageUser">
-                                                <h6>{message.username}</h6>
-                                                {message.content}
+                                                <h6>{data.username}</h6>
+                                                {data.content}
                                             </div>
-                                            <div className="messageTime">{formatTime(message.timestamp)}</div>
+                                            <div className="messageTime">{formatTime(data.timestamp)}</div>
                                         </div>
                                     )
-                                ))}
+                                ))} */}
+                                {Datas.length === 0 || Datas.every(data => data.message_id === null) ? (
+                                    <h6>Please text the opponent!</h6>
+                                ) : (
+                                    Datas.map(data => data.message_id !== null ? (
+                                        data.sender_id === userId ? (
+                                            <div className="right-message" id="right-message" key={data.message_id}>
+                                                <div role="button" className="messageUser" id="messageUser">{data.content}</div>
+                                                <div className="messageTime">{formatTime(data.timestamp)}</div>
+                                            </div>
+                                        ) : (
+                                            <div role="button" className="left-message" key={data.message_id}>
+                                                <img className="avatarUser" src={`/resources/${data.avatar_url}`} />
+                                                <div className="messageUser">
+                                                    <h6>{data.username}</h6>
+                                                    {data.content}
+                                                </div>
+                                                <div className="messageTime">{formatTime(data.timestamp)}</div>
+                                            </div>
+                                        )
+                                    ) : null)
+                                )}
                                 <div ref={chatEndRef} />
                             </div>
                             <div className="message-base">
@@ -252,12 +267,17 @@ const ChatFriend: React.FC = () => {
                                 <div className="tab" data-target="my-data">Shared</div>
                             </div>
                             <div className="data-images active">
-                                {Datas.filter(data => imageFileTypes.includes(data.file_type.toUpperCase())).map(data => (
-                                    <div className="data">
-
+                                {Datas.filter(data => {
+                                    // Kiểm tra nếu file_type là null
+                                    if (data.file_type === null) {
+                                        return false; // Không bao gồm trong danh sách nếu file_type là null
+                                    }
+                                    return imageFileTypes.includes(data.file_type.toUpperCase());
+                                }).map(data => (
+                                    <div className="data" key={data.file_id}>
                                         <div className="face-data" id="face-data">
                                             <div id="mediaContainer" className="media-container">
-                                                <img src={`/resources/images/${data.filename_old}`} />
+                                                <img src={`/resources/images/${data.filename_old}`} alt="file" />
                                             </div>
                                         </div>
                                         <div className="function-data">
@@ -266,12 +286,22 @@ const ChatFriend: React.FC = () => {
                                             <a onClick={() => shareData(data.file_id)}><i className="bx bxs-share icon" /></a>
                                             <a onClick={() => deleteData(data.file_id, data.group_id)}><i className="bx bxs-trash icon" /></a>
                                         </div>
-
                                     </div>
                                 ))}
+
+                                {/* Hiển thị thông báo nếu không có dữ liệu nào */}
+                                {Datas.every(data => data.file_type === null) && (
+                                    <h6>No Image</h6>
+                                )}
                             </div>
                             <div className="data-files">
-                                {Datas.filter(data => fileFileTypes.includes(data.file_type.toUpperCase())).map(data => (
+                                {Datas.filter(data => {
+                                    // Kiểm tra nếu file_type là null
+                                    if (data.file_type === null) {
+                                        return false; // Không bao gồm trong danh sách nếu file_type là null
+                                    }
+                                    return fileFileTypes.includes(data.file_type.toUpperCase());
+                                }).map(data => (
                                     <div className="data">
                                         <div className="name-data">
                                             <span>{data.filename_new}</span>
@@ -289,9 +319,18 @@ const ChatFriend: React.FC = () => {
                                         </div>
                                     </div>
                                 ))}
+                                {Datas.every(data => data.file_type === null) && (
+                                    <h6>No File</h6>
+                                )}
                             </div>
                             <div className="data-videos">
-                                {Datas.filter(data => videoFileTypes.includes(data.file_type.toUpperCase())).map(data => (
+                            {Datas.filter(data => {
+                                    // Kiểm tra nếu file_type là null
+                                    if (data.file_type === null) {
+                                        return false; // Không bao gồm trong danh sách nếu file_type là null
+                                    }
+                                    return videoFileTypes.includes(data.file_type.toUpperCase());
+                                }).map(data => (
                                     <div className="data">
                                         <div className="name-data">
                                             <span>{data.filename_new}</span>
@@ -309,18 +348,21 @@ const ChatFriend: React.FC = () => {
                                         </div>
                                     </div>
                                 ))}
+                                {Datas.every(data => data.file_type === null) && (
+                                    <h6>No Video</h6>
+                                )}
                             </div>
                             <div className="data-link">
-                                <div><a href="https://www.youtube.com/">http://example.com</a></div>
+                                {/* <div><a href="https://www.youtube.com/">http://example.com</a></div>
                                 <div><a href="http://example.com">http://example.com</a></div>
                                 <div><a href="http://example.com">http://example.com</a></div>
-                                <div><a href="http://example.com">http://example.com</a></div>
+                                <div><a href="http://example.com">http://example.com</a></div> */}
                             </div>
                             <div className="my-data">
                                 <div className="base-1">
                                     <i className='bx bx-image-alt'>Images</i>
                                 </div>
-                                {Datas.filter(data => data.user_id === userId && imageFileTypes.includes(data.file_type.toUpperCase())).map(data => (
+                                {Datas.filter(data => data.user_id === userId && imageFileTypes.includes(data.file_type)).map(data => (
                                     <div className="data" >
                                         <div className="face-data" id="face-data">
                                             <div id="mediaContainer" className="media-container">
@@ -338,7 +380,7 @@ const ChatFriend: React.FC = () => {
                                 <div className="base-1">
                                     <i className='bx bxs-file'>Files</i>
                                 </div>
-                                {Datas.filter(data => data.user_id === userId && fileFileTypes.includes(data.file_type.toUpperCase())).map(data => (
+                                {Datas.filter(data => data.user_id === userId && fileFileTypes.includes(data.file_type)).map(data => (
                                     <div className="data" >
                                         <div className="name-data">
                                             <span>{data.filename_new}</span>
@@ -359,7 +401,7 @@ const ChatFriend: React.FC = () => {
                                 <div className="base-1">
                                     <i className='bx bxs-videos'>Videos</i>
                                 </div>
-                                {Datas.filter(data => data.user_id === userId && videoFileTypes.includes(data.file_type.toUpperCase())).map(data => (
+                                {Datas.filter(data => data.user_id === userId && videoFileTypes.includes(data.file_type)).map(data => (
                                     <div className="data">
                                         <div className="name-data">
                                             <span>{data.filename_new}</span>

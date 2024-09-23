@@ -166,7 +166,9 @@ CREATE TABLE FriendMessages (
     content NVARCHAR(MAX),
     timestamp DATETIME
 );
-
+INSERT INTO FriendMessages (sender_id, receiver_id, content, timestamp)
+VALUES 
+(21,22,N'Anh chào em','2023-01-01 08:00:00');
 CREATE TABLE FriendData (
     file_id INT,
     message_id INT,
@@ -175,8 +177,11 @@ CREATE TABLE FriendData (
     CONSTRAINT FK_FriendData_Message FOREIGN KEY (message_id) REFERENCES FriendMessages(message_id),
     CONSTRAINT FK_FriendData_User FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
-
-select * from users;
+INSERT INTO FriendData (file_id, message_id, user_id, send_date)
+VALUES 
+(70,1,21,'2023-01-01 08:00:00');
+select * from FriendData;
+select * from FriendMessages;
 -- Bảng Tin nhắn nhóm (GroupMessages)
 CREATE TABLE GroupMessages (
     message_id INT PRIMARY KEY IDENTITY,
@@ -1837,6 +1842,7 @@ BEGIN
     PRINT 'Message added successfully.';
 END;
 select * from friendrequests;
+select * from users;
 exec sp_Friend_Message_Create @sender_id=21, @receiver_id=22, @content="anh yeu em"
 
 --Gửi lời mời kết bạn
@@ -1946,20 +1952,147 @@ END;
 
 --Lấy danh sách yêu cầu của người dùng(mục bạn bè)
 ALTER PROCEDURE [dbo].[sp_get_all_request_friend]
-	@user_id int
+    @user_id INT
 AS
 BEGIN
     SELECT
-		u.user_id,
-		u.username,
-		u.avatar_url,
-		fr.request_id,
-		fr.sender_id,
-		fr.receiver_id,
-		fr.status,
-		fr.request_date
-	FROM 
-		Users u
-	JOIN
-		FriendRequests fr ON u.user_id = fr.receiver_id
+        u.user_id,
+        u.username,
+        u.avatar_url,
+        fr.request_id,
+        fr.sender_id,
+        fr.receiver_id,
+        fr.status,
+        fr.request_date
+    FROM 
+        Users u
+    JOIN
+        FriendRequests fr 
+        ON (u.user_id = fr.sender_id OR u.user_id = fr.receiver_id)
+    WHERE 
+        fr.sender_id = @user_id OR fr.receiver_id = @user_id
 END;
+exec sp_get_all_request_friend @user_id = 23;
+
+
+ALTER PROCEDURE [Get_Data_Friend_Chat]
+    @sender_id INT,
+    @receiver_id INT
+AS
+BEGIN
+ IF EXISTS (
+        SELECT 1 
+        FROM FriendMessages 
+        WHERE (sender_id = @sender_id AND receiver_id = @receiver_id)
+           OR (sender_id = @receiver_id AND receiver_id = @sender_id)
+    )
+	BEGIN
+		-- Lấy thông tin các đoạn chat giữa người gửi và người nhận
+		SELECT
+			fm.message_id,
+			fm.sender_id,
+			fm.receiver_id,
+			fm.content,
+			fm.timestamp,
+			receiver.avatar_url,
+			receiver.username,
+			fd.file_id,
+			f.filename_new,
+			f.filename_old,
+			f.file_size,
+			f.file_type,
+			fd.send_date
+		FROM FriendMessages fm
+		INNER JOIN Users sender ON fm.sender_id = sender.user_id
+		INNER JOIN Users receiver ON fm.receiver_id = receiver.user_id
+		LEFT JOIN FriendData fd ON fm.message_id = fd.message_id
+		LEFT JOIN Files f ON fd.file_id = f.file_id
+		WHERE (fm.sender_id = @sender_id AND fm.receiver_id = @receiver_id)
+		   OR (fm.sender_id = @receiver_id AND fm.receiver_id = @sender_id)
+		ORDER BY fm.timestamp;
+	END
+	ELSE
+	BEGIN
+        -- Nếu chưa có tin nhắn, trả về thông tin của cả hai người dùng
+        SELECT          
+            u2.user_id,
+            u2.username,
+            u2.avatar_url,
+			NULL AS send_date,
+            NULL AS message_id,
+            NULL AS content,
+            NULL AS timestamp
+        FROM 
+            Users u1
+        CROSS JOIN Users u2
+        WHERE 
+            u1.user_id = @sender_id
+            AND u2.user_id = @receiver_id;
+    END
+END;
+
+
+ALTER PROCEDURE [Get_Data_Friend_Chat]
+    @sender_id INT,
+    @receiver_id INT
+AS
+BEGIN
+    -- Kiểm tra nếu có tin nhắn giữa hai user
+    IF EXISTS (
+        SELECT 1 
+        FROM FriendMessages fm
+        WHERE (fm.sender_id = @sender_id AND fm.receiver_id = @receiver_id)
+           OR (fm.sender_id = @receiver_id AND fm.receiver_id = @sender_id)
+    )
+    BEGIN
+        -- Trường hợp 2: Nếu đã có tin nhắn giữa hai user, lấy tất cả các thông tin
+        SELECT 
+            -- Tin nhắn
+            fm.message_id,
+            fm.content,
+            fm.timestamp,
+            
+            -- Dữ liệu file
+            fd.file_id,
+            f.filename_new,
+            f.filename_old,
+            f.file_size,
+            f.file_type,
+            fd.send_date,
+            
+            -- Trạng thái yêu cầu kết bạn
+            fr.status,
+            fr.request_date,
+            
+            -- Thông tin người nhận
+            us_receiver.username,
+            us_receiver.avatar_url,
+            us_receiver.email
+
+        FROM FriendMessages fm
+        LEFT JOIN FriendData fd ON fd.message_id = fm.message_id
+        LEFT JOIN Files f ON f.file_id = fd.file_id
+        INNER JOIN Users us_sender ON us_sender.user_id = fm.sender_id
+        INNER JOIN Users us_receiver ON us_receiver.user_id = fm.receiver_id
+        INNER JOIN FriendRequests fr ON fr.sender_id = us_sender.user_id 
+                                      AND fr.receiver_id = us_receiver.user_id
+        WHERE (fm.sender_id = @sender_id AND fm.receiver_id = @receiver_id)
+           OR (fm.sender_id = @receiver_id AND fm.receiver_id = @sender_id)
+        ORDER BY fm.timestamp;
+    END
+    ELSE
+    BEGIN
+        -- Trường hợp 1: Nếu chưa có tin nhắn giữa hai user, chỉ lấy thông tin người nhận
+        SELECT 
+            us_receiver.username,
+            us_receiver.avatar_url,
+            us_receiver.email
+        FROM Users us_receiver
+        WHERE us_receiver.user_id = @receiver_id;
+    END
+END;
+
+
+exec Get_Data_Friend_Chat @sender_id=21, @receiver_id=22;
+select * from ActivityLog;
+delete from activitylog;

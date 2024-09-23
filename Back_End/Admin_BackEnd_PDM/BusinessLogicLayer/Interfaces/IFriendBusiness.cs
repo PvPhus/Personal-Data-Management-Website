@@ -10,5 +10,6 @@ namespace BusinessLogicLayer.Interfaces
     public partial interface IFriendBusiness
     {
         bool CreateMessages(FriendMessagesModel model);
+        List<FriendMessagesModel> GetDataFriendChat(int sender_id, int receiver_id);
     }
 }

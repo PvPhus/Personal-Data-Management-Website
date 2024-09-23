@@ -21,5 +21,9 @@ namespace BusinessLogicLayer
         {
             return _res.CreateMessages(model);
         }
+        public List<FriendMessagesModel> GetDataFriendChat(int sender_id, int receiver_id)
+        {
+            return _res.GetDataFriendChat(sender_id, receiver_id);
+        }
     }
 }

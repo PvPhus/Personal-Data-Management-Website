@@ -10,6 +10,6 @@ namespace DataAccessLayer.Interfaces
     public partial interface IFriendRepository
     {
         bool CreateMessages(FriendMessagesModel model);
-       
+        List<FriendMessagesModel> GetDataFriendChat(int sender_id, int receiver_id);
     }
 }

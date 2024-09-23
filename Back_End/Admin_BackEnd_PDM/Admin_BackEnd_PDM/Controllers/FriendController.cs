@@ -28,6 +28,23 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message); // Trả về lỗi 500 nếu có lỗi xảy ra
             }
         }
+        [HttpGet("get_data_friend_chat")]
+        public IActionResult GetDataFriendChat(int sender_id, int receiver_id)
+        {
+            try
+            {
+                var datas = _FriendBusiness.GetDataFriendChat(sender_id, receiver_id);
+                if (datas == null)
+                {
+                    return NotFound("No data found for the chat.");
+                }
+                return Ok(datas);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
     }
 
 }

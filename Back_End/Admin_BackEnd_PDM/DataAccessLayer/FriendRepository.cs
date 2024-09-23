@@ -42,5 +42,24 @@ namespace DataAccessLayer
                 throw;
             }
         }
+        public List<FriendMessagesModel> GetDataFriendChat(int sender_id, int receiver_id)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Get_Data_Friend_Chat",
+                    "@sender_id", sender_id,
+                    "@receiver_id", receiver_id);
+
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+
+                return dt.ConvertTo<FriendMessagesModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

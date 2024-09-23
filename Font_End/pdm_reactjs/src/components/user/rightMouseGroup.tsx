@@ -94,8 +94,8 @@ const RightMouseGroup = () => {
 
             <div id="contextMenuMessage" className="context-menu">
                 <ul>
-                    <li><a href="#">Message Recovery<i className='bx bxs-message-alt-x'></i></a></li>
-                    <li><a href="#">Message Update <i className='bx bxs-message-alt-edit'></i></a></li>
+                    <li><a>Message Recovery<i className='bx bxs-message-alt-x'></i></a></li>
+                    <li><a>Message Update <i className='bx bxs-message-alt-edit'></i></a></li>
                 </ul>
             </div>
 

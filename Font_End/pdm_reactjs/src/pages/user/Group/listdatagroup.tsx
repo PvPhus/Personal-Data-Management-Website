@@ -293,7 +293,6 @@ const ListDataGroup: React.FC = () => {
                             <div className="data-images active">
                                 {Datas.filter(data => imageFileTypes.includes(data.file_type.toUpperCase())).map(data => (
                                     <div className="data">
-
                                         <div className="face-data" id="face-data">
                                             <div id="mediaContainer" className="media-container">
                                                 <img src={`/resources/images/${data.filename_old}`} />
@@ -305,7 +304,6 @@ const ListDataGroup: React.FC = () => {
                                             {isPermisson.can_share && <a onClick={() => shareData(data.file_id)}><i className="bx bxs-share icon" /></a>}
                                             {isPermisson.can_delete && <a onClick={() => deleteData(data.file_id, data.group_id)}><i className="bx bxs-trash icon" /></a>}
                                         </div>
-
                                     </div>
                                 ))}
                             </div>
