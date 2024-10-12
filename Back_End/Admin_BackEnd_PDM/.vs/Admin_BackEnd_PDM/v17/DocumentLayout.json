@@ -1,20 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{7FB6F6B2-5BD7-4EB7-A7BE-6F2F734F5B59}|DataModel\\DataModel.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\datamodel\\friendmessagesmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FB6F6B2-5BD7-4EB7-A7BE-6F2F734F5B59}|DataModel\\DataModel.csproj|solutionrelative:datamodel\\friendmessagesmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5EA05C23-16FE-482E-808C-71DB1C07DD25}|DataAccessLayer\\DataAccessLayer.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\dataaccesslayer\\friendrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5EA05C23-16FE-482E-808C-71DB1C07DD25}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\friendrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5EA05C23-16FE-482E-808C-71DB1C07DD25}|DataAccessLayer\\DataAccessLayer.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\dataaccesslayer\\friendrequestrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5EA05C23-16FE-482E-808C-71DB1C07DD25}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\friendrequestrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 1,
@@ -22,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 231,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -31,43 +18,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "FriendRepository.cs",
-              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\DataAccessLayer\\FriendRepository.cs",
-              "RelativeDocumentMoniker": "DataAccessLayer\\FriendRepository.cs",
-              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\DataAccessLayer\\FriendRepository.cs",
-              "RelativeToolTip": "DataAccessLayer\\FriendRepository.cs",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAYwBUAAAAYAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T01:59:39.971Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "FriendRequestRepository.cs",
-              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\DataAccessLayer\\FriendRequestRepository.cs",
-              "RelativeDocumentMoniker": "DataAccessLayer\\FriendRequestRepository.cs",
-              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\DataAccessLayer\\FriendRequestRepository.cs",
-              "RelativeToolTip": "DataAccessLayer\\FriendRequestRepository.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T01:59:39.163Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "FriendMessagesModel.cs",
-              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\DataModel\\FriendMessagesModel.cs",
-              "RelativeDocumentMoniker": "DataModel\\FriendMessagesModel.cs",
-              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\DataModel\\FriendMessagesModel.cs",
-              "RelativeToolTip": "DataModel\\FriendMessagesModel.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAiwBgAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-20T06:39:41.964Z",
-              "EditorCaption": ""
             }
           ]
         },

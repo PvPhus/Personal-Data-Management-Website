@@ -11,5 +11,6 @@ namespace BusinessLogicLayer.Interfaces
     {
         bool CreateMessages(FriendMessagesModel model);
         List<FriendMessagesModel> GetDataFriendChat(int sender_id, int receiver_id);
+        bool ShareFriendListData(ShareFriendListDataModel model);
     }
 }

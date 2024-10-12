@@ -55,7 +55,7 @@ const ListDataGroup: React.FC = () => {
         }
     }, [userId, group_id, messagesGroup]);
 
-    
+
     // Handle scroll event to determine if the user has scrolled up
     useEffect(() => {
         const container = messagesContainerRef.current;
@@ -221,7 +221,7 @@ const ListDataGroup: React.FC = () => {
 
     return (
         <>
-            <RightMouseGroup/>
+            <RightMouseGroup />
             <Sidebar />
             <FunctionUser />
             <main>
@@ -233,11 +233,11 @@ const ListDataGroup: React.FC = () => {
 
                             {isAdmin ? (
                                 <React.Fragment>
-                                    <button style={{ float: 'right'}} onClick={openListRequests} className="btn btn-success">
+                                    <button style={{ float: 'right' }} onClick={openListRequests} className="btn btn-success">
                                         <span>{data.total_requests}</span> List Requests
                                     </button>
                                     <button style={{ float: 'right', marginRight: '4px' }} onClick={openListMembers} className="btn btn-warning">
-                                         <span>{data.total_members}</span> List Members
+                                        <span>{data.total_members}</span> List Members
                                     </button>
                                 </React.Fragment>
                             ) : null}
@@ -255,7 +255,7 @@ const ListDataGroup: React.FC = () => {
                                             <div className="messageTime">{formatTime(message.timestamp)}</div>
                                         </div>
                                     ) : (
-                                        <div role="button" className="left-message">
+                                        <div role="button" className="left-message" key={message.message_id}>
                                             <img className="avatarUser" src={`/resources/${message.avatar_url}`} />
                                             <div className="messageUser">
                                                 <h6>{message.username}</h6>
@@ -268,20 +268,22 @@ const ListDataGroup: React.FC = () => {
                                 <div ref={chatEndRef} />
                             </div>
                             <div className="message-base">
+                                <button className="message-send"><i className='bx bxs-video'></i></button>
+                                <button className="message-send"><i className='bx bx-link-alt'></i></button>
                                 <input
                                     className="message-content"
                                     type="text"
                                     value={messageContent}
                                     onChange={handleInputChange}
-                                    placeholder="Enter your message" 
-                                    onKeyDown={handleEnter}/>
+                                    placeholder="Enter your message"
+                                    onKeyDown={handleEnter} />
                                 <button className="message-send" onClick={handleSendMessage}><i className="bx bxs-send" /></button>
                             </div>
                         </div>
                         <div className="dataGroup">
                             <div className="search-data">
                                 <i className="bx bx-file-find" />
-                                <input className="search-word" type="text" placeholder="Search file"/>
+                                <input className="search-word" type="text" placeholder="Search file" />
                             </div>
                             <div className="tabs">
                                 <div className="tab" data-target="data-images">Images</div>
@@ -292,7 +294,7 @@ const ListDataGroup: React.FC = () => {
                             </div>
                             <div className="data-images active">
                                 {Datas.filter(data => imageFileTypes.includes(data.file_type.toUpperCase())).map(data => (
-                                    <div className="data">
+                                    <div className="data" key={data.file_id}>
                                         <div className="face-data" id="face-data">
                                             <div id="mediaContainer" className="media-container">
                                                 <img src={`/resources/images/${data.filename_old}`} />
@@ -309,7 +311,7 @@ const ListDataGroup: React.FC = () => {
                             </div>
                             <div className="data-files">
                                 {Datas.filter(data => fileFileTypes.includes(data.file_type.toUpperCase())).map(data => (
-                                    <div className="data">
+                                    <div className="data" key={data.file_id}>
                                         <div className="name-data">
                                             <span>{data.filename_new}</span>
                                         </div>
@@ -329,7 +331,7 @@ const ListDataGroup: React.FC = () => {
                             </div>
                             <div className="data-videos">
                                 {Datas.filter(data => videoFileTypes.includes(data.file_type.toUpperCase())).map(data => (
-                                    <div className="data">
+                                    <div className="data" key={data.file_id}>
                                         <div className="name-data">
                                             <span>{data.filename_new}</span>
                                         </div>
@@ -347,18 +349,18 @@ const ListDataGroup: React.FC = () => {
                                     </div>
                                 ))}
                             </div>
-                            <div className="data-link">
-                                <div><a href="https://www.youtube.com/">http://example.com</a></div>
+                            <div className="data-link" >
+                                {/* <div><a href="https://www.youtube.com/">http://example.com</a></div>
                                 <div><a href="http://example.com">http://example.com</a></div>
                                 <div><a href="http://example.com">http://example.com</a></div>
-                                <div><a href="http://example.com">http://example.com</a></div>
+                                <div><a href="http://example.com">http://example.com</a></div> */}
                             </div>
                             <div className="my-data">
                                 <div className="base-1">
                                     <i className='bx bx-image-alt'>Images</i>
                                 </div>
                                 {Datas.filter(data => data.user_id === userId && imageFileTypes.includes(data.file_type.toUpperCase())).map(data => (
-                                    <div className="data" >
+                                    <div className="data" key={data.file_id}>
                                         <div className="face-data" id="face-data">
                                             <div id="mediaContainer" className="media-container">
                                                 <img src={`/resources/images/${data.filename_old}`} />

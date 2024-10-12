@@ -46,7 +46,7 @@ const Image: React.FC = () => {
     };
 
     const shareFile = async (file_id: number) => {
-        navigate(`/share/file/${file_id}`);
+        navigate(`/share/${file_id}`);
     };
     const pushDataInTrash = (
         file_id: number,

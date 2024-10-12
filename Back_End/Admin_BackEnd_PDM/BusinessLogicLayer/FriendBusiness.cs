@@ -25,5 +25,9 @@ namespace BusinessLogicLayer
         {
             return _res.GetDataFriendChat(sender_id, receiver_id);
         }
+        public bool ShareFriendListData(ShareFriendListDataModel model)
+        {
+            return _res.ShareFriendListData(model);
+        }
     }
 }

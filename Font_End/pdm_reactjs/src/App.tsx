@@ -34,6 +34,7 @@ import DeletedData from './pages/user/Trash/deleteddata';
 import ListRequestFriend from './pages/user/Friend/requestfriends';
 import ChatFriend from './pages/user/Friend/chatfriends';
 import InformationUser from './pages/user/Friend/informationuser';
+import ShareListData from './pages/user/Friend/sharelistdata';
 
 const App: React.FC = () => {
     return (
@@ -64,9 +65,9 @@ const AppRoutes: React.FC = () => {
                     <Route path="/images/:userId" element={<Image />} />
                     <Route path="/trash/:userId" element={<DeletedData />}/>
                     <Route path="/create/file" element={<Create />} />
-                    <Route path="/information/file/:file_id" element={<Information />} />
+                    <Route path="/information/:file_id" element={<Information />} />
                     <Route path="/update/file/:file_id" element={<Update />} />
-                    <Route path="/share/file/:file_id" element={<Share />} />
+                    <Route path="/share/:file_id" element={<Share />} />
                     <Route path="/joingroup/:userId" element={<Joingroup />} />
                     <Route path="/infouser/:userId" element={<InforUser />} />
                     <Route path="/informationuser/:user_id" element={<InformationUser />} />
@@ -77,6 +78,9 @@ const AppRoutes: React.FC = () => {
                     <Route path="/creategroup" element={<CreateGroup />} />
                     <Route path="/requestfriend/:userId" element={<ListRequestFriend />} />
                     <Route path="/chatfriend/:user_id" element={<ChatFriend />} />
+                    <Route path="/friend-chat/share/:file_id" element={<Share />} />
+                    <Route path="/friend-chat/information/:file_id" element={<Information />} />
+                    <Route path="/friend-chat/share-list-data/:receiver_id" element={<ShareListData />} />
                 </>
             )}
             {role === 'Admin' && (

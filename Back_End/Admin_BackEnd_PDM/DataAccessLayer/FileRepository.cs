@@ -269,7 +269,7 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
-        public bool ShareFile(ShareFileModel model)
+        public bool ShareFileGroup(ShareFileGroupModel model)
         {
             try
             {
@@ -280,6 +280,36 @@ namespace DataAccessLayer
                     "@user_id", model.user_id,
                     "@group_ids", groupIds);
 
+                if (!string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception("Database error: " + msgError);
+                }
+
+                if (result != null && !string.IsNullOrEmpty(result.ToString()))
+                {
+                    throw new Exception("Database error: " + result.ToString());
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in ShareFile method: " + ex.Message);
+                throw;
+            }
+        }
+        public bool ShareFileFriend(ShareFileFriendModel model)
+        {
+            try
+            {
+                string msgError = "";
+                var receiverlist = string.Join(",", model.receiver_id); // Convert list of group_id to comma-separated string
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_share_file_for_friend",
+                    "@file_id", model.file_id,
+                    "@sender_id", model.user_id,
+                    "@receiver_list", receiverlist,
+                    "@content", model.content);
+    
                 if (!string.IsNullOrEmpty(msgError))
                 {
                     throw new Exception("Database error: " + msgError);

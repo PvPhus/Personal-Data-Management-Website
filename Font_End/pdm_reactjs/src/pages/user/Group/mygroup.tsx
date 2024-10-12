@@ -20,7 +20,7 @@ const MyGroup: React.FC = () => {
         const fetchData = async () => {
             if (!userId) {
                 setError('User ID not found');
-                setLoading(false);
+                setLoading(false);  
                 return;
             }
             try {

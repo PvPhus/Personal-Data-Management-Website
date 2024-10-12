@@ -17,13 +17,11 @@ const InforUser = () => {
     });
 
     useEffect(() => {
-
         const fetchUserDetails = async () => {
             try {
                 if (userId) {
                     const response = await axios.get(`https://localhost:7227/api/User/get_user_by_userid/${userId}`);
                     const userData = response.data;
-
                     setUserDetails({
                         user_id: userData.user_id,
                         username: userData.username,
@@ -78,14 +76,14 @@ const InforUser = () => {
                 }));
 
                 // Update user info with the new avatar URL and username
-                const updateResponse = await axios.put(`https://localhost:7227/api/User/update_user_info?user_id=${userId}&username=${userDetails.username}&avatar_url=${avatarUrl}`);
+                await axios.put(`https://localhost:7227/api/User/update_user_info?user_id=${userId}&username=${userDetails.username}&avatar_url=${avatarUrl}`);
                 setMessage('User information successfully updated!');
             } catch (error) {
                 setMessage('There was an error updating user information!');
             }
         } else {
             try {
-                const updateResponse = await axios.put(`https://localhost:7227/api/User/update_user_info?user_id=${userId}&username=${userDetails.username}&avatar_url=${userDetails.avatar_url}`);
+                await axios.put(`https://localhost:7227/api/User/update_user_info?user_id=${userId}&username=${userDetails.username}&avatar_url=${userDetails.avatar_url}`);
                 setMessage('Username successfully updated!');
             } catch (error) {
                 setMessage('There was an error updating the username!');

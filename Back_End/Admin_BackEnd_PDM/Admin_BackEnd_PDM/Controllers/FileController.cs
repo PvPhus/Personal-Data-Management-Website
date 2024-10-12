@@ -460,9 +460,9 @@ namespace API_PersonalDataManagement.Controllers
             };
             return types.ContainsKey(fileType.ToLowerInvariant()) ? types[fileType.ToLowerInvariant()] : "application/octet-stream";
         }
-        [Route("share_file")]
+        [Route("share_file_group")]
         [HttpPost]
-        public IActionResult ShareFile([FromBody] ShareFileModel model)
+        public IActionResult ShareFileGroup([FromBody] ShareFileGroupModel model)
         {
             try
             {
@@ -471,7 +471,33 @@ namespace API_PersonalDataManagement.Controllers
                     return BadRequest("Invalid data.");
                 }
 
-                bool isShared = _fileBusiness.ShareFile(model);
+                bool isShared = _fileBusiness.ShareFileGroup(model);
+                if (isShared)
+                {
+                    return Ok("File shared successfully.");
+                }
+                else
+                {
+                    return StatusCode(500, "A problem happened while handling your request.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message); // Trả về lỗi 500 nếu có lỗi xảy ra
+            }
+        }
+        [Route("share_file_friend")]
+        [HttpPost]
+        public IActionResult ShareFileFriend([FromBody] ShareFileFriendModel model)
+        {
+            try
+            {
+                if (model == null || model.receiver_id == null || !model.receiver_id.Any())
+                {
+                    return BadRequest("Invalid data.");
+                }
+
+                bool isShared = _fileBusiness.ShareFileFriend(model);
                 if (isShared)
                 {
                     return Ok("File shared successfully.");

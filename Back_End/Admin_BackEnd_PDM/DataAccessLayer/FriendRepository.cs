@@ -61,5 +61,35 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
+        public bool ShareFriendListData(ShareFriendListDataModel model)
+        {
+            try
+            {
+                string msgError = "";
+                var files = string.Join(",", model.file_id);
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_share_friend_list_data",
+                    "@sender_id", model.sender_id,
+                    "@receiver_id", model.receiver_id,
+                    "@message_content", model.content,
+                    "@file_ids", files);
+
+                if (!string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception("Database error: " + msgError);
+                }
+
+                if (result != null && !string.IsNullOrEmpty(result.ToString()))
+                {
+                    throw new Exception("Database error: " + result.ToString());
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in ShareFile method: " + ex.Message);
+                throw;
+            }
+        }
     }
 }

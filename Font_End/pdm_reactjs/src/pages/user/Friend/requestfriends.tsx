@@ -36,8 +36,6 @@ const ListRequestFriend: React.FC = () => {
         try {
             const response = await axios.get(`https://localhost:7227/api/FriendRequest/get_all_request_friend?user_id=${userId}`);
             setRequestFriends(response.data);
-            console.log(requestFriends.filter(requestFriend => requestFriend.status === "Pending"));
-
             setLoading(false);
         } catch (error) {
             setError('Error fetching data');

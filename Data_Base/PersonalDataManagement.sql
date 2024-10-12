@@ -48,7 +48,6 @@ CREATE TABLE Permissions (
 	can_chat BIT
 );
 
-
 -- Bảng Nhóm (Groups)
 CREATE TABLE Groups (
     group_id INT PRIMARY KEY IDENTITY,
@@ -82,9 +81,15 @@ CREATE TABLE GroupData (
     CONSTRAINT FK_GroupData_User FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
+-- Bảng Tin nhắn nhóm (GroupMessages)
+CREATE TABLE GroupMessages (
+    message_id INT PRIMARY KEY IDENTITY,
+    group_id INT FOREIGN KEY REFERENCES Groups(group_id),
+    sender_id INT FOREIGN KEY REFERENCES Users(user_id),
+    content NVARCHAR(MAX),
+    timestamp DATETIME
+);
 
-select * from groups;
-select * from groupdata where group_id = 23;
 -- Bảng Thành viên nhóm (GroupMembers)
 CREATE TABLE GroupMembers (
     group_id INT,
@@ -149,6 +154,7 @@ CREATE TABLE FileStatistics (
     view_count INT DEFAULT 0,
     download_count INT DEFAULT 0
 );
+
 -- Bảng Yêu cầu kết bạn (FriendRequests)
 CREATE TABLE FriendRequests (
     request_id INT PRIMARY KEY IDENTITY,
@@ -166,9 +172,7 @@ CREATE TABLE FriendMessages (
     content NVARCHAR(MAX),
     timestamp DATETIME
 );
-INSERT INTO FriendMessages (sender_id, receiver_id, content, timestamp)
-VALUES 
-(21,22,N'Anh chào em','2023-01-01 08:00:00');
+
 CREATE TABLE FriendData (
     file_id INT,
     message_id INT,
@@ -177,19 +181,8 @@ CREATE TABLE FriendData (
     CONSTRAINT FK_FriendData_Message FOREIGN KEY (message_id) REFERENCES FriendMessages(message_id),
     CONSTRAINT FK_FriendData_User FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
-INSERT INTO FriendData (file_id, message_id, user_id, send_date)
-VALUES 
-(70,1,21,'2023-01-01 08:00:00');
-select * from FriendData;
-select * from FriendMessages;
--- Bảng Tin nhắn nhóm (GroupMessages)
-CREATE TABLE GroupMessages (
-    message_id INT PRIMARY KEY IDENTITY,
-    group_id INT FOREIGN KEY REFERENCES Groups(group_id),
-    sender_id INT FOREIGN KEY REFERENCES Users(user_id),
-    content NVARCHAR(MAX),
-    timestamp DATETIME
-);
+
+
 
 -- Thêm dữ liệu vào bảng GroupMessages
 INSERT INTO GroupMessages (group_id, sender_id, content, timestamp) 
@@ -782,7 +775,8 @@ AS
 BEGIN
     SELECT * FROM activitylog;
 END;
-
+select * from FriendMessages;
+select * from FriendData;
 ----------FILES------------
 ----------SHARE FILE WITH GROUPS----------
 CREATE PROCEDURE sp_share_file_with_groups
@@ -1017,16 +1011,6 @@ BEGIN
 
     PRINT 'Cập nhật quyền thành công.';
 END;
-
-select * from files;
-exec sp_permission_update
-    @permission_id = 57,
-    @can_read  = 1,
-    @can_download  = 1,
-    @can_share  = 1,
-	@can_delete  = 0;
-
-
 
 ----------------GROUP REQUEST-----------------
 -------Create Request---------- 
@@ -1827,7 +1811,7 @@ BEGIN
 END;
 
 --Create messages friend
-CREATE PROCEDURE [dbo].[sp_Friend_Message_Create]
+ALTER PROCEDURE [dbo].[sp_Friend_Message_Create]
     @sender_id INT,
     @receiver_id INT,
     @content NVARCHAR(MAX)
@@ -1836,14 +1820,14 @@ BEGIN
     SET NOCOUNT ON;
 
     -- Thêm bản ghi mới vào bảng GroupMessages
-    INSERT INTO Messages (sender_id, receiver_id, content, timestamp)
+    INSERT INTO FriendMessages (sender_id, receiver_id, content, timestamp)
     VALUES (@sender_id, @receiver_id, @content, GETDATE());
 
     PRINT 'Message added successfully.';
 END;
-select * from friendrequests;
+select * from FriendMessages;
 select * from users;
-exec sp_Friend_Message_Create @sender_id=21, @receiver_id=22, @content="anh yeu em"
+exec sp_Friend_Message_Create @sender_id=22, @receiver_id=21, @content="con di me may jbduvwdviqtwvdtyqwvydqytwvdyqiwvydvyqvwydqwdqw"
 
 --Gửi lời mời kết bạn
 CREATE PROCEDURE [dbo].[sp_friend_request_create]
@@ -1974,62 +1958,197 @@ BEGIN
 END;
 exec sp_get_all_request_friend @user_id = 23;
 
-
-ALTER PROCEDURE [Get_Data_Friend_Chat]
+	
+select * from users;
+select * from FriendData;
+select * from FriendMessages
+exec ShareFile
+    @file_id=71,
+    @sender_id=21,
+    @receiver_list ='22,23,24',
+	@content = N'hello'-- Danh sách mã người nhận dạng chuỗi, ví dụ: '1,2,3'
+   
+--Chia sẻ file giữa các người dùng
+CREATE PROCEDURE sp_share_file_for_friend
+    @file_id INT,
     @sender_id INT,
-    @receiver_id INT
+    @receiver_list NVARCHAR(MAX), -- Danh sách mã người nhận dạng chuỗi, ví dụ: '1,2,3'
+    @content NVARCHAR(MAX) = N'data shared' -- Nội dung chia sẻ mặc định là 'data shared'
 AS
 BEGIN
- IF EXISTS (
-        SELECT 1 
-        FROM FriendMessages 
-        WHERE (sender_id = @sender_id AND receiver_id = @receiver_id)
-           OR (sender_id = @receiver_id AND receiver_id = @sender_id)
-    )
-	BEGIN
-		-- Lấy thông tin các đoạn chat giữa người gửi và người nhận
-		SELECT
-			fm.message_id,
-			fm.sender_id,
-			fm.receiver_id,
-			fm.content,
-			fm.timestamp,
-			receiver.avatar_url,
-			receiver.username,
-			fd.file_id,
-			f.filename_new,
-			f.filename_old,
-			f.file_size,
-			f.file_type,
-			fd.send_date
-		FROM FriendMessages fm
-		INNER JOIN Users sender ON fm.sender_id = sender.user_id
-		INNER JOIN Users receiver ON fm.receiver_id = receiver.user_id
-		LEFT JOIN FriendData fd ON fm.message_id = fd.message_id
-		LEFT JOIN Files f ON fd.file_id = f.file_id
-		WHERE (fm.sender_id = @sender_id AND fm.receiver_id = @receiver_id)
-		   OR (fm.sender_id = @receiver_id AND fm.receiver_id = @sender_id)
-		ORDER BY fm.timestamp;
-	END
-	ELSE
-	BEGIN
-        -- Nếu chưa có tin nhắn, trả về thông tin của cả hai người dùng
-        SELECT          
-            u2.user_id,
-            u2.username,
-            u2.avatar_url,
-			NULL AS send_date,
-            NULL AS message_id,
-            NULL AS content,
-            NULL AS timestamp
-        FROM 
-            Users u1
-        CROSS JOIN Users u2
-        WHERE 
-            u1.user_id = @sender_id
-            AND u2.user_id = @receiver_id;
-    END
+    -- Tách danh sách người nhận thành bảng tạm
+    DECLARE @xml XML = N'<root><id>' + REPLACE(@receiver_list, ',', '</id><id>') + '</id></root>';
+
+    -- Duyệt từng người nhận và chèn vào bảng FriendMessages và FriendData
+    INSERT INTO FriendMessages (sender_id, receiver_id, content, timestamp)
+    SELECT 
+        @sender_id,
+        receivers.id.value('.', 'INT') AS receiver_id,
+        @content,
+        GETDATE()
+    FROM @xml.nodes('/root/id') AS receivers(id);
+
+    -- Chèn dữ liệu vào bảng FriendData dựa trên các message_id vừa được tạo
+    INSERT INTO FriendData (file_id, message_id, user_id, send_date)
+    SELECT 
+        @file_id,
+        fm.message_id,
+        @sender_id,
+        GETDATE()
+    FROM FriendMessages fm
+    WHERE fm.sender_id = @sender_id
+    AND fm.timestamp = (SELECT MAX(timestamp) FROM FriendMessages WHERE sender_id = @sender_id);
 END;
+
+exec sp_share_friend_list_data
+    @sender_id = 21,               -- ID của người gửi
+    @receiver_id = 22,             -- ID của người nhận
+    @file_ids = '100,101,102'
+--Chia sẻ nhiều dữ liệu cho 1 người dùng
+ALTER PROCEDURE sp_share_friend_list_data
+    @sender_id INT,               -- ID của người gửi
+    @receiver_id INT,             -- ID của người nhận
+    @message_content NVARCHAR(MAX) = N'Shared List Data', -- Nội dung tin nhắn mặc định
+    @file_ids NVARCHAR(MAX)       -- Danh sách file_id, ngăn cách bằng dấu phẩy (e.g. '1,2,3')
+AS
+BEGIN
+    -- Bắt đầu transaction để đảm bảo tính nhất quán
+    BEGIN TRANSACTION;
+
+    BEGIN TRY
+        -- 1. Thêm tin nhắn vào bảng FriendMessages
+        DECLARE @message_id INT;
+        INSERT INTO FriendMessages (sender_id, receiver_id, content, timestamp)
+        VALUES (@sender_id, @receiver_id, @message_content, GETDATE());
+
+        -- Lấy message_id của tin nhắn vừa thêm
+        SET @message_id = SCOPE_IDENTITY();
+
+        -- 2. Xử lý danh sách file_id (chuỗi file_ids được truyền vào)
+        DECLARE @file_id NVARCHAR(50);
+        DECLARE @pos INT;
+
+        WHILE LEN(@file_ids) > 0
+        BEGIN
+            -- Lấy file_id đầu tiên từ danh sách
+            SET @pos = CHARINDEX(',', @file_ids);
+
+            IF @pos = 0
+                SET @file_id = @file_ids;
+            ELSE
+                SET @file_id = SUBSTRING(@file_ids, 1, @pos - 1);
+
+            -- Loại bỏ file_id đã xử lý khỏi danh sách
+            IF @pos = 0
+                SET @file_ids = '';
+            ELSE
+                SET @file_ids = SUBSTRING(@file_ids, @pos + 1, LEN(@file_ids) - @pos);
+
+            -- 3. Thêm thông tin chia sẻ file vào bảng FriendData
+            INSERT INTO FriendData (file_id, message_id, user_id, send_date)
+            VALUES (CAST(@file_id AS INT), @message_id, @sender_id, GETDATE());
+        END;
+
+        -- Commit transaction nếu mọi thứ thành công
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        -- Rollback transaction nếu có lỗi
+        ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH
+END;
+
+
+--ALTER PROCEDURE sp_share_friend_list_data
+--    @file_list NVARCHAR(MAX),-- Danh sách mã file nhận dạng chuỗi, ví dụ: '1,2,3'
+--    @sender_id INT,
+--    @receiver_id INT, 
+--    @content NVARCHAR(MAX) = N'Shared data' 
+--AS
+--BEGIN
+--    -- Tách danh sách người nhận thành bảng tạm
+--    DECLARE @xml XML = N'<root><id>' + REPLACE(@file_list, ',', '</id><id>') + '</id></root>';
+
+--    -- Duyệt từng người nhận và chèn vào bảng FriendMessages và FriendData
+--    INSERT INTO FriendData (file_id, message_id, user_id, send_date)
+--    SELECT 
+--        files.id.value('.', 'INT') AS file_id,
+--		fm.message_id,
+--		@sender_id,
+--        GETDATE()
+--    FROM @xml.nodes('/root/id') AS files(id);
+
+--    -- Chèn dữ liệu vào bảng FriendData dựa trên các message_id vừa được tạo
+--    INSERT INTO FriendMessages (sender_id, receiver_id, content, timestamp)
+--    SELECT 
+--        @sender_id,
+--		receiver_id,
+--		@content,
+--        GETDATE()
+--    FROM FriendMessages fm
+--    WHERE fm.sender_id = @sender_id
+--    AND fm.timestamp = (SELECT MAX(timestamp) FROM FriendMessages WHERE sender_id = @sender_id);
+--END;
+select * from friendData;
+select * from FriendMessages;
+
+
+--ALTER PROCEDURE [Get_Data_Friend_Chat]
+--    @sender_id INT,
+--    @receiver_id INT
+--AS
+--BEGIN
+-- IF EXISTS (
+--        SELECT 1 
+--        FROM FriendMessages 
+--        WHERE (sender_id = @sender_id AND receiver_id = @receiver_id)
+--           OR (sender_id = @receiver_id AND receiver_id = @sender_id)
+--    )
+--	BEGIN
+--		-- Lấy thông tin các đoạn chat giữa người gửi và người nhận
+--		SELECT
+--			fm.message_id,
+--			fm.sender_id,
+--			fm.receiver_id,
+--			fm.content,
+--			fm.timestamp,
+--			receiver.avatar_url,
+--			receiver.username,
+--			fd.file_id,
+--			f.filename_new,
+--			f.filename_old,
+--			f.file_size,
+--			f.file_type,
+--			fd.send_date
+--		FROM FriendMessages fm
+--		INNER JOIN Users sender ON fm.sender_id = sender.user_id
+--		INNER JOIN Users receiver ON fm.receiver_id = receiver.user_id
+--		LEFT JOIN FriendData fd ON fm.message_id = fd.message_id
+--		LEFT JOIN Files f ON fd.file_id = f.file_id
+--		WHERE (fm.sender_id = @sender_id AND fm.receiver_id = @receiver_id)
+--		   OR (fm.sender_id = @receiver_id AND fm.receiver_id = @sender_id)
+--		ORDER BY fm.timestamp;
+--	END
+--	ELSE
+--	BEGIN
+--        -- Nếu chưa có tin nhắn, trả về thông tin của cả hai người dùng
+--        SELECT          
+--            u2.user_id,
+--            u2.username,
+--            u2.avatar_url,
+--			NULL AS send_date,
+--            NULL AS message_id,
+--            NULL AS content,
+--            NULL AS timestamp
+--        FROM 
+--            Users u1
+--        CROSS JOIN Users u2
+--        WHERE 
+--            u1.user_id = @sender_id
+--            AND u2.user_id = @receiver_id;
+--    END
+--END;
 
 
 ALTER PROCEDURE [Get_Data_Friend_Chat]
@@ -2049,6 +2168,8 @@ BEGIN
         SELECT 
             -- Tin nhắn
             fm.message_id,
+            fm.sender_id,
+            fm.receiver_id,
             fm.content,
             fm.timestamp,
             
@@ -2072,10 +2193,12 @@ BEGIN
         FROM FriendMessages fm
         LEFT JOIN FriendData fd ON fd.message_id = fm.message_id
         LEFT JOIN Files f ON f.file_id = fd.file_id
-        INNER JOIN Users us_sender ON us_sender.user_id = fm.sender_id
-        INNER JOIN Users us_receiver ON us_receiver.user_id = fm.receiver_id
-        INNER JOIN FriendRequests fr ON fr.sender_id = us_sender.user_id 
-                                      AND fr.receiver_id = us_receiver.user_id
+        LEFT JOIN Users us_sender ON us_sender.user_id = fm.sender_id
+        LEFT JOIN Users us_receiver ON us_receiver.user_id = fm.receiver_id
+        LEFT JOIN FriendRequests fr ON (
+            (fr.sender_id = @sender_id AND fr.receiver_id = @receiver_id)
+            OR (fr.sender_id = @receiver_id AND fr.receiver_id = @sender_id)
+        )
         WHERE (fm.sender_id = @sender_id AND fm.receiver_id = @receiver_id)
            OR (fm.sender_id = @receiver_id AND fm.receiver_id = @sender_id)
         ORDER BY fm.timestamp;
@@ -2093,6 +2216,7 @@ BEGIN
 END;
 
 
-exec Get_Data_Friend_Chat @sender_id=21, @receiver_id=22;
+
+exec Get_Data_Friend_Chat @sender_id=22, @receiver_id=21;
 select * from ActivityLog;
 delete from activitylog;

@@ -54,9 +54,13 @@ namespace BusinessLogicLayer
         {
             return _res.GetFileByfile_id(file_id);
         }
-        public bool ShareFile(ShareFileModel model)
+        public bool ShareFileGroup(ShareFileGroupModel model)
         {
-            return _res.ShareFile(model);
+            return _res.ShareFileGroup(model);
+        }
+        public bool ShareFileFriend(ShareFileFriendModel model)
+        {
+            return _res.ShareFileFriend(model);
         }
         public bool UpdateName(int file_id, string filename_new)
         {

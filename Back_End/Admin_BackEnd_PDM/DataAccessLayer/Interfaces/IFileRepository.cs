@@ -16,8 +16,7 @@ namespace DataAccessLayer.Interfaces
         bool Delete(int file_id);
         FileModel GetFileByfile_id(int file_id);
         bool DeleteFileGroup(int file_id, int group_id);
-        bool ShareFile(ShareFileModel model);
-     
-            
+        bool ShareFileGroup(ShareFileGroupModel model);
+        bool ShareFileFriend(ShareFileFriendModel model);
     }
 }

@@ -64,12 +64,12 @@ const Alldata: React.FC = () => {
 
 
     const infoFile = (file_id: string) => {
-        navigate(`/information/file/${file_id}`);
+        navigate(`/information/${file_id}`);
     };
 
-    const updateFile = (file_id: string) => {
-        navigate(`/update/file/${file_id}`);
-    };
+    // const updateFile = (file_id: string) => {
+    //     navigate(`/update/file/${file_id}`);
+    // };
     const pushDataInTrash = (
         file_id: number,
         user_id: number,
@@ -158,7 +158,7 @@ const Alldata: React.FC = () => {
         }
     };
     const shareFile = (file_id: string) => {
-        navigate(`/share/file/${file_id}`);
+        navigate(`/share/${file_id}`);
     };
 
     return (

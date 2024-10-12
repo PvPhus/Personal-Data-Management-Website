@@ -23,7 +23,7 @@ const File: React.FC = () => {
         navigate(`/information/file/${file_id}`);
     };
     const shareFile = async (file_id: number) => {
-        navigate(`/share/file/${file_id}`);
+        navigate(`/share/${file_id}`);
     };
 
     useEffect(() => {

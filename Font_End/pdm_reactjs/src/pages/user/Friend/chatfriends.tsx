@@ -6,8 +6,6 @@ import Sidebar from "../../../components/user/sidebar";
 import FunctionUser from "../../../components/user/function";
 import { clickTabData } from "../../../assets/js/tabdata";
 
-
-
 const ChatFriend: React.FC = () => {
     const navigate = useNavigate();
     const { user_id } = useParams<{ user_id: string }>();
@@ -40,7 +38,6 @@ const ChatFriend: React.FC = () => {
     };
 
     useEffect(() => {
-
         clickTabData();
         fetchDataFriendChat();
         if (isAtBottom) {
@@ -51,13 +48,15 @@ const ChatFriend: React.FC = () => {
     // Get data friend chat(messages and files)
     const fetchDataFriendChat = async () => {
         try {
-            const respone = await axios.get(`https://localhost:7227/api/Friend/get_data_friend_chat?sender_id=${userId}&receiver_id=${user_id}`);
-            setDatas(respone.data);
+            const response = await axios.get(`https://localhost:7227/api/Friend/get_data_friend_chat?sender_id=${userId}&receiver_id=${user_id}`);
+            setDatas(response.data);
         } catch (error) {
             console.error('Error fetching messages group:', error)
 
         }
     }
+
+
 
     // Handle scroll event to determine if the user has scrolled up
     useEffect(() => {
@@ -68,31 +67,25 @@ const ChatFriend: React.FC = () => {
         }
     }, []);
 
-
-
     const formatTime = (timestamp: string) => {
         const date = new Date(timestamp);
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
 
-    // const openListRequests = () => {
-    //     navigate(`/openRequests/${group_id}`);
-    // };
-
-    // const openListMembers = () => {
-    //     navigate(`/openMembers/${group_id}`);
-    // };
-
     const infoData = (file_id: number) => {
-        navigate(`/information/file/${file_id}`);
+        navigate(`/friend-chat/information/${file_id}`);
     };
 
-    // const updateData = (file_id: number) => {
-    //     navigate(`/update/file/${file_id}`);
-    // };
-
     const shareData = async (file_id: number) => {
-        navigate(`/share/file/${file_id}`);
+        navigate(`/friend-chat/share/${file_id}`);
+    };
+
+    const VideoCall = async (receiver_id: number) => {
+        navigate(`/friend-chat/video-call/${receiver_id}`);
+    };
+
+    const ShareListData = async (receiver_id: number) => {
+        navigate(`/friend-chat/share-list-data/${receiver_id}`);
     };
 
     const deleteData = async (file_id: number, group_id: number) => {
@@ -165,12 +158,11 @@ const ChatFriend: React.FC = () => {
         const newMessage = {
             sender_id: userId,
             receiver_id: user_id,
-            content: messageContent,
-            timestamp: new Date().toISOString(),
+            content: messageContent
         };
 
         try {
-            await axios.post('https://localhost:7227/api/Group/create_messages', newMessage);
+            await axios.post('https://localhost:7227/api/Friend/create_messages_friend', newMessage);
             setDatas([...Datas, newMessage]);
             setMessageContent('');
             scrollToBottom();
@@ -185,73 +177,136 @@ const ChatFriend: React.FC = () => {
         }
     };
 
+
     return (
         <>
-
             <Sidebar />
             <FunctionUser />
             <main>
                 <div className="content">
                     {Datas.map(data => (
-                        <div className="alert alert-primary" key={data.receiver_id} style={{ zIndex: 30, width: '75.5%', position: 'fixed', fontSize: 'larger', fontWeight: 'bold', textAlign: 'center' }}>
+                        <div className="alert alert-primary" key={`${data.message_id}_${data.file_id}`} style={{ zIndex: 30, width: '75.5%', position: 'fixed', fontSize: 'larger', fontWeight: 'bold', textAlign: 'center' }}>
                             <img className="avatarGroup" src={`/resources/${data.avatar_url}`} alt="avatar" />
                             {data.username}
+                            <button className="btn btn-success" style={{ float: 'right' }}><i className='bx bx-dots-vertical-rounded'></i></button> {/* Nút nằm bên phải */}
                         </div>
                     ))}
                     <div className="contentGroup">
                         <div className="dataChat">
                             <h5>CONVERSATION</h5>
+                            {/*  Đổ ra tin nhắn giữa 2 người dùng */}
                             <div className="list-messages"
                                 ref={messagesContainerRef}>
-                                {/* {Datas.map(data => data.message_id !== null && (
-                                    data.sender_id === userId ? (
-                                        <div className="right-message" id="right-message" key={data.message_id}>
-                                            <div role="button" className="messageUser" id="messageUser">{data.content}</div>
-                                            <div className="messageTime">{formatTime(data.timestamp)}</div>
-                                        </div>
-                                    ) : (
-                                        <div role="button" className="left-message">
-                                            <img className="avatarUser" src={`/resources/${data.avatar_url}`} />
-                                            <div className="messageUser">
-                                                <h6>{data.username}</h6>
-                                                {data.content}
-                                            </div>
-                                            <div className="messageTime">{formatTime(data.timestamp)}</div>
-                                        </div>
-                                    )
-                                ))} */}
                                 {Datas.length === 0 || Datas.every(data => data.message_id === null) ? (
                                     <h6>Please text the opponent!</h6>
                                 ) : (
+                                   
                                     Datas.map(data => data.message_id !== null ? (
                                         data.sender_id === userId ? (
-                                            <div className="right-message" id="right-message" key={data.message_id}>
-                                                <div role="button" className="messageUser" id="messageUser">{data.content}</div>
-                                                <div className="messageTime">{formatTime(data.timestamp)}</div>
+                                            // Tin nhắn của người gửi
+                                            <div className="right-message" id="right-message" key={`${data.message_id}_${data.file_id}`}>
+                                                {/* Kiểm tra nếu content là "Shared data" */}
+                                                {data.content === "Shared data" ? (
+                                                    <>
+                                                        {data.filename_old && imageFileTypes.some(type => data.filename_old.toLowerCase().endsWith(type.toLowerCase())) ? (
+                                                            <img className="img-message" src={`/resources/images/${data.filename_old}`} alt={data.filename_old} />
+                                                        ) : data.filename_old && videoFileTypes.some(type => data.filename_old.toLowerCase().endsWith(type.toLowerCase())) ? (
+                                                            <video controls style={{ height: 'auto', width: '40%' }}>
+                                                                <source src={`/resources/images/${data.filename_old}`} />
+                                                            </video>
+                                                        ) : data.filename_old ? (
+                                                            <iframe src={`/resources/images/${data.filename_old}`} style={{ width: '40%', height: '200px' }} />
+                                                        ) : (
+                                                            // Nếu không có filename_old
+                                                            <p>No file available</p>
+                                                        )}
+                                                        <div className="messageTime">{formatTime(data.timestamp)}</div>
+                                                    </>
+                                                ) : data.content === "Shared List Data" ? (
+                                                    <>
+                                                        {data.filename_old && imageFileTypes.some(type => data.filename_old.toLowerCase().endsWith(type.toLowerCase())) ? (
+                                                            <img className="img-message" src={`/resources/images/${data.filename_old}`} alt={data.filename_old} />
+                                                        ) : data.filename_old && videoFileTypes.some(type => data.filename_old.toLowerCase().endsWith(type.toLowerCase())) ? (
+                                                            <video controls style={{ height: 'auto', width: '40%' }}>
+                                                                <source src={`/resources/images/${data.filename_old}`} />
+                                                            </video>
+                                                        ) : data.filename_old ? (
+                                                            <iframe src={`/resources/images/${data.filename_old}`} style={{ width: '40%', height: '200px' }} />
+                                                        ) : (
+                                                            // Nếu không có filename_old
+                                                            <p>No file available</p>
+                                                        )}
+                                                        <div className="messageTime">{formatTime(data.timestamp)}</div>
+                                                    </>
+                                                ) : (
+                                                    <div role="button" className="messageUser" id="messageUser">{data.content}</div>
+                                                )}
                                             </div>
                                         ) : (
-                                            <div role="button" className="left-message" key={data.message_id}>
-                                                <img className="avatarUser" src={`/resources/${data.avatar_url}`} />
+                                            // Tin nhắn của người nhận
+                                            <div role="button" className="left-message" key={`${data.message_id}_${data.file_id}`}>
+                                                <img className="avatarUser" src={`/resources/${data.avatar_url}`} alt="User Avatar" />
                                                 <div className="messageUser">
                                                     <h6>{data.username}</h6>
-                                                    {data.content}
+                                                    {/* Kiểm tra nếu content là "Shared data" */}
+                                                    {data.content === "Shared data" ? (
+                                                        <>
+                                                            <img className="img-message" src={`/resources/images/${data.filename_old}`} alt={data.filename_old} />
+                                                            <div className="messageTime">{formatTime(data.timestamp)}</div>
+                                                        </>
+                                                    ) : data.content === "Shared List Data" ? (
+                                                        <>
+                                                            <div className="list-img-message">
+                                                                <img className="img-message" src={`/resources/images/${data.filename_old}`} alt={data.filename_old} />
+                                                            </div>
+                                                            <div className="messageTime">{formatTime(data.timestamp)}</div>
+                                                        </>
+                                                    ) : (
+                                                        <div role="button" id="messageUser">{data.content}</div>
+                                                    )}
                                                 </div>
                                                 <div className="messageTime">{formatTime(data.timestamp)}</div>
                                             </div>
                                         )
                                     ) : null)
                                 )}
+
                                 <div ref={chatEndRef} />
-                            </div>
-                            <div className="message-base">
-                                <input
-                                    className="message-content"
-                                    type="text"
-                                    value={messageContent}
-                                    onChange={handleInputChange}
-                                    placeholder="Enter your message"
-                                    onKeyDown={handleEnter} />
-                                <button className="message-send" onClick={handleSendMessage}><i className="bx bxs-send" /></button>
+
+                                {/* Chức năng */}
+                                <div className="message-base">
+                                    {Datas && Datas.length > 0 && (
+                                        (() => {
+                                            const dataFound = Datas.find(data => data.receiver_id !== userId);
+                                            return dataFound ? (
+                                                <div className="message-base">
+                                                    {/* Video call */}
+                                                    <button className="message-send" onClick={() => VideoCall(dataFound.receiver_id)}>
+                                                        <i className='bx bxs-video'></i>
+                                                    </button>
+                                                    {/* Chia sẻ 1 lúc nhiều dữ liệu */}
+                                                    <button className="message-send" onClick={() => ShareListData(dataFound.receiver_id)}>
+                                                        <i className='bx bx-link-alt'></i>
+                                                    </button>
+                                                    {/* Ô nhập tin nhắn */}
+                                                    <input
+                                                        className="message-content"
+                                                        type="text"
+                                                        value={messageContent}
+                                                        onChange={handleInputChange}
+                                                        placeholder="Enter your message"
+                                                        onKeyDown={handleEnter}
+                                                    />
+                                                    {/* Nút nhấn gửi tin nhắn */}
+                                                    <button className="message-send" onClick={handleSendMessage}>
+                                                        <i className="bx bxs-send"></i>
+                                                    </button>
+                                                </div>
+
+                                            ) : null;
+                                        })()
+                                    )}
+                                </div>
                             </div>
                         </div>
                         <div className="dataGroup">
@@ -267,103 +322,111 @@ const ChatFriend: React.FC = () => {
                                 <div className="tab" data-target="my-data">Shared</div>
                             </div>
                             <div className="data-images active">
-                                {Datas.filter(data => {
-                                    // Kiểm tra nếu file_type là null
-                                    if (data.file_type === null) {
-                                        return false; // Không bao gồm trong danh sách nếu file_type là null
-                                    }
-                                    return imageFileTypes.includes(data.file_type.toUpperCase());
-                                }).map(data => (
-                                    <div className="data" key={data.file_id}>
+                                {Datas.filter(data =>
+                                    data.file_type &&
+                                    imageFileTypes.includes(data.file_type.toUpperCase())
+                                ).map(data => (
+                                    <div className="data" key={`${data.message_id}_${data.file_id}`}>
                                         <div className="face-data" id="face-data">
                                             <div id="mediaContainer" className="media-container">
-                                                <img src={`/resources/images/${data.filename_old}`} alt="file" />
+                                                <img src={`/resources/images/${data.filename_old}`} alt={data.filename_old} />
                                             </div>
                                         </div>
                                         <div className="function-data">
-                                            <a onClick={() => infoData(data.file_id)}><i className="bx bxs-show icon" /></a>
-                                            <a onClick={() => downloadData(data.file_id, `${data.filename_new}.${data.file_type}`)}><i className='bx bxs-download icon'></i></a>
-                                            <a onClick={() => shareData(data.file_id)}><i className="bx bxs-share icon" /></a>
-                                            <a onClick={() => deleteData(data.file_id, data.group_id)}><i className="bx bxs-trash icon" /></a>
+                                            <a onClick={() => infoData(data.file_id)}>
+                                                <i className="bx bxs-show icon" />
+                                            </a>
+                                            <a onClick={() => downloadData(data.file_id, `${data.filename_new}.${data.file_type}`)}>
+                                                <i className='bx bxs-download icon'></i>
+                                            </a>
+                                            <a onClick={() => shareData(data.file_id)}>
+                                                <i className="bx bxs-share icon" />
+                                            </a>
+                                            <a onClick={() => deleteData(data.file_id, data.group_id)}>
+                                                <i className="bx bxs-trash icon" />
+                                            </a>
                                         </div>
                                     </div>
                                 ))}
-
                                 {/* Hiển thị thông báo nếu không có dữ liệu nào */}
                                 {Datas.every(data => data.file_type === null) && (
-                                    <h6>No Image</h6>
+                                    <h6>No Data</h6>
                                 )}
                             </div>
                             <div className="data-files">
-                                {Datas.filter(data => {
-                                    // Kiểm tra nếu file_type là null
-                                    if (data.file_type === null) {
-                                        return false; // Không bao gồm trong danh sách nếu file_type là null
-                                    }
-                                    return fileFileTypes.includes(data.file_type.toUpperCase());
-                                }).map(data => (
-                                    <div className="data">
-                                        <div className="name-data">
-                                            <span>{data.filename_new}</span>
-                                        </div>
+                                {Datas.filter(data =>
+                                    data.file_type &&
+                                    fileFileTypes.includes(data.file_type.toUpperCase()) // Kiểm tra file_type và chuyển sang chữ hoa
+                                ).map(data => (
+                                    <div className="data" key={`${data.message_id}_${data.file_id}`}>
                                         <div className="face-data" id="face-data">
                                             <div id="mediaContainer" className="media-container">
                                                 <img src={getImgSrc(data.file_type)} />
                                             </div>
                                         </div>
                                         <div className="function-data">
-                                            <a onClick={() => infoData(data.file_id)}><i className="bx bxs-show icon" /></a>
-                                            <a onClick={() => downloadData(data.file_id, `${data.filename_new}.${data.file_type}`)}><i className='bx bxs-download icon'></i></a>
-                                            <a onClick={() => shareData(data.file_id)}><i className="bx bxs-share icon" /></a>
-                                            <a onClick={() => deleteData(data.file_id, data.group_id)}><i className="bx bxs-trash icon" /></a>
+                                            <a onClick={() => infoData(data.file_id)}>
+                                                <i className="bx bxs-show icon" />
+                                            </a>
+                                            <a onClick={() => downloadData(data.file_id, `${data.filename_new}.${data.file_type}`)}>
+                                                <i className='bx bxs-download icon'></i>
+                                            </a>
+                                            <a onClick={() => shareData(data.file_id)}>
+                                                <i className="bx bxs-share icon" />
+                                            </a>
+                                            <a onClick={() => deleteData(data.file_id, data.group_id)}>
+                                                <i className="bx bxs-trash icon" />
+                                            </a>
                                         </div>
                                     </div>
                                 ))}
                                 {Datas.every(data => data.file_type === null) && (
-                                    <h6>No File</h6>
+                                    <h6>No Data</h6>
                                 )}
                             </div>
                             <div className="data-videos">
-                            {Datas.filter(data => {
-                                    // Kiểm tra nếu file_type là null
-                                    if (data.file_type === null) {
-                                        return false; // Không bao gồm trong danh sách nếu file_type là null
-                                    }
-                                    return videoFileTypes.includes(data.file_type.toUpperCase());
-                                }).map(data => (
-                                    <div className="data">
-                                        <div className="name-data">
-                                            <span>{data.filename_new}</span>
-                                        </div>
+                                {Datas.filter(data =>
+                                    data.file_type &&
+                                    videoFileTypes.includes(data.file_type.toUpperCase()) // Kiểm tra file_type và chuyển sang chữ hoa
+                                ).map(data => (
+                                    <div className="data" key={`${data.message_id}_${data.file_id}`}>
                                         <div className="face-data" id="face-data">
                                             <div id="mediaContainer" className="media-container">
                                                 <video src={`/resources/images/${data.filename_old}`} />
                                             </div>
                                         </div>
                                         <div className="function-data">
-                                            <a onClick={() => infoData(data.file_id)}><i className="bx bxs-show icon" /></a>
-                                            <a onClick={() => downloadData(data.file_id, `${data.filename_new}.${data.file_type}`)}><i className='bx bxs-download icon'></i></a>
-                                            <a onClick={() => shareData(data.file_id)}><i className="bx bxs-share icon" /></a>
-                                            <a onClick={() => deleteData(data.file_id, data.group_id)}><i className="bx bxs-trash icon" /></a>
+                                            <a onClick={() => infoData(data.file_id)}>
+                                                <i className="bx bxs-show icon" />
+                                            </a>
+                                            <a onClick={() => downloadData(data.file_id, `${data.filename_new}.${data.file_type}`)}>
+                                                <i className='bx bxs-download icon'></i>
+                                            </a>
+                                            <a onClick={() => shareData(data.file_id)}>
+                                                <i className="bx bxs-share icon" />
+                                            </a>
+                                            <a onClick={() => deleteData(data.file_id, data.group_id)}>
+                                                <i className="bx bxs-trash icon" />
+                                            </a>
                                         </div>
                                     </div>
                                 ))}
                                 {Datas.every(data => data.file_type === null) && (
-                                    <h6>No Video</h6>
+                                    <h6>No Data</h6>
                                 )}
                             </div>
                             <div className="data-link">
-                                {/* <div><a href="https://www.youtube.com/">http://example.com</a></div>
+                                <div><a href="https://www.youtube.com/">http://example.com</a></div>
                                 <div><a href="http://example.com">http://example.com</a></div>
                                 <div><a href="http://example.com">http://example.com</a></div>
-                                <div><a href="http://example.com">http://example.com</a></div> */}
+                                <div><a href="http://example.com">http://example.com</a></div>
                             </div>
                             <div className="my-data">
                                 <div className="base-1">
                                     <i className='bx bx-image-alt'>Images</i>
                                 </div>
-                                {Datas.filter(data => data.user_id === userId && imageFileTypes.includes(data.file_type)).map(data => (
-                                    <div className="data" >
+                                {Datas.filter(data => data.sender_id === userId && imageFileTypes.includes(data.file_type)).map(data => (
+                                    <div className="data" key={`${data.message_id}_${data.file_id}`} >
                                         <div className="face-data" id="face-data">
                                             <div id="mediaContainer" className="media-container">
                                                 <img src={`/resources/images/${data.filename_old}`} />
@@ -380,8 +443,8 @@ const ChatFriend: React.FC = () => {
                                 <div className="base-1">
                                     <i className='bx bxs-file'>Files</i>
                                 </div>
-                                {Datas.filter(data => data.user_id === userId && fileFileTypes.includes(data.file_type)).map(data => (
-                                    <div className="data" >
+                                {Datas.filter(data => data.sender_id === userId && fileFileTypes.includes(data.file_type)).map(data => (
+                                    <div className="data" key={`${data.message_id}_${data.file_id}`} >
                                         <div className="name-data">
                                             <span>{data.filename_new}</span>
                                         </div>
@@ -401,8 +464,8 @@ const ChatFriend: React.FC = () => {
                                 <div className="base-1">
                                     <i className='bx bxs-videos'>Videos</i>
                                 </div>
-                                {Datas.filter(data => data.user_id === userId && videoFileTypes.includes(data.file_type)).map(data => (
-                                    <div className="data">
+                                {Datas.filter(data => data.sender_id === userId && videoFileTypes.includes(data.file_type)).map(data => (
+                                    <div className="data" key={`${data.message_id}_${data.file_id}`}>
                                         <div className="name-data">
                                             <span>{data.filename_new}</span>
                                         </div>
@@ -422,13 +485,8 @@ const ChatFriend: React.FC = () => {
                             </div>
                         </div>
                     </div>
-
                 </div>
-                {/* <div className="button-plus">
-                    <a><i className='bx bxs-plus-circle'></i></a>
-                </div> */}
             </main>
-
         </>
     );
 };

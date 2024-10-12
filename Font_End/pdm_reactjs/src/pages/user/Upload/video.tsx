@@ -26,12 +26,12 @@ const Video: React.FC = () => {
     };
 
     const shareFile = async (file_id: number) => {
-        navigate(`/share/file/${file_id}`);
+        navigate(`/share/${file_id}`);
     };
 
-    const updateVideo = (file_id: number) => {
-        navigate(`/update/Video/${file_id}`);
-    };
+    // const updateVideo = (file_id: number) => {
+    //     navigate(`/update/Video/${file_id}`);
+    // };
 
     useEffect(() => {
         fetchVideos();
@@ -149,7 +149,6 @@ const Video: React.FC = () => {
 
     return (
         <>
-
             <Sidebar />
             <FunctionUser />
             <Topbar />
@@ -178,7 +177,7 @@ const Video: React.FC = () => {
                             </div>
                             <div className="function-data">
                                 <a onClick={() => infoFile(data.file_id)}><i className="bx bxs-show icon" /></a>
-                                <a onClick={() => updateVideo(data.file_id)}><i className="bx bxs-edit icon" /></a>
+                                {/* <a onClick={() => updateVideo(data.file_id)}><i className="bx bxs-edit icon" /></a> */}
                                 <a onClick={() => deleteVideo(data)}><i className="bx bxs-trash icon" /></a>
                                 <a onClick={() => downloadVideo(data.file_id, `${data.filename_new}.${data.file_type}`)}><i className='bx bxs-download icon'></i></a>
                                 <a onClick={() => shareFile(data.file_id)}><i className="bx bxs-share icon" /></a>
