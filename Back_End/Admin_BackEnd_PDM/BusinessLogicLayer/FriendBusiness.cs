@@ -29,5 +29,9 @@ namespace BusinessLogicLayer
         {
             return _res.ShareFriendListData(model);
         }
+        public bool DeleteDataFriend(int message_id)
+        {
+            return _res.DeleteDataFriend(message_id);
+        }
     }
 }

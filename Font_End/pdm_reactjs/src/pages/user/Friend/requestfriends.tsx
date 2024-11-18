@@ -188,12 +188,13 @@ const ListRequestFriend: React.FC = () => {
 
                                     // Kiểm tra nếu trạng thái là "Block"
                                     const isBlocked = friendRequest && friendRequest.status === 'Block';
+                                    const isAccepted = friendRequest && friendRequest.status === 'Accepted';
 
                                     // Kiểm tra nếu đã gửi/nhận lời mời kết bạn
-                                    const isFriendRequestSent = friendRequest && friendRequest.status !== 'Block';
+                                    const isFriendRequestSent = friendRequest && friendRequest.status !== 'Block' ;
 
-                                    // Ẩn người dùng nếu trạng thái là "Block"
-                                    if (isBlocked) return null;
+                                    // Ẩn người dùng nếu trạng thái là "Block" hoặc "Accepted"
+                                    if (isBlocked || isAccepted) return null;
 
                                     return (
                                         <div className="form-user" key={user.user_id}>

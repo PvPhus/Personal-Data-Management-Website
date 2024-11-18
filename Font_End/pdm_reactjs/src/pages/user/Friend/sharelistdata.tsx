@@ -26,6 +26,10 @@ const ShareListData: React.FC = () => {
         }
     }, [userId]);
 
+    const closeShare = async () => {
+        navigate(-1)
+    }
+
     const fetchDatas = async () => {
         if (!userId) {
             setErrorMessage('User ID not found');
@@ -64,9 +68,9 @@ const ShareListData: React.FC = () => {
             content: "Shared List Data",
             file_id: selectedFiles.map(Number)
         };
-        
+
         try {
-            const response = await axios.post('https://localhost:7227/api/Friend/share_friend_list_data', data);
+            await axios.post('https://localhost:7227/api/Friend/share_friend_list_data', data);
             setSuccessMessage('File shared successfully with friends!');
             console.log(data)
             setTimeout(() => {
@@ -107,9 +111,11 @@ const ShareListData: React.FC = () => {
                 {successMessage && (
                     <div className="alert alert-success fixed-top text-center" style={{ zIndex: 1000 }}>
                         {successMessage}
+
                     </div>
+
                 )}
-                 {errorMessage && (
+                {errorMessage && (
                     <div className="alert alert-success fixed-top text-center" style={{ zIndex: 1000 }}>
                         {errorMessage}
                     </div>
@@ -118,6 +124,9 @@ const ShareListData: React.FC = () => {
                     <div className="alert alert-primary text-center" style={{ zIndex: 30, width: "75.5%", position: "fixed", fontSize: "larger", fontWeight: "bold" }}>
                         LIST DATA
                         <button className="btn btn-success" onClick={handleShare} style={{ marginLeft: '7px' }}>SHARE</button>
+                        <button onClick={closeShare} className="btn btn-danger" style={{ float: 'right' }}>
+                            <i className='bx bx-x'></i>
+                        </button>
                     </div>
                     <div className="base">
                         <i className='bx bx-image-alt'>Images</i>

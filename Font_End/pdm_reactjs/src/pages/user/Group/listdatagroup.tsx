@@ -250,12 +250,12 @@ const ListDataGroup: React.FC = () => {
                                 ref={messagesContainerRef}>
                                 {messagesGroup.map(message => (
                                     message.sender_id === userId ? (
-                                        <div className="right-message" id="right-message" key={message.message_id}>
+                                        <div className="right-message" id="right-message" key={`${message.message_id}_${message.timestamp}`}>
                                             <div role="button" className="messageUser" id="messageUser">{message.content}</div>
                                             <div className="messageTime">{formatTime(message.timestamp)}</div>
                                         </div>
                                     ) : (
-                                        <div role="button" className="left-message" key={message.message_id}>
+                                        <div role="button" className="left-message" key={`${message.message_id}_${message.timestamp}`}>
                                             <img className="avatarUser" src={`/resources/${message.avatar_url}`} />
                                             <div className="messageUser">
                                                 <h6>{message.username}</h6>
@@ -294,7 +294,7 @@ const ListDataGroup: React.FC = () => {
                             </div>
                             <div className="data-images active">
                                 {Datas.filter(data => imageFileTypes.includes(data.file_type.toUpperCase())).map(data => (
-                                    <div className="data" key={data.file_id}>
+                                    <div className="data" key={`${data.file_id}_${data.upload_date}}`}>
                                         <div className="face-data" id="face-data">
                                             <div id="mediaContainer" className="media-container">
                                                 <img src={`/resources/images/${data.filename_old}`} />
@@ -311,7 +311,7 @@ const ListDataGroup: React.FC = () => {
                             </div>
                             <div className="data-files">
                                 {Datas.filter(data => fileFileTypes.includes(data.file_type.toUpperCase())).map(data => (
-                                    <div className="data" key={data.file_id}>
+                                    <div className="data" key={`${data.file_id}_${data.upload_date}`}>
                                         <div className="name-data">
                                             <span>{data.filename_new}</span>
                                         </div>
@@ -331,7 +331,7 @@ const ListDataGroup: React.FC = () => {
                             </div>
                             <div className="data-videos">
                                 {Datas.filter(data => videoFileTypes.includes(data.file_type.toUpperCase())).map(data => (
-                                    <div className="data" key={data.file_id}>
+                                    <div className="data" key={`${data.file_id}_${data.upload_date}`}>
                                         <div className="name-data">
                                             <span>{data.filename_new}</span>
                                         </div>
@@ -349,18 +349,13 @@ const ListDataGroup: React.FC = () => {
                                     </div>
                                 ))}
                             </div>
-                            <div className="data-link" >
-                                {/* <div><a href="https://www.youtube.com/">http://example.com</a></div>
-                                <div><a href="http://example.com">http://example.com</a></div>
-                                <div><a href="http://example.com">http://example.com</a></div>
-                                <div><a href="http://example.com">http://example.com</a></div> */}
-                            </div>
+
                             <div className="my-data">
                                 <div className="base-1">
                                     <i className='bx bx-image-alt'>Images</i>
                                 </div>
                                 {Datas.filter(data => data.user_id === userId && imageFileTypes.includes(data.file_type.toUpperCase())).map(data => (
-                                    <div className="data" key={data.file_id}>
+                                    <div className="data" key={`${data.file_id}_${data.upload_date}`}>
                                         <div className="face-data" id="face-data">
                                             <div id="mediaContainer" className="media-container">
                                                 <img src={`/resources/images/${data.filename_old}`} />
@@ -379,7 +374,7 @@ const ListDataGroup: React.FC = () => {
                                 </div>
                                 {Datas.filter(data => data.user_id === userId && fileFileTypes.includes(data.file_type.toUpperCase())).map(data => (
                                     <div className="data" >
-                                        <div className="name-data">
+                                        <div className="name-data" key={`${data.file_id}_${data.upload_date}`}>
                                             <span>{data.filename_new}</span>
                                         </div>
                                         <div className="face-data" id="face-data">
@@ -399,7 +394,7 @@ const ListDataGroup: React.FC = () => {
                                     <i className='bx bxs-videos'>Videos</i>
                                 </div>
                                 {Datas.filter(data => data.user_id === userId && videoFileTypes.includes(data.file_type.toUpperCase())).map(data => (
-                                    <div className="data">
+                                    <div className="data" key={`${data.file_id}_${data.upload_date}`}>
                                         <div className="name-data">
                                             <span>{data.filename_new}</span>
                                         </div>

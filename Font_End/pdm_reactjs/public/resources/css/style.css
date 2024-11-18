@@ -660,6 +660,7 @@ footer {
 	transition: transform 0.5s ease, width 0.5s ease, height 0.5s ease;
 	transform: scale(1);
 	pointer-events: none;
+	padding: 5px;
 }
 .avatarUser {
 	height: 30px;
@@ -729,6 +730,7 @@ footer {
 .message-base {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	gap: 10px;
 	padding: 10px;
 	border-top: 1px solid #ccc;
@@ -738,7 +740,7 @@ footer {
 	width: 100%;
 	max-width: 548px;
 	bottom: 32px;
-	margin: 0 0 40px -12px;
+	margin: 0 0 10px -10px;
 }
 
 .message-content {
@@ -882,15 +884,15 @@ footer {
 /* Click right_mouse */
 .context-menu {
 	display: none;
-	position: absolute;
 	z-index: 1000;
-	background-color: #fff;
-	/* Change to white for better 3D effect */
-	border-radius: 8px;
-	border: 1px solid #ccc;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2),
 		0 6px 20px rgba(0, 0, 0, 0.19);
-	/* Adjusted shadow for 3D effect */
+	margin-right: 100px;
+	padding: 3px 0 2px 0;
+	position: fixed;
+	background-color: var(--light-blue);
+	border-radius: 5px;
+	border: 2px solid #0C5FCD;
 }
 
 .context-menu ul {

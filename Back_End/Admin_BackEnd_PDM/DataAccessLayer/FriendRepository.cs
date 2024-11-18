@@ -91,5 +91,28 @@ namespace DataAccessLayer
                 throw;
             }
         }
+        public bool DeleteDataFriend(int message_id)
+        {
+            try
+            {
+                string msgError = "";
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_delete_data_friend",
+                    "@message_id", message_id);
+
+                if (!string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception("Database error: " + msgError);
+                }
+
+                // Trả về true nếu không có lỗi xảy ra
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Ghi log lỗi và ném lại ngoại lệ để cho phép lớp gọi xử lý ngoại lệ
+                Console.WriteLine("Error in Delete method: " + ex.Message);
+                throw;
+            }
+        }
     }
 }

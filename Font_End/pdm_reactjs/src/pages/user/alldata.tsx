@@ -22,6 +22,9 @@ const Alldata: React.FC = () => {
 
     useEffect(() => {
         clickRightMouse();
+    },[])
+
+    useEffect(() => {
         if (userId) {
             fetchDatas();
         }

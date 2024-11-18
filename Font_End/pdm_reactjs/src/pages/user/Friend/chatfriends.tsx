@@ -5,13 +5,15 @@ import { useUser } from '../../../constant/userContext';
 import Sidebar from "../../../components/user/sidebar";
 import FunctionUser from "../../../components/user/function";
 import { clickTabData } from "../../../assets/js/tabdata";
+import RightMouseFriend from "../../../components/user/rightMouseFriend";
+import { clickRightMouseFriend } from "../../../assets/js/rightmouseDataFriend";
 
 const ChatFriend: React.FC = () => {
     const navigate = useNavigate();
     const { user_id } = useParams<{ user_id: string }>();
     const { userId } = useUser();
     const [Datas, setDatas] = useState<any[]>([]);
-    const [message, setMessage] = useState<string>('');
+    const [user, setUser] = useState<any>('');
     const [messageContent, setMessageContent] = useState<string>('');
     const [isAtBottom, setIsAtBottom] = useState(true);
     const chatEndRef = useRef<HTMLDivElement | null>(null);
@@ -20,6 +22,32 @@ const ChatFriend: React.FC = () => {
     const imageFileTypes = ['JPEG', 'JPG', 'GIF', 'TIFF', 'PSD', 'EPS', 'WEBP', 'PNG'];
     const fileFileTypes = ['TXT', 'DOCX', 'PDF', 'PPT', 'JAR', 'DOT', 'HTML', 'DOCM', 'DOC'];
     const videoFileTypes = ['AVI', 'MP4', 'FLV', 'WMV', 'MOV'];
+    const [isMenuVisible, setMenuVisible] = useState(false);
+
+    const toggleContextMenu = (event: React.MouseEvent) => {
+        event.stopPropagation(); // Prevent event from bubbling up to document
+        setMenuVisible((prevVisible) => !prevVisible);
+    };
+
+    const closeContextMenu = (event: MouseEvent) => {
+        const functionButton = document.getElementById('functionfriend');
+        const contextMenu = document.getElementById('context-menu');
+        if (
+            functionButton &&
+            contextMenu &&
+            !functionButton.contains(event.target as Node) &&
+            !contextMenu.contains(event.target as Node)
+        ) {
+            setMenuVisible(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('click', closeContextMenu);
+        return () => {
+            document.removeEventListener('click', closeContextMenu);
+        };
+    }, []);
 
     // Scroll to bottom function
     const scrollToBottom = () => {
@@ -38,8 +66,11 @@ const ChatFriend: React.FC = () => {
     };
 
     useEffect(() => {
+        clickRightMouseFriend();
         clickTabData();
         fetchDataFriendChat();
+        fetchUser();
+
         if (isAtBottom) {
             scrollToBottom();
         }
@@ -52,11 +83,18 @@ const ChatFriend: React.FC = () => {
             setDatas(response.data);
         } catch (error) {
             console.error('Error fetching messages group:', error)
-
         }
     }
 
-
+    // Get data user
+    const fetchUser = async () => {
+        try {
+            const response = await axios.get(`https://localhost:7227/api/User/get_user_by_userid/${user_id}`);
+            setUser(response.data);
+        } catch (error) {
+            console.error('Error fetching messages group:', error)
+        }
+    }
 
     // Handle scroll event to determine if the user has scrolled up
     useEffect(() => {
@@ -88,26 +126,26 @@ const ChatFriend: React.FC = () => {
         navigate(`/friend-chat/share-list-data/${receiver_id}`);
     };
 
-    const deleteData = async (file_id: number, group_id: number) => {
+    const deleteData = async (message_id: number) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this file?");
         if (!confirmDelete) {
             return;
         }
 
         try {
-            await axios.delete(``);
-            setMessage('Deleted the data successful');
+            await axios.delete(`https://localhost:7227/api/Friend/delete-data-friend/${message_id}`);
+            setMessageContent('Deleted the data successful');
             setTimeout(() => {
                 fetchDataFriendChat();
-                setMessage('');
+                setMessageContent('');
             }, 1300);
 
         } catch (err) {
             console.error('Failed to delete data', err);
-            setMessage('Failed to delete data');
+            setMessageContent('Failed to delete data');
             setTimeout(() => {
                 fetchDataFriendChat();
-                setMessage('');
+                setMessageContent('');
             }, 1300);
         }
     };
@@ -177,20 +215,86 @@ const ChatFriend: React.FC = () => {
         }
     };
 
+    const handleDelete = async (request_id: number) => {
+        try {
+            await axios.delete(`https://localhost:7227/api/FriendRequest/friend_destroy?request_id=${request_id}`);
+            setMessageContent('Cancel this friend successful!');
+            setTimeout(() => {
+                navigate(-1);
+            }, 1300);
+
+        } catch (err) {
+            console.error('Failed to cancel this friend', err);
+            setMessageContent('Failed to cancel this friend');
+            setTimeout(() => {
+                setMessageContent('');
+            }, 1300);
+        }
+    };
+
+    const handleBlock = async (request_id: number) => {
+        const confirmDelete = window.confirm("Are you sure you will block this friend?");
+        if (!confirmDelete) {
+            return;
+        }
+
+        try {
+            await axios.put(`https://localhost:7227/api/FriendRequest/friend_block?request_id=${request_id}`);
+            setMessageContent('Block this friend successful!');
+            setTimeout(() => {
+                navigate(-1);
+            }, 1300);
+
+        } catch (err) {
+            console.error('Failed to block this friend', err);
+            setMessageContent('Failed to block this friend');
+            setTimeout(() => {
+                setMessageContent('');
+            }, 1300);
+        }
+    };
 
     return (
         <>
+            <RightMouseFriend/>
             <Sidebar />
             <FunctionUser />
             <main>
                 <div className="content">
-                    {Datas.map(data => (
-                        <div className="alert alert-primary" key={`${data.message_id}_${data.file_id}`} style={{ zIndex: 30, width: '75.5%', position: 'fixed', fontSize: 'larger', fontWeight: 'bold', textAlign: 'center' }}>
-                            <img className="avatarGroup" src={`/resources/${data.avatar_url}`} alt="avatar" />
-                            {data.username}
-                            <button className="btn btn-success" style={{ float: 'right' }}><i className='bx bx-dots-vertical-rounded'></i></button> {/* Nút nằm bên phải */}
+                    {user && (
+                        <div className="alert alert-primary" key={`${user.user_id}`} style={{ zIndex: 30, width: '75.5%', position: 'fixed', fontSize: 'larger', fontWeight: 'bold', textAlign: 'center' }}>
+                            <img className="avatarGroup" src={`/resources/${user.avatar_url}`} alt="avatar" />
+                            {user.username}
+                            <button className="btn btn-success" id="functionfriend" onClick={toggleContextMenu} data-toggle="dropdown" style={{ float: 'right' }}>
+                                <i className="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div
+                                id="context-menu"
+                                className="context-menu"
+                                style={{
+                                    display: isMenuVisible ? 'block' : 'none',
+                                    position: 'absolute',
+                                    top: '55px', // Adjust based on button position
+                                    right: '-90px',
+                                }}
+                                aria-labelledby="functionfriend"
+                            >
+                                <ul>
+                                    <li>
+                                        <a >
+                                            Delete <i className="bx bxs-trash icon"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            Block <i className='bx bx-block'></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    ))}
+                    )}
+
                     <div className="contentGroup">
                         <div className="dataChat">
                             <h5>CONVERSATION</h5>
@@ -200,7 +304,6 @@ const ChatFriend: React.FC = () => {
                                 {Datas.length === 0 || Datas.every(data => data.message_id === null) ? (
                                     <h6>Please text the opponent!</h6>
                                 ) : (
-                                   
                                     Datas.map(data => data.message_id !== null ? (
                                         data.sender_id === userId ? (
                                             // Tin nhắn của người gửi
@@ -244,42 +347,48 @@ const ChatFriend: React.FC = () => {
                                             </div>
                                         ) : (
                                             // Tin nhắn của người nhận
-                                            <div role="button" className="left-message" key={`${data.message_id}_${data.file_id}`}>
-                                                <img className="avatarUser" src={`/resources/${data.avatar_url}`} alt="User Avatar" />
-                                                <div className="messageUser">
-                                                    <h6>{data.username}</h6>
-                                                    {/* Kiểm tra nếu content là "Shared data" */}
-                                                    {data.content === "Shared data" ? (
-                                                        <>
-                                                            <img className="img-message" src={`/resources/images/${data.filename_old}`} alt={data.filename_old} />
-                                                            <div className="messageTime">{formatTime(data.timestamp)}</div>
-                                                        </>
-                                                    ) : data.content === "Shared List Data" ? (
-                                                        <>
-                                                            <div className="list-img-message">
-                                                                <img className="img-message" src={`/resources/images/${data.filename_old}`} alt={data.filename_old} />
-                                                            </div>
-                                                            <div className="messageTime">{formatTime(data.timestamp)}</div>
-                                                        </>
-                                                    ) : (
-                                                        <div role="button" id="messageUser">{data.content}</div>
-                                                    )}
-                                                </div>
-                                                <div className="messageTime">{formatTime(data.timestamp)}</div>
-                                            </div>
+                                            (() => {
+                                                const receiverData = Datas.find(data => data.receiver_id === data.receiver_id && data.receiver_id !== userId);
+
+                                                return (
+                                                    <div role="button" className="left-message" key={`${data.message_id}_${data.file_id}`}>
+                                                        {receiverData && (
+                                                            <img className="avatarUser" src={`/resources/${receiverData.avatar_url}`} alt="User Avatar" />
+                                                        )}
+                                                        <div className="messageUser">
+                                                            {receiverData && <h6>{receiverData.username}</h6>}
+                                                            {/* Kiểm tra nếu content là "Shared data" */}
+                                                            {data.content === "Shared data" ? (
+                                                                <>
+                                                                    <img className="img-message" src={`/resources/images/${data.filename_old}`} alt={data.filename_old} />
+                                                                    <div className="messageTime">{formatTime(data.timestamp)}</div>
+                                                                </>
+                                                            ) : data.content === "Shared List Data" ? (
+                                                                <>
+                                                                    <div className="list-img-message">
+                                                                        <img className="img-message" src={`/resources/images/${data.filename_old}`} alt={data.filename_old} />
+                                                                    </div>
+                                                                </>
+                                                            ) : (
+                                                                <div role="button" id="messageUser">{data.content}</div>
+                                                            )}
+                                                        </div>
+                                                        <div className="messageTime">{formatTime(data.timestamp)}</div>
+                                                    </div>
+                                                );
+                                            })()
                                         )
                                     ) : null)
                                 )}
 
                                 <div ref={chatEndRef} />
-
-                                {/* Chức năng */}
                                 <div className="message-base">
+                                    {/* Chức năng */}
                                     {Datas && Datas.length > 0 && (
                                         (() => {
-                                            const dataFound = Datas.find(data => data.receiver_id !== userId);
+                                            const dataFound = Datas.find(data => data.receiver_id !== userId && data.status === "Accepted");
                                             return dataFound ? (
-                                                <div className="message-base">
+                                                <>
                                                     {/* Video call */}
                                                     <button className="message-send" onClick={() => VideoCall(dataFound.receiver_id)}>
                                                         <i className='bx bxs-video'></i>
@@ -288,24 +397,23 @@ const ChatFriend: React.FC = () => {
                                                     <button className="message-send" onClick={() => ShareListData(dataFound.receiver_id)}>
                                                         <i className='bx bx-link-alt'></i>
                                                     </button>
-                                                    {/* Ô nhập tin nhắn */}
-                                                    <input
-                                                        className="message-content"
-                                                        type="text"
-                                                        value={messageContent}
-                                                        onChange={handleInputChange}
-                                                        placeholder="Enter your message"
-                                                        onKeyDown={handleEnter}
-                                                    />
-                                                    {/* Nút nhấn gửi tin nhắn */}
-                                                    <button className="message-send" onClick={handleSendMessage}>
-                                                        <i className="bx bxs-send"></i>
-                                                    </button>
-                                                </div>
-
+                                                </>
                                             ) : null;
                                         })()
                                     )}
+                                    {/* Ô nhập tin nhắn */}
+                                    <input
+                                        className="message-content"
+                                        type="text"
+                                        value={messageContent}
+                                        onChange={handleInputChange}
+                                        placeholder="Enter your message"
+                                        onKeyDown={handleEnter}
+                                    />
+                                    {/* Nút nhấn gửi tin nhắn */}
+                                    <button className="message-send" onClick={handleSendMessage}>
+                                        <i className="bx bxs-send"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -342,7 +450,7 @@ const ChatFriend: React.FC = () => {
                                             <a onClick={() => shareData(data.file_id)}>
                                                 <i className="bx bxs-share icon" />
                                             </a>
-                                            <a onClick={() => deleteData(data.file_id, data.group_id)}>
+                                            <a onClick={() => deleteData(data.message_id)}>
                                                 <i className="bx bxs-trash icon" />
                                             </a>
                                         </div>
@@ -374,7 +482,7 @@ const ChatFriend: React.FC = () => {
                                             <a onClick={() => shareData(data.file_id)}>
                                                 <i className="bx bxs-share icon" />
                                             </a>
-                                            <a onClick={() => deleteData(data.file_id, data.group_id)}>
+                                            <a onClick={() => deleteData(data.message_id)}>
                                                 <i className="bx bxs-trash icon" />
                                             </a>
                                         </div>
@@ -405,7 +513,7 @@ const ChatFriend: React.FC = () => {
                                             <a onClick={() => shareData(data.file_id)}>
                                                 <i className="bx bxs-share icon" />
                                             </a>
-                                            <a onClick={() => deleteData(data.file_id, data.group_id)}>
+                                            <a onClick={() => deleteData(data.message_id)}>
                                                 <i className="bx bxs-trash icon" />
                                             </a>
                                         </div>
@@ -436,7 +544,7 @@ const ChatFriend: React.FC = () => {
                                             <a onClick={() => infoData(data.file_id)}><i className="bx bxs-show icon" /></a>
                                             <a onClick={() => downloadData(data.file_id, `${data.filename_new}.${data.file_type}`)}><i className='bx bxs-download icon'></i></a>
                                             <a onClick={() => shareData(data.file_id)}><i className="bx bxs-share icon" /></a>
-                                            <a onClick={() => deleteData(data.file_id, data.group_id)}><i className="bx bxs-trash icon" /></a>
+                                            <a onClick={() => deleteData(data.message_id)}><i className="bx bxs-trash icon" /></a>
                                         </div>
                                     </div>
                                 ))}
@@ -457,7 +565,7 @@ const ChatFriend: React.FC = () => {
                                             <a onClick={() => infoData(data.file_id)}><i className="bx bxs-show icon" /></a>
                                             <a onClick={() => downloadData(data.file_id, `${data.filename_new}.${data.file_type}`)}><i className='bx bxs-download icon'></i></a>
                                             <a onClick={() => shareData(data.file_id)}><i className="bx bxs-share icon" /></a>
-                                            <a onClick={() => deleteData(data.file_id, data.group_id)}><i className="bx bxs-trash icon" /></a>
+                                            <a onClick={() => deleteData(data.message_id)}><i className="bx bxs-trash icon" /></a>
                                         </div>
                                     </div>
                                 ))}
@@ -478,7 +586,7 @@ const ChatFriend: React.FC = () => {
                                             <a onClick={() => infoData(data.file_id)}><i className="bx bxs-show icon" /></a>
                                             <a onClick={() => downloadData(data.file_id, `${data.filename_new}.${data.file_type}`)}><i className='bx bxs-download icon'></i></a>
                                             <a onClick={() => shareData(data.file_id)}><i className="bx bxs-share icon" /></a>
-                                            <a onClick={() => deleteData(data.file_id, data.group_id)}><i className="bx bxs-trash icon" /></a>
+                                            <a onClick={() => deleteData(data.message_id)}><i className="bx bxs-trash icon" /></a>
                                         </div>
                                     </div>
                                 ))}

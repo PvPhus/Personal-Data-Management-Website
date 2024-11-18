@@ -72,6 +72,30 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message); 
             }
         }
+        [Route("delete-data-friend/{message_id}")]
+        [HttpDelete]
+        public IActionResult DeleteDataFriend(int message_id)
+        {
+            try
+            {
+                bool isDeleted = _FriendBusiness.DeleteDataFriend(message_id);
+
+                if (isDeleted)
+                {
+                    return Ok("Data deleted successfully.");
+                }
+                else
+                {
+                    return NotFound("Data not found or could not be deleted.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Ghi log lỗi và trả về lỗi 500 (Internal Server Error)
+                Console.WriteLine("Error: " + ex.Message);
+                return StatusCode(500, "An error occurred while deleting the data.");
+            }
+        }
     }
 
 }
