@@ -3,12 +3,8 @@
   "WorkspaceRootPath": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}|Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\admin_backend_pdm\\hubs\\signalinghub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}|Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj|solutionrelative:admin_backend_pdm\\hubs\\signalinghub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}|Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\admin_backend_pdm\\controllers\\callcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}|Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj|solutionrelative:admin_backend_pdm\\controllers\\callcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}|Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\admin_backend_pdm\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}|Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj|solutionrelative:admin_backend_pdm\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 231,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,28 +26,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CallController.cs",
-              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\Admin_BackEnd_PDM\\Controllers\\CallController.cs",
-              "RelativeDocumentMoniker": "Admin_BackEnd_PDM\\Controllers\\CallController.cs",
-              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\Admin_BackEnd_PDM\\Controllers\\CallController.cs",
-              "RelativeToolTip": "Admin_BackEnd_PDM\\Controllers\\CallController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-03T03:32:23.293Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "SignalingHub.cs",
-              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\Admin_BackEnd_PDM\\Hubs\\SignalingHub.cs",
-              "RelativeDocumentMoniker": "Admin_BackEnd_PDM\\Hubs\\SignalingHub.cs",
-              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\Admin_BackEnd_PDM\\Hubs\\SignalingHub.cs",
-              "RelativeToolTip": "Admin_BackEnd_PDM\\Hubs\\SignalingHub.cs",
-              "ViewState": "AgIAADUAAAAAAAAAAAAAAFIAAAAAAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\Admin_BackEnd_PDM\\Program.cs",
+              "RelativeDocumentMoniker": "Admin_BackEnd_PDM\\Program.cs",
+              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\Admin_BackEnd_PDM\\Program.cs",
+              "RelativeToolTip": "Admin_BackEnd_PDM\\Program.cs",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAGAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-03T03:31:44.458Z",
+              "WhenOpened": "2024-12-13T15:54:10.071Z",
               "EditorCaption": ""
             }
           ]

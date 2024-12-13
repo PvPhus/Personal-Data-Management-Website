@@ -7,6 +7,8 @@ import FunctionUser from "../../../components/user/function";
 import { clickTabData } from "../../../assets/js/tabdata";
 import RightMouseFriend from "../../../components/user/rightMouseFriend";
 import { clickRightMouseFriend } from "../../../assets/js/rightmouseDataFriend";
+import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import * as signalR from "@microsoft/signalr";
 
 const ChatFriend: React.FC = () => {
     const navigate = useNavigate();
@@ -18,7 +20,7 @@ const ChatFriend: React.FC = () => {
     const [isAtBottom, setIsAtBottom] = useState(true);
     const chatEndRef = useRef<HTMLDivElement | null>(null);
     const messagesContainerRef = useRef<HTMLDivElement | null>(null);
-
+    const [connection, setConnection] = useState<any>(null);
     const imageFileTypes = ['JPEG', 'JPG', 'GIF', 'TIFF', 'PSD', 'EPS', 'WEBP', 'PNG'];
     const fileFileTypes = ['TXT', 'DOCX', 'PDF', 'PPT', 'JAR', 'DOT', 'HTML', 'DOCM', 'DOC'];
     const videoFileTypes = ['AVI', 'MP4', 'FLV', 'WMV', 'MOV'];
@@ -70,6 +72,7 @@ const ChatFriend: React.FC = () => {
         clickTabData();
         fetchDataFriendChat();
         fetchUser();
+        setupSignalRConnection();
     }, [userId, user_id]);
 
     useEffect(() => {
@@ -87,6 +90,31 @@ const ChatFriend: React.FC = () => {
             console.error('Error fetching messages group:', error)
         }
     }
+
+    const setupSignalRConnection = async () => {
+        const conn = new HubConnectionBuilder()
+            .withUrl("https://localhost:7227/chatHub", {
+                skipNegotiation: true,
+                transport: signalR.HttpTransportType.WebSockets
+            })
+            .configureLogging(LogLevel.Information)
+            .build();
+    
+            conn.on("ReceiveMessage", (message) => {
+                setDatas(prevDatas => {
+                    return [...prevDatas, message]; // Thêm tin nhắn mới vào cuối
+                });
+            });
+    
+        try {
+            await conn.start();
+            console.log("SignalR Connected.");
+            setConnection(conn);
+        } catch (error) {
+            console.error("SignalR Connection Error: ", error);
+        }
+    };
+    
 
     // Get data user
     const fetchUser = async () => {

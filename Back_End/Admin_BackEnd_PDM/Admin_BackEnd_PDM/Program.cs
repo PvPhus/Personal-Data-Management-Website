@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer;
+﻿using API_PersonalDataManagement.Hubs;
+using BusinessLogicLayer;
 using BusinessLogicLayer.Interfaces;
 using DataAccessLayer;
 using DataAccessLayer.Interfaces;
@@ -89,6 +90,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
     endpoints.MapHub<SignalingHub>("/signalingHub");
+    endpoints.MapHub<ChatHub>("/chatHub");
 });
 
 app.Run();

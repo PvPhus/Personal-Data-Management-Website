@@ -214,3 +214,4 @@ D:\Personal Data Management Website\Back_End\Admin_BackEnd_PDM\Admin_BackEnd_PDM
 D:\Personal Data Management Website\Back_End\Admin_BackEnd_PDM\Admin_BackEnd_PDM\obj\Debug\net6.0\staticwebassets.build.endpoints.json
 D:\Personal Data Management Website\Back_End\Admin_BackEnd_PDM\Admin_BackEnd_PDM\obj\Debug\net6.0\staticwebassets\msbuild.API_PersonalDataManagement.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
 D:\Personal Data Management Website\Back_End\Admin_BackEnd_PDM\Admin_BackEnd_PDM\obj\Debug\net6.0\staticwebassets.upToDateCheck.txt
+D:\Personal Data Management Website\Back_End\Admin_BackEnd_PDM\Admin_BackEnd_PDM\bin\Debug\net6.0\System.Net.WebSockets.WebSocketProtocol.dll

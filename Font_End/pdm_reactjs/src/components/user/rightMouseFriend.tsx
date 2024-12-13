@@ -14,9 +14,9 @@ const RightMouseFriend = () => {
         fetchDataFriendChat();
     }, [userId, user_id]);
 
-    useEffect(() => {
-        fetchDataFriendChat();
-    });
+    // useEffect(() => {
+    //     fetchDataFriendChat();
+    // });
 
     const fetchDataFriendChat = async () => {
         try {
