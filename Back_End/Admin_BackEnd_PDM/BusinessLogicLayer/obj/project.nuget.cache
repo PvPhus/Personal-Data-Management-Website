@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "zGxQzJPOndI=",
+  "dgSpecHash": "S3VeIi0soMY=",
   "success": true,
   "projectFilePath": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
   "expectedPackageFiles": [
@@ -84,5 +84,26 @@
     "C:\\Users\\Vu Phong Phu\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\Vu Phong Phu\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Formats.Asn1' 5.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-447r-wph3-92pm",
+      "libraryId": "System.Formats.Asn1",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Text.Json' 7.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-hh2w-p6rv-4g7w",
+      "libraryId": "System.Text.Json",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }

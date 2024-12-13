@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "p3s6HsuLgXdaXlLTbkalbrtxbvggUN1RgUnwhXu/Kjs=",
+  "Hash": "Dxy4E7HyRRa9Q6du2uDg/jPeq1Wafo0uu8EAYj/AoxA=",
   "Source": "API_PersonalDataManagement",
   "BasePath": "_content/API_PersonalDataManagement",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }

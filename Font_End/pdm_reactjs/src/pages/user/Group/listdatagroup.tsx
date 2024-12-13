@@ -120,7 +120,7 @@ const ListDataGroup: React.FC = () => {
     };
 
     const infoData = (file_id: number) => {
-        navigate(`/information/file/${file_id}`);
+        navigate(`/group/information/file/:${file_id}`);
     };
 
     // const updateData = (file_id: number) => {

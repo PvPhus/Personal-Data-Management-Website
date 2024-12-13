@@ -70,11 +70,13 @@ const ChatFriend: React.FC = () => {
         clickTabData();
         fetchDataFriendChat();
         fetchUser();
+    }, [userId, user_id]);
 
+    useEffect(() => {
         if (isAtBottom) {
             scrollToBottom();
         }
-    }, [userId, user_id, Datas]);
+    }, [Datas])
 
     // Get data friend chat(messages and files)
     const fetchDataFriendChat = async () => {
@@ -111,15 +113,15 @@ const ChatFriend: React.FC = () => {
     };
 
     const infoData = (file_id: number) => {
-        navigate(`/friend-chat/information/${file_id}`);
+        navigate(`/friend-chat/information/file/${file_id}`);
     };
 
     const shareData = async (file_id: number) => {
         navigate(`/friend-chat/share/${file_id}`);
     };
 
-    const VideoCall = async (receiver_id: number) => {
-        navigate(`/friend-chat/video-call/${receiver_id}`);
+    const VideoCall = async (user_id: number) => {
+        navigate(`/friend-chat/video-call/${user_id}`);
     };
 
     const ShareListData = async (receiver_id: number) => {
@@ -215,9 +217,13 @@ const ChatFriend: React.FC = () => {
         }
     };
 
-    const handleDelete = async (request_id: number) => {
+    const handleDeleteConversation = async () => {
+        const confirmDelete = window.confirm("You definitely delete this chat on both sides?");
+        if (!confirmDelete) {
+            return;
+        }
         try {
-            await axios.delete(`https://localhost:7227/api/FriendRequest/friend_destroy?request_id=${request_id}`);
+            await axios.delete(`https://localhost:7227/api/Friend/delete-conversation?sender_id=${userId}&receiver_id=${user_id}`);
             setMessageContent('Cancel this friend successful!');
             setTimeout(() => {
                 navigate(-1);
@@ -232,14 +238,14 @@ const ChatFriend: React.FC = () => {
         }
     };
 
-    const handleBlock = async (request_id: number) => {
+    const handleBlockFriend = async () => {
         const confirmDelete = window.confirm("Are you sure you will block this friend?");
         if (!confirmDelete) {
             return;
         }
 
         try {
-            await axios.put(`https://localhost:7227/api/FriendRequest/friend_block?request_id=${request_id}`);
+            await axios.put(`https://localhost:7227/api/Friend/friend_block_message?sender_id=${userId}&receiver_id=${user_id}`);
             setMessageContent('Block this friend successful!');
             setTimeout(() => {
                 navigate(-1);
@@ -256,7 +262,7 @@ const ChatFriend: React.FC = () => {
 
     return (
         <>
-            <RightMouseFriend/>
+            <RightMouseFriend />
             <Sidebar />
             <FunctionUser />
             <main>
@@ -281,12 +287,12 @@ const ChatFriend: React.FC = () => {
                             >
                                 <ul>
                                     <li>
-                                        <a >
+                                        <a onClick={() => handleDeleteConversation()}>
                                             Delete <i className="bx bxs-trash icon"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a>
+                                        <a onClick={() => handleBlockFriend()}>
                                             Block <i className='bx bx-block'></i>
                                         </a>
                                     </li>
@@ -312,13 +318,13 @@ const ChatFriend: React.FC = () => {
                                                 {data.content === "Shared data" ? (
                                                     <>
                                                         {data.filename_old && imageFileTypes.some(type => data.filename_old.toLowerCase().endsWith(type.toLowerCase())) ? (
-                                                            <img className="img-message" src={`/resources/images/${data.filename_old}`} alt={data.filename_old} />
+                                                            <img id="messageSender" className="img-message" src={`/resources/images/${data.filename_old}`} alt={data.filename_old} />
                                                         ) : data.filename_old && videoFileTypes.some(type => data.filename_old.toLowerCase().endsWith(type.toLowerCase())) ? (
-                                                            <video controls style={{ height: 'auto', width: '40%' }}>
+                                                            <video id="messageSender" controls style={{ height: 'auto', width: '40%' }}>
                                                                 <source src={`/resources/images/${data.filename_old}`} />
                                                             </video>
                                                         ) : data.filename_old ? (
-                                                            <iframe src={`/resources/images/${data.filename_old}`} style={{ width: '40%', height: '200px' }} />
+                                                            <iframe id="messageSender" src={`/resources/images/${data.filename_old}`} style={{ width: '40%', height: '200px' }} />
                                                         ) : (
                                                             // Nếu không có filename_old
                                                             <p>No file available</p>
@@ -330,11 +336,11 @@ const ChatFriend: React.FC = () => {
                                                         {data.filename_old && imageFileTypes.some(type => data.filename_old.toLowerCase().endsWith(type.toLowerCase())) ? (
                                                             <img className="img-message" src={`/resources/images/${data.filename_old}`} alt={data.filename_old} />
                                                         ) : data.filename_old && videoFileTypes.some(type => data.filename_old.toLowerCase().endsWith(type.toLowerCase())) ? (
-                                                            <video controls style={{ height: 'auto', width: '40%' }}>
+                                                            <video id="messageSender" controls style={{ height: 'auto', width: '40%' }}>
                                                                 <source src={`/resources/images/${data.filename_old}`} />
                                                             </video>
                                                         ) : data.filename_old ? (
-                                                            <iframe src={`/resources/images/${data.filename_old}`} style={{ width: '40%', height: '200px' }} />
+                                                            <iframe id="messageSender" src={`/resources/images/${data.filename_old}`} style={{ width: '40%', height: '200px' }} />
                                                         ) : (
                                                             // Nếu không có filename_old
                                                             <p>No file available</p>
@@ -342,9 +348,24 @@ const ChatFriend: React.FC = () => {
                                                         <div className="messageTime">{formatTime(data.timestamp)}</div>
                                                     </>
                                                 ) : (
-                                                    <div role="button" className="messageUser" id="messageUser">{data.content}</div>
+                                                    <div role="button" className="messageUser" id="messageSender">{data.content}</div>
                                                 )}
+                                                <div id="contextMenuMessage" className="context-menu" key={`${data.file_id}_${data.message_id}`}>
+                                                    <ul>
+                                                        <li>
+                                                            <a onClick={() => deleteData(data.message_id)}>
+                                                                Message Recovery <i className="bx bxs-message-alt-x"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a>
+                                                                Message Update <i className="bx bxs-message-alt-edit"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
+
                                         ) : (
                                             // Tin nhắn của người nhận
                                             (() => {
@@ -390,7 +411,7 @@ const ChatFriend: React.FC = () => {
                                             return dataFound ? (
                                                 <>
                                                     {/* Video call */}
-                                                    <button className="message-send" onClick={() => VideoCall(dataFound.receiver_id)}>
+                                                    <button className="message-send" onClick={() => VideoCall(dataFound.user_id)}>
                                                         <i className='bx bxs-video'></i>
                                                     </button>
                                                     {/* Chia sẻ 1 lúc nhiều dữ liệu */}

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("API_PersonalDataManagement")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4c1490915ce8479ae2bae750fa3d96e8e58eb0de")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+036473d7fde94a3dce671cc1b904f31ec7191d61")]
 [assembly: System.Reflection.AssemblyProductAttribute("API_PersonalDataManagement")]
 [assembly: System.Reflection.AssemblyTitleAttribute("API_PersonalDataManagement")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

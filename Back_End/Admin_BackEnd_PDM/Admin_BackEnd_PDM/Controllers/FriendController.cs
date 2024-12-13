@@ -96,6 +96,43 @@ namespace API_PersonalDataManagement.Controllers
                 return StatusCode(500, "An error occurred while deleting the data.");
             }
         }
-    }
+        [Route("friend_block_message")]
+        [HttpPut]
+        public IActionResult FriendBlockMessage(int sender_id, int receiver_id)
+        {
+            try
+            {
+                _FriendBusiness.FriendBlockMessage(sender_id, receiver_id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+        [Route("delete-conversation")]
+        [HttpDelete]
+        public IActionResult DeleteConversation(int sender_id, int receiver_id)
+        {
+            try
+            {
+                bool isDeleted = _FriendBusiness.DeleteConversation(sender_id, receiver_id);
 
+                if (isDeleted)
+                {
+                    return Ok("Conversation deleted successfully.");
+                }
+                else
+                {
+                    return NotFound("Conversation not found or could not be deleted.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Ghi log lỗi và trả về lỗi 500 (Internal Server Error)
+                Console.WriteLine("Error: " + ex.Message);
+                return StatusCode(500, "An error occurred while deleting the conversation.");
+            }
+        }
+    }
 }

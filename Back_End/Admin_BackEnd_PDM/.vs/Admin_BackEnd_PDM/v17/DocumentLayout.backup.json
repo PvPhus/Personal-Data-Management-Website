@@ -1,0 +1,150 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}|Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\admin_backend_pdm\\controllers\\callcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}|Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj|solutionrelative:admin_backend_pdm\\controllers\\callcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}|Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\admin_backend_pdm\\hubs\\signalinghub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}|Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj|solutionrelative:admin_backend_pdm\\hubs\\signalinghub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}|Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\admin_backend_pdm\\api_personaldatamanagement.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{AA019A0A-1A8C-4DBD-A4ED-C01056D9EA7F}|Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj|solutionrelative:admin_backend_pdm\\api_personaldatamanagement.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}|BusinessLogicLayer\\BusinessLogicLayer.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\businesslogiclayer\\friendbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\friendbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5EA05C23-16FE-482E-808C-71DB1C07DD25}|DataAccessLayer\\DataAccessLayer.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\dataaccesslayer\\friendrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5EA05C23-16FE-482E-808C-71DB1C07DD25}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\friendrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}|BusinessLogicLayer\\BusinessLogicLayer.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\businesslogiclayer\\interfaces\\ifriendbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C17DBE3D-CF34-49F5-895E-5BBBA80A2DD4}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\interfaces\\ifriendbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5EA05C23-16FE-482E-808C-71DB1C07DD25}|DataAccessLayer\\DataAccessLayer.csproj|d:\\personal data management website\\back_end\\admin_backend_pdm\\dataaccesslayer\\interfaces\\ifriendrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5EA05C23-16FE-482E-808C-71DB1C07DD25}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\interfaces\\ifriendrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 231,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CallController.cs",
+              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\Admin_BackEnd_PDM\\Controllers\\CallController.cs",
+              "RelativeDocumentMoniker": "Admin_BackEnd_PDM\\Controllers\\CallController.cs",
+              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\Admin_BackEnd_PDM\\Controllers\\CallController.cs",
+              "RelativeToolTip": "Admin_BackEnd_PDM\\Controllers\\CallController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T03:32:23.293Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SignalingHub.cs",
+              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\Admin_BackEnd_PDM\\Hubs\\SignalingHub.cs",
+              "RelativeDocumentMoniker": "Admin_BackEnd_PDM\\Hubs\\SignalingHub.cs",
+              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\Admin_BackEnd_PDM\\Hubs\\SignalingHub.cs",
+              "RelativeToolTip": "Admin_BackEnd_PDM\\Hubs\\SignalingHub.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAAAFIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T03:31:44.458Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "API_PersonalDataManagement",
+              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj",
+              "RelativeDocumentMoniker": "Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj",
+              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj",
+              "RelativeToolTip": "Admin_BackEnd_PDM\\API_PersonalDataManagement.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-12-03T03:13:38.454Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FriendBusiness.cs",
+              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\BusinessLogicLayer\\FriendBusiness.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\FriendBusiness.cs",
+              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\BusinessLogicLayer\\FriendBusiness.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\FriendBusiness.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAcwCUAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T04:13:51.607Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FriendRepository.cs",
+              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\DataAccessLayer\\FriendRepository.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\FriendRepository.cs",
+              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\DataAccessLayer\\FriendRepository.cs",
+              "RelativeToolTip": "DataAccessLayer\\FriendRepository.cs",
+              "ViewState": "AgIAAIgAAAAAAAAAAAAQwJUAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T04:11:55.168Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IFriendBusiness.cs",
+              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\BusinessLogicLayer\\Interfaces\\IFriendBusiness.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\Interfaces\\IFriendBusiness.cs",
+              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\BusinessLogicLayer\\Interfaces\\IFriendBusiness.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\Interfaces\\IFriendBusiness.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAApwBAAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T04:11:37.779Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "IFriendRepository.cs",
+              "DocumentMoniker": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\DataAccessLayer\\Interfaces\\IFriendRepository.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Interfaces\\IFriendRepository.cs",
+              "ToolTip": "D:\\Personal Data Management Website\\Back_End\\Admin_BackEnd_PDM\\DataAccessLayer\\Interfaces\\IFriendRepository.cs",
+              "RelativeToolTip": "DataAccessLayer\\Interfaces\\IFriendRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAApwA8AAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T04:11:05.128Z"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 169,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

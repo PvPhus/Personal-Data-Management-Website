@@ -1825,9 +1825,75 @@ BEGIN
 
     PRINT 'Message added successfully.';
 END;
+--Delete data firend chat
+CREATE PROCEDURE sp_delete_data_friend
+    @message_id INT -- ID của tin nhắn cần xóa dữ liệu
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        -- Bắt đầu transaction để đảm bảo tính nhất quán
+        BEGIN TRANSACTION;
+
+        -- Xóa dữ liệu từ bảng FriendData trước
+        DELETE FROM FriendData
+        WHERE message_id = @message_id;
+
+        -- Xóa dữ liệu từ bảng FriendMessages
+        DELETE FROM FriendMessages
+        WHERE message_id = @message_id;
+
+        -- Commit transaction nếu không có lỗi
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        -- Rollback transaction nếu có lỗi
+        ROLLBACK TRANSACTION;
+
+        -- Trả về lỗi chi tiết
+        THROW;
+    END CATCH
+END;
 select * from FriendMessages;
-select * from users;
-exec sp_Friend_Message_Create @sender_id=22, @receiver_id=21, @content="con di me may jbduvwdviqtwvdtyqwvydqytwvdyqiwvydvyqvwydqwdqw"
+
+--Delete friend chat
+CREATE PROCEDURE sp_delete_friend_chat
+    @sender_id INT,
+    @receiver_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Xóa file trong bảng FriendData dựa trên message_id liên quan
+        DELETE FD
+        FROM FriendData FD
+        INNER JOIN FriendMessages FM
+            ON FD.message_id = FM.message_id
+        WHERE (FM.sender_id = @sender_id AND FM.receiver_id = @receiver_id)
+           OR (FM.sender_id = @receiver_id AND FM.receiver_id = @sender_id);
+
+        -- Xóa tin nhắn trong bảng FriendMessages
+        DELETE FROM FriendMessages
+        WHERE (sender_id = @sender_id AND receiver_id = @receiver_id)
+           OR (sender_id = @receiver_id AND receiver_id = @sender_id);
+
+        -- Commit transaction nếu không có lỗi
+        COMMIT TRANSACTION;
+
+        PRINT 'Conversation deleted successfully.';
+    END TRY
+    BEGIN CATCH
+        -- Rollback transaction nếu xảy ra lỗi
+        ROLLBACK TRANSACTION;
+
+        PRINT 'An error occurred while deleting conversation:';
+        PRINT ERROR_MESSAGE();
+    END CATCH
+END;
 
 --Gửi lời mời kết bạn
 CREATE PROCEDURE [dbo].[sp_friend_request_create]
@@ -1858,8 +1924,6 @@ BEGIN
         PRINT N'Yêu cầu đã được tạo thành công.';
     END
 END;
-exec [sp_friend_request_create] @sender_id= 21, @receiver_id=22;
-select *from FriendRequests;
 
 --Chấp nhận kết bạn 
 CREATE PROCEDURE [dbo].[sp_friend_request_accept]
@@ -1891,7 +1955,23 @@ BEGIN
         request_id = @request_id;
     PRINT N'Chặn thành công!';
 END;
-exec [sp_friend_block] @request_id=3;
+select *from FriendMessages
+ALTER PROCEDURE [dbo].[sp_friend_block_message]
+    @sender_id INT,
+    @receiver_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    -- Cập nhật quyền cho người dùng trong bảng Permissions
+    UPDATE FriendRequests
+    SET
+        status = N'Block',
+        request_date = GETDATE()
+    WHERE
+        sender_id = @sender_id and receiver_id = @receiver_id
+        or sender_id = @receiver_id and receiver_id = @sender_id;
+    PRINT N'Chặn thành công!';
+END;
 
 --TỪ chối kết bạn
 CREATE PROCEDURE [dbo].[sp_friend_declined]
@@ -2077,7 +2157,7 @@ BEGIN
     END CATCH
 END;
 
-ALTER PROCEDURE [Get_Data_Friend_Chat]
+create PROCEDURE [sp_get_data_friend_chat]
     @sender_id INT,
     @receiver_id INT
 AS

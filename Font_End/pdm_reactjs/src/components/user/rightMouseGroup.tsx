@@ -83,7 +83,7 @@ const RightMouseGroup = () => {
         <>
             {Datas.map(data => (
                 <div id="contextMenuData" className="context-menu" key={`${data.file_id}_${data.avatar_url}_${data.upload_date}`}>
-                    <ul>              
+                    <ul>
                         {isPermisson.can_read && <li><a onClick={() => infoData(data.file_id)}>Information<i className="bx bxs-show icon" /></a></li>}
                         {isPermisson.can_download && <li><a onClick={() => downloadData(data.file_id, `${data.filename_new}.${data.file_type}`)}>Download<i className='bx bxs-download icon'></i></a></li>}
                         {isPermisson.can_share && <li><a onClick={() => shareData(data.file_id)}>Share<i className="bx bxs-share icon" /></a></li>}

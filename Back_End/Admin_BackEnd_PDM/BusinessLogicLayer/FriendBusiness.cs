@@ -33,5 +33,13 @@ namespace BusinessLogicLayer
         {
             return _res.DeleteDataFriend(message_id);
         }
+        public bool FriendBlockMessage(int sender_id, int receiver_id)
+        {
+            return _res.FriendBlockMessage(sender_id, receiver_id);
+        }
+        public bool DeleteConversation(int sender_id, int receiver_id)
+        {
+            return _res.DeleteConversation(sender_id, receiver_id);
+        }
     }
 }

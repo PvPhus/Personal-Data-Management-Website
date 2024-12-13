@@ -47,7 +47,7 @@ namespace DataAccessLayer
             string msgError = "";
             try
             {
-                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Get_Data_Friend_Chat",
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_get_data_friend_chat",
                     "@sender_id", sender_id,
                     "@receiver_id", receiver_id);
 
@@ -111,6 +111,54 @@ namespace DataAccessLayer
             {
                 // Ghi log lỗi và ném lại ngoại lệ để cho phép lớp gọi xử lý ngoại lệ
                 Console.WriteLine("Error in Delete method: " + ex.Message);
+                throw;
+            }
+        }
+        public bool DeleteConversation(int sender_id, int receiver_id)
+        {
+            try
+            {
+                string msgError = "";
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_delete_friend_chat",
+                    "@sender_id", sender_id,
+                    "@receiver_id", receiver_id);
+
+                if (!string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception("Database error: " + msgError);
+                }
+
+                // Trả về true nếu không có lỗi xảy ra
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Ghi log lỗi và ném lại ngoại lệ để cho phép lớp gọi xử lý ngoại lệ
+                Console.WriteLine("Error in Delete method: " + ex.Message);
+                throw;
+            }
+        }
+
+        public bool FriendBlockMessage(int sender_id, int receiver_id)
+        {
+            try
+            {
+
+                string msgError = "";
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_friend_block_message",
+                    "@sender_id", sender_id,
+                    "@receiver_id", receiver_id);
+                if (!string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception("Database error: " + msgError);
+                }
+
+                return true; // Trả về true nếu không có lỗi xảy ra
+            }
+            catch (Exception ex)
+            {
+                // Ghi log lỗi và ném lại ngoại lệ để cho phép lớp gọi xử lý ngoại lệ
+                Console.WriteLine("Error in Update method: " + ex.Message);
                 throw;
             }
         }

@@ -20,9 +20,7 @@ export const clickRightMouseFriend = (): void => {
             }
         }
 
-
-        // Check if the right-clicked element is 'messageUser'
-        if (targetElement.id === 'messageUser') {
+        if (targetElement.id === 'messageSender') {
             event.preventDefault();
             event.stopPropagation();
 
@@ -43,7 +41,7 @@ export const clickRightMouseFriend = (): void => {
         }
     };
 
-    // Function to hide custom context menu for 'messageUser'
+    //Function to hide custom context menu for 'messageUser'
     const hideContextMenuMessage = () => {
         const contextMenuMessage = document.getElementById('contextMenuMessage');
         if (contextMenuMessage) {

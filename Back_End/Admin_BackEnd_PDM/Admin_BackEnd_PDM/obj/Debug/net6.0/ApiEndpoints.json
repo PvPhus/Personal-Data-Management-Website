@@ -1,0 +1,1056 @@
+[
+  {
+    "ContainingType": "CallController",
+    "Method": "SendAnswer",
+    "RelativePath": "api/Call/answer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "AnswerRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CallController",
+    "Method": "SendIceCandidate",
+    "RelativePath": "api/Call/ice-candidate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "IceCandidateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CallController",
+    "Method": "SendOffer",
+    "RelativePath": "api/Call/offer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "OfferRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FileController",
+    "Method": "CreateItem",
+    "RelativePath": "api/File/create-file",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DataModel.FileModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FileController",
+    "Method": "DeleteItem",
+    "RelativePath": "api/File/delete-file/{file_id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FileController",
+    "Method": "DeleteFileGroup",
+    "RelativePath": "api/File/delete-groupdata/{file_id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "group_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FileController",
+    "Method": "DownloadFile",
+    "RelativePath": "api/File/download/{file_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FileController",
+    "Method": "GetAllFilesByUserId",
+    "RelativePath": "api/File/get_all_file_by_user",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FileController",
+    "Method": "GetAllFile",
+    "RelativePath": "api/File/get_all_files",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FileController",
+    "Method": "GetFileByFileId",
+    "RelativePath": "api/File/get_file_by_fileId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FileController",
+    "Method": "GetFilesByUser",
+    "RelativePath": "api/File/get_files_by_user",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FileController",
+    "Method": "GetImagesByUser",
+    "RelativePath": "api/File/get_images_by_user",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FileController",
+    "Method": "GetVideosByUser",
+    "RelativePath": "api/File/get_videos_by_user",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FileController",
+    "Method": "ReadAndDecodeFile",
+    "RelativePath": "api/File/read/{file_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FileController",
+    "Method": "SearchFile",
+    "RelativePath": "api/File/search_file_by_name",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "filename_new",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FileController",
+    "Method": "ShareFileFriend",
+    "RelativePath": "api/File/share_file_friend",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DataModel.ShareFileFriendModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FileController",
+    "Method": "ShareFileGroup",
+    "RelativePath": "api/File/share_file_group",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DataModel.ShareFileGroupModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FileController",
+    "Method": "UpdateName",
+    "RelativePath": "api/File/update_name_file",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "filename_new",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FileController",
+    "Method": "Upload",
+    "RelativePath": "api/File/upload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FriendController",
+    "Method": "CreateMessages",
+    "RelativePath": "api/Friend/create_messages_friend",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DataModel.FriendMessagesModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FriendController",
+    "Method": "DeleteConversation",
+    "RelativePath": "api/Friend/delete-conversation",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sender_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "receiver_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FriendController",
+    "Method": "DeleteDataFriend",
+    "RelativePath": "api/Friend/delete-data-friend/{message_id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "message_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FriendController",
+    "Method": "FriendBlockMessage",
+    "RelativePath": "api/Friend/friend_block_message",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sender_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "receiver_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FriendController",
+    "Method": "GetDataFriendChat",
+    "RelativePath": "api/Friend/get_data_friend_chat",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sender_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "receiver_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FriendController",
+    "Method": "ShareFriendListData",
+    "RelativePath": "api/Friend/share_friend_list_data",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DataModel.ShareFriendListDataModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FriendRequestController",
+    "Method": "FriendRequest",
+    "RelativePath": "api/FriendRequest/create_friend_request",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DataModel.FriendRequestModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FriendRequestController",
+    "Method": "FriendAccept",
+    "RelativePath": "api/FriendRequest/friend_accept",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FriendRequestController",
+    "Method": "FriendBlock",
+    "RelativePath": "api/FriendRequest/friend_block",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FriendRequestController",
+    "Method": "FriendDeclined",
+    "RelativePath": "api/FriendRequest/friend_declined",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FriendRequestController",
+    "Method": "FriendDestroy",
+    "RelativePath": "api/FriendRequest/friend_destroy",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.FriendRequestController",
+    "Method": "GetAllRequestFriend",
+    "RelativePath": "api/FriendRequest/get_all_request_friend",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupController",
+    "Method": "CheckAdminGroup",
+    "RelativePath": "api/Group/check_admin_group",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "group_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupController",
+    "Method": "CreateMessages",
+    "RelativePath": "api/Group/create_messages",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DataModel.GroupMessagesModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupController",
+    "Method": "CreateItem",
+    "RelativePath": "api/Group/create-group",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DataModel.GroupModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupController",
+    "Method": "DeleteItem",
+    "RelativePath": "api/Group/delete-group/{group_id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "group_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupController",
+    "Method": "Get3Group",
+    "RelativePath": "api/Group/get_3_group/{user_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupController",
+    "Method": "GetAllDataInGroup",
+    "RelativePath": "api/Group/get_all_data_in_groups",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "group_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupController",
+    "Method": "GetAllGroups",
+    "RelativePath": "api/Group/get_all_group",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupController",
+    "Method": "GetAllListGroups",
+    "RelativePath": "api/Group/get_all_list_groups",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupController",
+    "Method": "GetDataGroup",
+    "RelativePath": "api/Group/get_data_group",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "group_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupController",
+    "Method": "GetGroupsByUserId",
+    "RelativePath": "api/Group/get_Groups/{user_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupController",
+    "Method": "MessagesGroup",
+    "RelativePath": "api/Group/get_messages_group",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "group_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupController",
+    "Method": "SearchDataGroup",
+    "RelativePath": "api/Group/search_data_group",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "group_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "filename_new",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupController",
+    "Method": "SearchFile",
+    "RelativePath": "api/Group/search_group_by_name",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "group_name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupMemberController",
+    "Method": "CreateItem",
+    "RelativePath": "api/GroupMember/add_member",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DataModel.GroupMemberModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupMemberController",
+    "Method": "DeleteItem",
+    "RelativePath": "api/GroupMember/delete-member",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "group_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupMemberController",
+    "Method": "GetGroupMembers",
+    "RelativePath": "api/GroupMember/groupMembers/{group_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "group_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupRequestController",
+    "Method": "CheckSpam",
+    "RelativePath": "api/GroupRequest/check_group_request",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "group_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupRequestController",
+    "Method": "GroupRequest",
+    "RelativePath": "api/GroupRequest/create_request",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DataModel.GroupRequestModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupRequestController",
+    "Method": "DeleteItem",
+    "RelativePath": "api/GroupRequest/delete-request",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupRequestController",
+    "Method": "getRequest",
+    "RelativePath": "api/GroupRequest/get_1_request",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.GroupRequestController",
+    "Method": "GetListRequest",
+    "RelativePath": "api/GroupRequest/get_list_request",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "group_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.PermissionController",
+    "Method": "GetPermissionUser",
+    "RelativePath": "api/Permission/get_permission_user",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "group_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.PermissionController",
+    "Method": "UpdateItem",
+    "RelativePath": "api/Permission/update-permission",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DataModel.PermissionModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.UserController",
+    "Method": "GetAll",
+    "RelativePath": "api/User/get_all_activity",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.UserController",
+    "Method": "GetAllUser",
+    "RelativePath": "api/User/get_all_users",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.UserController",
+    "Method": "GetUserByUserId",
+    "RelativePath": "api/User/get_user_by_userid/{user_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.UserController",
+    "Method": "LogOut",
+    "RelativePath": "api/User/log_out/{user_id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DataModel.ActivityLogModel",
+        "IsRequired": true
+      },
+      {
+        "Name": "user_id",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.UserController",
+    "Method": "Login",
+    "RelativePath": "api/User/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DataModel.AuthenticateModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.UserController",
+    "Method": "Register",
+    "RelativePath": "api/User/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DataModel.UserModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.UserController",
+    "Method": "UpdateInfo",
+    "RelativePath": "api/User/update_user_info",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "username",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "avatar_url",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_PersonalDataManagement.Controllers.UserController",
+    "Method": "GetUserByEmail",
+    "RelativePath": "api/User/user/{email}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

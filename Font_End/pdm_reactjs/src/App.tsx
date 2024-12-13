@@ -35,6 +35,7 @@ import ListRequestFriend from './pages/user/Friend/requestfriends';
 import ChatFriend from './pages/user/Friend/chatfriends';
 import InformationUser from './pages/user/Friend/informationuser';
 import ShareListData from './pages/user/Friend/sharelistdata';
+import VideoCallApp from './components/user/videocall';
 
 const App: React.FC = () => {
     return (
@@ -72,6 +73,7 @@ const AppRoutes: React.FC = () => {
                     <Route path="/infouser/:userId" element={<InforUser />} />
                     <Route path="/informationuser/:user_id" element={<InformationUser />} />
                     <Route path="/mygroup/:userId" element={<MyGroup />} />
+                    <Route path="/group/information/file/:file_id" element={<Information />} />
                     <Route path="/listdatagroup/:group_id" element={<ListDataGroup />} />
                     <Route path="/openRequests/:group_id" element={<GroupRequest />} />
                     <Route path="/openMembers/:group_id" element={<GroupMembers />} />
@@ -79,8 +81,9 @@ const AppRoutes: React.FC = () => {
                     <Route path="/requestfriend/:userId" element={<ListRequestFriend />} />
                     <Route path="/chatfriend/:user_id" element={<ChatFriend />} />
                     <Route path="/friend-chat/share/:file_id" element={<Share />} />
-                    <Route path="/friend-chat/information/:file_id" element={<Information />} />
+                    <Route path="/friend-chat/information/file/:file_id" element={<Information />} />
                     <Route path="/friend-chat/share-list-data/:receiver_id" element={<ShareListData />} />
+                    <Route path="/friend-chat/video-call/:user_id" element={<VideoCallApp />} />
                 </>
             )}
             {role === 'Admin' && (

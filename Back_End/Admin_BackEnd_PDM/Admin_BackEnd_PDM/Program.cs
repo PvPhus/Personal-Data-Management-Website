@@ -1,4 +1,4 @@
-using BusinessLogicLayer;
+﻿using BusinessLogicLayer;
 using BusinessLogicLayer.Interfaces;
 using DataAccessLayer;
 using DataAccessLayer.Interfaces;
@@ -15,7 +15,9 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
             "http://127.0.0.1:8000",
-            "http://localhost:3000")
+            "http://localhost:3000",
+            "http://localhost:3001",
+            "http://localhost:3002")
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
@@ -41,6 +43,7 @@ builder.Services.AddTransient<IFriendBusiness, FriendBusiness>();
 
 builder.Services.AddTransient<IFriendRequestRepository, FriendRequestRepository>();
 builder.Services.AddTransient<IFriendRequestBusiness, FriendRequestBusiness>();
+
 // Configure AppSettings from configuration
 IConfiguration configuration = builder.Configuration;
 builder.Services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
@@ -66,6 +69,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -84,6 +88,7 @@ app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
+    endpoints.MapHub<SignalingHub>("/signalingHub");
 });
 
 app.Run();
